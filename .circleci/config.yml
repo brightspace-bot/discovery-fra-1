@@ -3,10 +3,6 @@ version: 2
 references:
   workspace_root: &workspace_root
     ./
-        
-  node_container: &node_container
-    docker:
-      - image: dmoscrop/circleci-node8.10-tfenv
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -15,8 +11,8 @@ references:
 
 jobs:
   build:
-    dependencies:
-      <<: *node_container
+    docker:
+      - image: dmoscrop/circleci-node8.10-tfenv
 
     steps:
       - checkout
@@ -24,16 +20,16 @@ jobs:
       - run: npm run build
   
   publish: 
-    dependencies:
-      <<: *node_container
+    docker:
+      - image: dmoscrop/circleci-node8.10-tfenv
     
     steps:
       - *attach_workspace
       - run: npm run frau:publish
     
   release:
-    dependencies:
-      <<: *node_container
+    docker:
+      - image: dmoscrop/circleci-node8.10-tfenv
     
     steps:
       - *attach_workspace
