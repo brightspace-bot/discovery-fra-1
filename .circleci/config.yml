@@ -28,7 +28,7 @@ jobs:
       <<: *node_container
     
     steps:
-      *attach_workspace
+      - *attach_workspace
       - run: npm run frau:publish
     
   release:
@@ -36,7 +36,7 @@ jobs:
       <<: *node_container
     
     steps:
-      *attach_workspace
+      - *attach_workspace
       - run: npm run frau:release
 
 workflows:
