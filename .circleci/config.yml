@@ -53,9 +53,9 @@ workflows:
     jobs:
       - build
       - release:
-        requires:
-          - build
-        filters:
-          branches:
-            only:
-              - /^release.*/
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - /^release.*/
