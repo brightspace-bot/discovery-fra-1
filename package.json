@@ -1,0 +1,59 @@
+{
+  "name": "discovery",
+  "appId": "urn:d2l:fra:class:discovery",
+  "description": "discovery project",
+  "version": "0.0.1",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.0",
+    "eslint-plugin-html": "^2.0.0",
+    "frau-appconfig-builder": "^0.1.1",
+    "frau-local-appresolver": "^0.3.0",
+    "frau-publisher": "^2.6.2"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "lint": "npm run lint:javascript && polymer lint",
+    "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
+    "test": "polymer test",
+    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "build": "polymer build && npm run frau:build-config",
+    "start": "npm run frau:build-config && npm run frau:resolve",
+    "frau:build-config": "frau-appconfig-builder",
+    "frau:resolve": "frau-local-appresolver",
+    "frau:publish": "frau-publisher",
+    "frau:release": "export PACKAGE_VER=$(node scripts/package-version.js) && npm run frau:publish"
+  },
+  "dependencies": {
+    "ifrau": "^0.24.0",
+    "redux": "^4.0.0",
+    "reselect": "^3.0.1"
+  },
+  "config": {
+    "frauAppConfigBuilder": {
+      "appFile": "index.html",
+      "dist": "./build/default",
+      "envVar": "CI",
+      "loader": "iframe",
+      "port": 3000
+    },
+    "frauLocalAppResolver": {
+      "appClass": "urn:d2l:fra:class:discovery",
+      "dist": "./build/default",
+      "hostname": "10.128.30.134",
+      "port": 3000
+    },
+    "frauPublisher": {
+      "files": "./build/**",
+      "moduleType": "app",
+      "targetDirectory": "discovery",
+      "creds": {
+        "key": "AKIAIX4OHXOJHJAHALOQ",
+        "secretVar": "FRAU_PUBLISHER_SECRET"
+      },
+      "devTagVar": "CIRCLE_SHA1",
+      "versionVar": "PACKAGE_VER"
+    }
+  }
+}
