@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm install -g polymer-cli
+      - run: npm install polymer-cli
       - run: npm run build
   
   publish: 
