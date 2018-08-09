@@ -33,7 +33,7 @@
   },
   "config": {
     "frauAppConfigBuilder": {
-      "appFile": "index.html",
+      "appFile": "default/index.html",
       "dist": "./build/default",
       "envVar": "CI",
       "loader": "iframe",
