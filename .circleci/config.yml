@@ -1,14 +1,5 @@
 version: 2
 
-references:
-  workspace_root: &workspace_root
-    ./
-
-  attach_workspace: &attach_workspace
-    attach_workspace:
-      at: *workspace_root
-
-
 jobs:
   build:
     docker:
@@ -19,13 +10,17 @@ jobs:
       - run: npm install
       - run: npm install polymer-cli
       - run: npm run build
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
   
   publish: 
     docker:
       - image: dmoscrop/circleci-node8.10-tfenv
     
     steps:
-      - *attach_workspace
+      - attach_workspace:
+          at: ~/project
       - run: npm run frau:publish
     
   release:
@@ -33,7 +28,8 @@ jobs:
       - image: dmoscrop/circleci-node8.10-tfenv
     
     steps:
-      - *attach_workspace
+      - attach_workspace:
+          at: ~/project
       - run: npm run frau:release
 
 workflows:
