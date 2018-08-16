@@ -39,7 +39,7 @@ workflows:
   build-and-publish-or-release:
     jobs:
       - build:
-        context: ci-read
+          context: ci-read
       - publish:
           requires:
             - build
