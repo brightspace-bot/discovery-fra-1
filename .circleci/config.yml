@@ -7,6 +7,7 @@ jobs:
 
     steps:
       - checkout
+      - curl -sSf -u$ARTIFACTORY_USER:$ARTIFACTORY_PASS "https://d2lartifacts.artifactoryonline.com/d2lartifacts/api/npm/npm-local/auth/d2l" -o .npmrc
       - run: npm install
       - run: npm install polymer-cli
       - run: npm run build
