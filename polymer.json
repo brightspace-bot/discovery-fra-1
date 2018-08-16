@@ -6,7 +6,6 @@
     "src/my-new-view.html",
     "src/search-page.html",
     "src/redux/redux-mixin.html",
-    "src/ifrau-client.js",
     "src/landing-view.html",
     "src/other-view.html"
   ],
