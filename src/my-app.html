@@ -111,7 +111,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _routePageChanged(page) {
         // If no page was found in the route data, page will be an empty string.
-        if (page === 'app') {
+        console.log('> route page changed to page:', page);
+        if (page === 'apps') {
           this.page = 'landing-view';
         } else {
           this.page = page || 'landing-view';
@@ -120,6 +121,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged(page) {
         const resolvedPageUrl = this.resolveUrl(page + '.html');
+        console.log('> page changed to page:', page);
         Polymer.importHref(
           resolvedPageUrl,
           null,
