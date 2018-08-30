@@ -10,17 +10,15 @@
     <style>
     </style>
   <search-header query={{query}}></search-header>
-    <!-- <a name="landing-view" href="[[rootPath]]landing-view"><iron-icon icon="d2l-tier1:home"></iron-icon>Text</iron-icon></a>
+    <!-- <a name="discovery-home" href="[[rootPath]]discovery-home"><iron-icon icon="d2l-tier1:home"></iron-icon>Text</iron-icon></a>
     <d2l-search-input
         label="Search"
         value="{{query}}" 
         placeholder="What do you want to learn?"
     > -->
-                 
+
     <template is="dom-repeat" items="{{results}}">
-      <d2l-tile>
-          [[item]]
-      </d2l-tile>
+      <d2l-tile href="#[[rootPath]]">[[item]]</d2l-tile>
     </template>
             
       
@@ -43,7 +41,7 @@
     boundary='{"below":240}'
     ></d2l-datetime-picker>
 
-    <a name="view1" href="[[rootPath]]my-new-view">My New View</a>
+    <a name="view1" href="#[[rootPath]]my-new-view">My New View</a>
     <div>
       <p>hi1</p>
     </div>
@@ -109,6 +107,8 @@
         this.info1='new value';
         this.query = 'new value!'
         // this.dispatch(App.actions.setInfo('hi!!!'));
+
+        console.log('>> history:', history);
       }
     }
 

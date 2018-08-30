@@ -19,30 +19,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <style>
     </style>
+
     <script src="https://s.brightspace.com/lib/ifrau/0.24.1/ifrau/client.js"></script>
 
     <script>
       'use strict';
       (() => {
-        var ifrauOptions = {
-          syncLang: true,
-          syncTitle: true,
-          syncFont: true,
-          resizeFrame: true,
-          resizerOptions: {
-            heightCalculationMethod: 'lowestElement',
-          },
-        };
-        window.ifrauclient(ifrauOptions).connect()
-          .then((client) => {
-            // client.request('valenceHost')
-            //   .then((valenceHost) => {
-            //     console.log('what is valenceHost:', valenceHost);
-            //   });
-            // client.request('options')
-            //   .then((options) => {
-            //     console.log('options', JSON.stringify(options, null, 2));
-            //   });
+        window.D2L = window.D2L || {};
+        window.D2L.Discovery = window.D2L.Discovery || {};
+
+        window.D2L.frau = window.D2L.frau || {};
+        window.D2L.frau.options = window.D2L.frau.options || {};
+
+        var client = window.ifrauclient(this._ifrauclientOptions);
+        return client 
+          .connect()
+          .then(() => {
+            return Promise.all([
+              client.request('options'),
+              client.getService('navigation', '0.1'),
+              client.request('valenceHost'),
+            ]);
+          })
+          .then((all) => {
+            console.log('>> index frau: finished requests!');
+            var setup = {
+              client: client,
+              options: all[0],
+              navigation: all[1],
+              valenceHost: all[2],
+            };
+
+            Object.assign(window.D2L.frau.options, setup.options);
+            window.D2L.frau.client = setup.client;
+            window.D2L.frau.navigation = setup.navigation;
+            window.D2L.frau.valenceHost = (setup.valenceHost || '').replace(/\/$/, '');
+
+            return setup;
           });
       })();
     </script>
@@ -79,11 +92,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
     <!-- Load your application shell -->
-    <link rel="import" href="src/my-app.html">
+    <link rel="import" href="src/discovery-app.html">
 
   </head>
   <body>
-    <my-app></my-app>
+    <discovery-app></discovery-app>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>

@@ -53,7 +53,7 @@
     <app-header-layout fullbleed>
       <app-header fixed slot="header">
         <app-toolbar>
-          <a name="landing-view" href="[[rootPath]]landing-view"><iron-icon icon="d2l-tier1:home"></iron-icon>Text</iron-icon></a>
+          <a name="discovery-home" href="#[[rootPath]]discovery-home"><iron-icon icon="d2l-tier1:home"></iron-icon>Text</iron-icon></a>
           <d2l-search-input class="item2"
             label="Search"
             value="{{query}}" 
@@ -102,7 +102,7 @@
           boundary='{"below":240}'
         ></d2l-datetime-picker>
     
-        <a name="view1" href="[[rootPath]]search-page">Search</a>
+        <a name="view1" href="#[[rootPath]]search-page">Search</a>
       </app-drawer-layout>
     </app-header-layout>
   </template>

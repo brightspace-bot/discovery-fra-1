@@ -1,13 +1,15 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/discovery-app.html",
   "fragments": [
-    "src/my-view404.html",
+    "src/discovery-404.html",
     "src/my-new-view.html",
     "src/search-page.html",
     "src/redux/redux-mixin.html",
-    "src/landing-view.html",
-    "src/other-view.html"
+    "src/discovery-home.html",
+    "src/other-view.html",
+    "src/discovery-manage.html",
+    "src/discovery-course.html"
   ],
   "sources": [
     "images/**/*",
