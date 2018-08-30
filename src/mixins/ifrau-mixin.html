@@ -1,0 +1,49 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<script src="https://s.brightspace.com/lib/ifrau/0.24.1/ifrau/client.js"></script>
+
+<script>
+  'use strict';
+  
+  (() => {
+
+    window.D2L = window.D2L || {};
+    window.D2L.Discovery = window.D2L.Discovery || {};
+
+    window.D2L.frau = window.D2L.frau || {};
+    window.D2L.frau.options = window.D2L.frau.options || {};
+
+    const IfrauMixin = (superClass) => class extends superClass {
+      constructor() {
+        super();
+      }
+
+      static get properties() {
+        return {
+          _ifrauclientOptions: {
+            syncLang: true,
+            syncTitle: true,
+            syncFont: true,
+            resizeFrame: true,
+            resizerOptions: {
+              heightCalculationMethod: 'lowestElement',
+            },
+          },
+        };
+      }
+
+      get ifrauclient() {
+        return window.ifrauclient(this._ifrauclientOptions);
+      }
+
+      get ifrauNavigation() {
+        var client = window.ifrauclient(this._ifrauclientOptions);
+        return client
+          .connect()
+          .then(client.request('navigation', '0.1'));
+      }
+    }
+
+    window.D2L.Discovery.IfrauMixin = Polymer.dedupingMixin(IfrauMixin);
+  })();
+</script>

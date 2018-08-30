@@ -12,19 +12,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <!-- <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"> -->
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
     <title>Discovery</title>
     <meta name="description" content="Discovery">
 
-    <style>
-    </style>
+
     <script src="https://s.brightspace.com/lib/ifrau/0.24.1/ifrau/client.js"></script>
 
     <script>
       'use strict';
       (() => {
-        var ifrauOptions = {
+        window.D2L = window.D2L || {};
+        window.D2L.Discovery = window.D2L.Discovery || {};
+
+        window.D2L.frau = window.D2L.frau || {};
+        window.D2L.frau.options = window.D2L.frau.options || {};
+
+        var ifrauclientOptions = {
           syncLang: true,
           syncTitle: true,
           syncFont: true,
@@ -33,16 +38,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             heightCalculationMethod: 'lowestElement',
           },
         };
-        window.ifrauclient(ifrauOptions).connect()
-          .then((client) => {
-            // client.request('valenceHost')
-            //   .then((valenceHost) => {
-            //     console.log('what is valenceHost:', valenceHost);
-            //   });
-            // client.request('options')
-            //   .then((options) => {
-            //     console.log('options', JSON.stringify(options, null, 2));
-            //   });
+        var client = window.ifrauclient(ifrauclientOptions);
+        return client 
+          .connect()
+          .then(() => {
+            return Promise.all([
+              client.request('options'),
+              client.getService('navigation', '0.1'),
+              client.request('valenceHost'),
+            ]);
+          })
+          .then((all) => {
+            var setup = {
+              client: client,
+              options: all[0],
+              navigation: all[1],
+              valenceHost: all[2],
+            };
+
+            Object.assign(window.D2L.frau.options, setup.options);
+            window.D2L.frau.client = setup.client;
+            window.D2L.frau.navigation = setup.navigation;
+            window.D2L.frau.valenceHost = (setup.valenceHost || '').replace(/\/$/, '');
+
+            return setup;
           });
       })();
     </script>
@@ -78,12 +97,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
+    
     <!-- Load your application shell -->
-    <link rel="import" href="src/my-app.html">
+    <link rel="import" href="src/discovery-app.html">
+
+    <style>
+      body {
+        background-color: #f9fafb;
+        margin: 0;
+      }
+
+      iron-overlay-backdrop {
+        background-color: white;
+      }
+    </style>
 
   </head>
   <body>
-    <my-app></my-app>
+    <discovery-app></discovery-app>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>

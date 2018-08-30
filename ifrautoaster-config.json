@@ -3,7 +3,6 @@
 		"port": 9090
 	},
 	"profile": {
-		"intl": "a",
 		"lang": "en-us"
 	},
 	"appconfig": {
