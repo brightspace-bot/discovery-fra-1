@@ -38,7 +38,8 @@
         "key": "AKIAIX4OHXOJHJAHALOQ",
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
-      "versionVar": "PACKAGE_VER"
+      "devTagVar": "CIRCLE_SHA1",
+      "version": "PACKAGE_VER"
     }
   },
   "dependencies": {
