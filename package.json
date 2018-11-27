@@ -39,7 +39,7 @@
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
       "devTagVar": "CIRCLE_SHA1",
-      "version": "1.0.0"
+      "versionVar": "CIRCLE_TAG"
     }
   },
   "dependencies": {
