@@ -5,6 +5,8 @@
   "version": "0.0.1",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@d2l/ifrautoaster": "^0.7.2",
+    "bower": "^1.8.4",
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.7.0",
     "eslint-plugin-html": "^2.0.0",
@@ -18,30 +20,28 @@
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
-    "build": "polymer build && npm run frau:build-config",
-    "start": "npm run frau:build-config && npm run frau:resolve",
-    "frau:build-config": "frau-appconfig-builder",
-    "frau:resolve": "frau-local-appresolver",
+    "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled && npm run frau:build-config",
+    "start": "npm run build && npm run frau:resolve",
+    "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
+    "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
+    "frau:resolve": "frau-local-appresolver --hostname $(node scripts/getHostname.js)",
     "frau:publish": "frau-publisher",
-    "frau:release": "export PACKAGE_VER=$(node scripts/package-version.js) && npm run frau:publish"
+    "frau:release": "frau-publisher --version $(node scripts/package-version.js)"
   },
   "dependencies": {
-    "ifrau": "^0.24.0",
-    "redux": "^4.0.0",
-    "reselect": "^3.0.1"
+    "ifrau": "^0.24.0"
   },
   "config": {
     "frauAppConfigBuilder": {
       "appFile": "index.html",
-      "dist": "./build/default",
+      "dist": "./build",
       "envVar": "CI",
       "loader": "iframe",
       "port": 3000
     },
     "frauLocalAppResolver": {
       "appClass": "urn:d2l:fra:class:discovery",
-      "dist": "./build/default",
-      "hostname": "10.128.30.134",
+      "dist": "./build",
       "port": 3000
     },
     "frauPublisher": {
@@ -52,8 +52,7 @@
         "key": "AKIAIX4OHXOJHJAHALOQ",
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
-      "devTagVar": "CIRCLE_SHA1",
-      "versionVar": "PACKAGE_VER"
+      "devTagVar": "CIRCLE_SHA1"
     }
   }
 }
