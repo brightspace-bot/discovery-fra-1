@@ -26,12 +26,10 @@
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
     "frau:resolve": "frau-local-appresolver --hostname $(node scripts/getHostname.js)",
     "frau:publish": "frau-publisher",
-    "frau:release": "frau-publisher --version=$(node scripts/package-version.js)"
+    "frau:release": "frau-publisher --version $(node scripts/package-version.js)"
   },
   "dependencies": {
-    "ifrau": "^0.24.0",
-    "redux": "^4.0.0",
-    "reselect": "^3.0.1"
+    "ifrau": "^0.24.0"
   },
   "config": {
     "frauAppConfigBuilder": {
