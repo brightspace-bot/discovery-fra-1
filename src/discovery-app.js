@@ -41,7 +41,7 @@ class DiscoveryApp extends PolymerElement {
 		this.$.searchQuery.addEventListener('d2l-input-search-searched', this._onD2lInputSearchSearched.bind(this));
 	}
 	_onD2lInputSearchSearched(e) {
-		d2lfetch.fetch(new Request('https://4w9gl0udn6.execute-api.us-east-1.amazonaws.com/dev/'))
+		d2lfetch.fetch(new Request('https://us-east-1.discovery.bff.dev.brightspace.com/search?q='+e.detail.value))
 		.then(response => response.text())
 		.then(text => this.result = text)
 		.catch(error => this.result = 'Error: '+error);
