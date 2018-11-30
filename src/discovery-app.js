@@ -1,5 +1,6 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {SearchInput} from './components/search-input.js';
+import { d2lfetch } from 'd2l-fetch/src/index.js';
 
 /**
  * @customElement
@@ -40,7 +41,10 @@ class DiscoveryApp extends PolymerElement {
 		this.$.searchQuery.addEventListener('d2l-input-search-searched', this._onD2lInputSearchSearched.bind(this));
 	}
 	_onD2lInputSearchSearched(e) {
-		this.result = e.detail.value;
+		d2lfetch.fetch(new Request('https://us-east-1.discovery.bff.dev.brightspace.com/search?q='+e.detail.value))
+		.then(response => response.text())
+		.then(text => this.result = text)
+		.catch(error => this.result = 'Error: '+error);
 	}
 }
 
