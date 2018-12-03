@@ -3,7 +3,7 @@
   "appId": "urn:d2l:fra:class:discovery",
   "description": "discovery project",
   "repository": "git@github.com:Brightspace/discovery-fra.git",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "BSD-3-Clause",
   "scripts": {
     "lint": "npm run lint:javascript && polymer lint",
@@ -39,7 +39,7 @@
         "key": "AKIAIX4OHXOJHJAHALOQ",
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
-      "version": "1.0.1"
+      "version": "1.0.2"
     }
   },
   "dependencies": {
