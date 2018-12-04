@@ -1,5 +1,5 @@
-import './en';
-import './fr';
+import '../build/lang/en.js';
+import '../build/lang/fr.js';
 
 window.D2L = window.D2L || {};
 window.D2L.Discovery = window.D2L.Discovery || {};
