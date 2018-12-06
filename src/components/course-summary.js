@@ -1,10 +1,10 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { LocalizeMixin } from '../mixins/localize-mixin.js';
-import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
-
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
+
+import { LocalizeMixin } from '../mixins/localize-mixin.js';
+import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 
 class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	static get template() {
