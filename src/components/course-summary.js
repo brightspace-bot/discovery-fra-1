@@ -102,10 +102,6 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 		`;
 	}
 
-	static get is() {
-		return 'course-summary';
-	}
-
 	static get properties() {
 		return {
 			courseCategory: String,
@@ -138,4 +134,4 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	}
 }
 
-window.customElements.define(CourseSummary.is, CourseSummary);
+window.customElements.define('course-summary', CourseSummary);
