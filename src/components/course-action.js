@@ -204,10 +204,6 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 		`;
 	}
 
-	static get is() {
-		return 'course-action';
-	}
-
 	static get properties() {
 		return {
 			courseTitle: String,
@@ -304,4 +300,4 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	}
 }
 
-window.customElements.define(CourseAction.is, CourseAction);
+window.customElements.define('course-action', CourseAction);
