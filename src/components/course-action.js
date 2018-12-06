@@ -123,13 +123,13 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 			<div class="discovery-course-action-container">
 				<div class="discovery-course-action-duration">
-				<div class="d2l-label-text">[[localize('duration')]]</div>
-				<div class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</div>
-			</div>
+					<div class="d2l-label-text">[[localize('duration')]]</div>
+					<div class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</div>
+				</div>
 
-			<div class="discovery-course-action-last-updated">
-				<div class="d2l-label-text">[[localize('lastUpdated')]]</div>
-				<div class="d2l-body-standard">[[courseLastUpdated]]</div>
+				<div class="discovery-course-action-last-updated">
+					<div class="d2l-label-text">[[localize('lastUpdated')]]</div>
+					<div class="d2l-body-standard">[[courseLastUpdated]]</div>
 				</div>
 			</div>
 
@@ -139,11 +139,10 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					<div>
 						<template is="dom-repeat" items="[[courseTags]]">
 							<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
-							<span value="[[item]]">[[item]][[_getTagSuffix(index)]]</span>
+								<span value="[[item]]">[[item]][[_getTagSuffix(index)]]</span>
 							</d2l-link>
 						</template>
 					</div>
-				</div>
 				</div>
 			</template>
 
@@ -181,7 +180,6 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 			</d2l-alert-toast>
 
 			<paper-dialog class="discovery-course-action-dialog d2l-typography" id="myLearningDialog" always-on-top with-backdrop>
-
 				<div class="discovery-course-action-dialog-container">
 					<div class="discovery-course-action-dialog-header-container">
 						<h4 class="d2l-heading-4 discovery-course-action-d2l-heading-4">[[localize('addedToMyLearningHeader')]]</h4>
