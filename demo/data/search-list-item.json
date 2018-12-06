@@ -1,0 +1,25 @@
+{
+  "class":["activity","course","enrolled"],
+  "links":[
+    {
+      "rel":["self"],
+      "href":"self link"
+    },{
+      "rel":["https://api.brightspace.com/rels/organization"],
+      "href":"link to organization data"
+    }
+  ],
+  "actions":[
+    {
+      "href":"to course description page",
+      "name":"activity-description",
+      "method":"GET",
+      "fields":[
+        {
+          "type":"...",
+          "name":"Id of activity"
+        }
+      ]
+    }
+  ]
+}

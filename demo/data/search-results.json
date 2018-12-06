@@ -1,0 +1,37 @@
+{
+  "class": [
+    "activities",
+    "collection"
+  ],
+  "entities": [
+    {
+      "class": [
+        "activity",
+        "course",
+        "enrolled"
+      ],
+      "rel": [
+        "https://activity.api.brightspace.com/rels/course"
+      ],
+      "href": "link to course list item"
+    },
+    ...
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "Link to self"
+    },
+    {
+      "rel": [
+        "next"
+      ],
+      "href": "Link next page"
+    }
+  ],
+  "actions": [
+      ... Actions that describe more advance searching ...
+  ]
+}

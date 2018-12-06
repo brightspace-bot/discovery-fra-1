@@ -31,6 +31,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
+      - run: export PACKAGE_VER=$(node scripts/package-version.js)
       - run: npm run frau:release
 
 workflows:
