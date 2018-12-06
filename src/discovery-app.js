@@ -41,6 +41,7 @@ class DiscoveryApp extends RouteLocationsMixin(PolymerElement) {
 				selected-attribute="visible"
 				role="main">
 				<discovery-home name="home"></discovery-home>
+				<discovery-course name="course"></discovery-course>
 				<discovery-404 name="404"></discovery-404>
 			</iron-pages>
 		`;
@@ -80,7 +81,7 @@ class DiscoveryApp extends RouteLocationsMixin(PolymerElement) {
 		}
 	}
 	_routeDataPageChanged(page) {
-		if (page && ['home'].indexOf(page) !== -1) {
+		if (page && ['home', 'course'].indexOf(page) !== -1) {
 			this.page = page;
 		} else if (page) {
 			this.page = '404';
@@ -94,6 +95,9 @@ class DiscoveryApp extends RouteLocationsMixin(PolymerElement) {
 		//
 		// Polymer lint issue with import: https://github.com/Polymer/polymer-linter/issues/96
 		switch (page) {
+			case 'course':
+				import('./discovery-course.js');
+				break;
 			case 'home':
 				import('./discovery-home.js');
 				break;
