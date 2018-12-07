@@ -11,7 +11,7 @@
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled",
-    "start": "npm run build && npm run frau:resolve",
+    "start": "npm run build && npm run frau:build-config && npm run frau:resolve",
     "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
     "frau:resolve": "frau-local-appresolver --hostname $(node scripts/getHostname.js)",
