@@ -24,14 +24,14 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 				<img src="images/disco-self.png" />
 				<div class="search">
 					<search-input id="searchQuery" label="Search"></search-input>
-					<div>[[result]]</div>
+					<div>[[_result]]</div>
 				</div>
 			</div>
 		`;
 	}
 	static get properties() {
 		return {
-			result: {
+			_result: {
 				type: String,
 				value: ''
 			}
