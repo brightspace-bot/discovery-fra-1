@@ -42,9 +42,9 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this.$.searchQuery.addEventListener('d2l-input-search-searched', this._onD2lInputSearchSearched.bind(this));
 	}
 	_onD2lInputSearchSearched(e) {
-		const searchUrl = 'https://us-east-1.discovery.bff.dev.brightspace.com/search?q=';
-		let uri = encodeURI(searchUrl+e.detail.value)
-		this._fetchEntityWithToken(uri, this.getToken.bind(this))
+		const searchParam = encodeURI(e.detail.value);
+		const searchUrl = `https://us-east-1.discovery.bff.dev.brightspace.com/search?q=${searchParam}`;
+		this._fetchEntityWithToken(searchUrl, this.getToken.bind(this))
 			.then(this._handleSearchResponse.bind(this));
 	}
 
