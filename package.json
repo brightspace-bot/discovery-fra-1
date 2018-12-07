@@ -10,7 +10,7 @@
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
-    "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled && npm run frau:build-config",
+    "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled",
     "start": "npm run build && npm run frau:resolve",
     "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
@@ -39,8 +39,8 @@
         "key": "AKIAIX4OHXOJHJAHALOQ",
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
-      "devTagVar": "CIRCLE_SHA1",
-      "versionVar": "CIRCLE_TAG"
+      "devTagVar": "DEV_VER",
+      "versionVar": "PACKAGE_VER"
     }
   },
   "dependencies": {
