@@ -3,20 +3,20 @@
   "appId": "urn:d2l:fra:class:discovery",
   "description": "discovery project",
   "repository": "git@github.com:Brightspace/discovery-fra.git",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "license": "BSD-3-Clause",
   "scripts": {
     "lint": "npm run lint:javascript && polymer lint",
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
-    "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled && npm run frau:build-config",
-    "start": "npm run build && npm run frau:resolve",
+    "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled",
+    "start": "npm run build && npm run frau:build-config && npm run frau:resolve",
     "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
     "frau:resolve": "frau-local-appresolver --hostname $(node scripts/getHostname.js)",
     "frau:publish": "frau-publisher",
-    "frau:release": "export PACKAGE_VER=$(node scripts/package-version.js) && npm run frau:publish"
+    "frau:release": "npm run frau:publish"
   },
   "config": {
     "frauAppConfigBuilder": {
@@ -39,18 +39,20 @@
         "key": "AKIAIX4OHXOJHJAHALOQ",
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
-      "devTagVar": "CIRCLE_SHA1",
-      "versionVar": "CIRCLE_TAG"
+      "devTagVar": "DEV_VER",
+      "versionVar": "PACKAGE_VER"
     }
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
     "frau-appconfig-builder": "^1.0.0",
-    "d2l-colors": "BrightspaceUI/colors#semver:^4.0.0",
+    "d2l-colors": "BrightspaceUI/colors#semver:^4.0.1",
     "fastdom": "^1.0.8",
-    "d2l-icons": "BrightspaceUI/icons#semver:^6.0.0",
+    "d2l-icons": "BrightspaceUI/icons#semver:^6.0.1",
     "d2l-fetch": "Brightspace/d2l-fetch#semver:^2.0.0",
-    "d2l-polymer-behaviors": "Brightspace/d2l-polymer-behaviors-ui#semver:^2.0.0"
+    "d2l-fetch-siren-entity-behavior": "Brightspace/d2l-fetch-siren-entity-behavior#semver:^6.0.3",
+    "d2l-polymer-behaviors": "Brightspace/d2l-polymer-behaviors-ui#semver:^2.0.1",
+    "siren-parser": "^8.0.0"
   },
   "devDependencies": {
     "@polymer/test-fixture": "^4.0.2",

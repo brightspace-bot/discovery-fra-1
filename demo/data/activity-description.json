@@ -1,0 +1,33 @@
+{
+  "class":["activity","course","enrolled"],
+  "properties": {
+    "description": ""
+  },
+  "links":[
+    {
+      "rel":["self"],
+      "href":"self link"
+    },{
+      "rel":["https://api.brightspace.com/rels/organization"],
+      "href":"link to organization data"
+    }
+  ],
+  "actions":[
+    {
+      "href":"Enroll Action",
+      "name":"activity-enroll",
+      "method":"PUT",
+      "fields":[
+        ...
+      ]
+    },
+    {
+      "href":"Unenroll Action",
+      "name":"activity-unenroll",
+      "method":"PUT",
+      "fields":[
+        ...
+      ]
+    }
+  ]
+}
