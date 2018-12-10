@@ -109,8 +109,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 	}
 	ready() {
 		super.ready();
-		this.addEventListener('navigate', this._navigate);
-
 		const route = this.shadowRoot.querySelector('app-route');
 		route.addEventListener('route-changed', this._routeChanged.bind(this));
 		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
