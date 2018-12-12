@@ -6,6 +6,7 @@ import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-menu/d2l-menu.js';
 import 'd2l-menu/d2l-menu-item-link.js';
+import 'd2l-typography/d2l-typography.js';
 
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import './search-result-entry.js';
@@ -13,7 +14,7 @@ import './search-result-entry.js';
 class SearchResults extends LocalizeMixin(PolymerElement) {
 	static get template() {
 		return html`
-			<style>
+			<style include="d2l-typography">
 				:host {
 					display: inline;
 				}
@@ -61,45 +62,48 @@ class SearchResults extends LocalizeMixin(PolymerElement) {
 					margin-bottom: 2rem;
 				}
 			</style>
-			<template is="dom-if" if="[[!searchResultsExists]]">
-				<h4 class="d2l-heading-4">0 [[localize('resultsFor')]] [[searchQuery]]</h4>
-			</template>
 
-			<template is="dom-if" if="[[searchResultsExists]]">
-				<div class="discovery-search-results-header">
-					<span class="d2l-label-text discovery-search-results-search-message">[[localize('searchResultCount', 'searchResultRange', searchResultsRangeToString, 'searchResultsTotal', searchResultsTotal, 'searchQuery', searchQuery)]]</span>
-					<div class="discovery-search-results-sort-by">
-						<span class="d2l-label-text">[[localize('sortBy')]]:</span>
-						<d2l-dropdown>
-							<span class="d2l-dropdown-opener d2l-label-text discovery-search-results-dropdown">
-								<span class="discovery-search-results-dropdown-text">[[localize('relevance')]]</span>
-								<d2l-icon class="discovery-search-results-dropdown-icon" icon="d2l-tier1:chevron-down"></d2l-icon>
-							</span>
-							<d2l-dropdown-menu>
-								<d2l-menu label="[[localize('sortBy')]]">
-									<d2l-menu-item-link text="[[localize('relevance')]]" href="javascript:void(0)"></d2l-menu-item-link>
-									<d2l-menu-item-link text="[[localize('new')]]" href="javascript:void(0)"></d2l-menu-item-link>
-								</d2l-menu>
-							</d2l-dropdown-menu>
-						</d2l-dropdown>
-					</div>
-				</div>
+			<div class="d2l-typography">
+				<template is="dom-if" if="[[!searchResultsExists]]">
+					<h4 class="d2l-heading-4">0 [[localize('resultsFor')]] [[searchQuery]]</h4>
+				</template>
 
-				<div class="discovery-search-results-container">
-					<template is="dom-repeat" items="[[searchResults.results]]">
-						<div class="discovery-search-results-search-result">
-							<search-result-entry
-								course-id="[[item.id]]"
-								course-title="[[item.title]]"
-								course-description="[[item.description]]"
-								course-thumbnail-link="[[item.thumbnail]]"
-								course-duration="[[item.duration]]"
-								course-tags="[[item.tags]]">
-							</search-result-entry>
+				<template is="dom-if" if="[[searchResultsExists]]">
+					<div class="discovery-search-results-header">
+						<span class="d2l-label-text discovery-search-results-search-message">[[localize('searchResultCount', 'searchResultRange', searchResultsRangeToString, 'searchResultsTotal', searchResultsTotal, 'searchQuery', searchQuery)]]</span>
+						<div class="discovery-search-results-sort-by">
+							<span class="d2l-label-text">[[localize('sortBy')]]:</span>
+							<d2l-dropdown>
+								<span class="d2l-dropdown-opener d2l-label-text discovery-search-results-dropdown">
+									<span class="discovery-search-results-dropdown-text">[[localize('relevance')]]</span>
+									<d2l-icon class="discovery-search-results-dropdown-icon" icon="d2l-tier1:chevron-down"></d2l-icon>
+								</span>
+								<d2l-dropdown-menu>
+									<d2l-menu label="[[localize('sortBy')]]">
+										<d2l-menu-item-link text="[[localize('relevance')]]" href="javascript:void(0)"></d2l-menu-item-link>
+										<d2l-menu-item-link text="[[localize('new')]]" href="javascript:void(0)"></d2l-menu-item-link>
+									</d2l-menu>
+								</d2l-dropdown-menu>
+							</d2l-dropdown>
 						</div>
-					</template>
-				</div>
-			</template>
+					</div>
+
+					<div class="discovery-search-results-container">
+						<template is="dom-repeat" items="[[searchResults.results]]">
+							<div class="discovery-search-results-search-result">
+								<search-result-entry
+									course-id="[[item.id]]"
+									course-title="[[item.title]]"
+									course-description="[[item.description]]"
+									course-thumbnail-link="[[item.thumbnail]]"
+									course-duration="[[item.duration]]"
+									course-tags="[[item.tags]]">
+								</search-result-entry>
+							</div>
+						</template>
+					</div>
+				</template>
+			</div>
 		`;
 	}
 	static get properties() {

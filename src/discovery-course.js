@@ -7,11 +7,12 @@ import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 import './components/course-action.js';
 import './components/course-summary.js';
 import './components/search-header.js';
+import './styles/discovery-styles.js';
 
 class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(PolymerElement))) {
 	static get template() {
 		return html `
-			<style>
+			<style include="discovery-styles">
 				:host {
 					display: inline;
 				}
@@ -58,7 +59,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				<search-header query=[[searchQuery]]></search-header>
 			</div>
 
-			<div class="discovery-course-container">
+			<div class="d2l-typography discovery-course-container">
 				<div class="discovery-course-summary">
 					<course-summary
 						course-category=[[courseCategory]]

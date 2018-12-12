@@ -1,14 +1,16 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-route.js';
+
 import './components/search-header.js';
 import './components/search-results.js';
+import './styles/discovery-styles.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 
 class DiscoverySearch extends RouteLocationsMixin(PolymerElement) {
 	static get template() {
 		return html`
-			<style>
+			<style include="discovery-styles">
 				.discovery-search-main {
 					padding: 1rem;
 				}
@@ -21,7 +23,7 @@ class DiscoverySearch extends RouteLocationsMixin(PolymerElement) {
 			<div>
 	  			<search-header query="[[searchQuery]]"></search-header>
 			</div>
-			<div class="discovery-search-main">
+			<div class="d2l-typography discovery-search-main">
 				<search-results
 					search-results="[[searchResults]]"
 					search-query="[[searchQuery]]">

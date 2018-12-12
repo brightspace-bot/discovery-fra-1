@@ -2,6 +2,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier2-icons.js';
+import 'd2l-typography/d2l-typography.js';
 
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
@@ -9,7 +10,7 @@ import { LocalizeMixin } from '../mixins/localize-mixin.js';
 class SearchResultEntry extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	static get template() {
 		return html`
-			<style>
+			<style include="d2l-typography">
 				:host {
 					display: inline;
 				}
@@ -41,7 +42,8 @@ class SearchResultEntry extends LocalizeMixin(RouteLocationsMixin(PolymerElement
 					width: 340px;
 				}
 			</style>
-			<div class="discovery-search-result-entry-container" on-click="_navigateToCourse">
+
+			<div class="d2l-typography discovery-search-result-entry-container" on-click="_navigateToCourse">
 				<img class="discovery-search-result-entry-thumbnail" src="[[courseThumbnailLink]]">
 				<div class="discovery-search-result-entry-detail">
 					<p class="d2l-label-text">[[processedTitle]]</p>
