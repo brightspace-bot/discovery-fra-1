@@ -59,9 +59,8 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this.$.searchQuery.addEventListener('d2l-input-search-searched', this._onD2lInputSearchSearched.bind(this));
 	}
 	_onD2lInputSearchSearched(e) {
-		const searchParam = encodeURI(e.detail.value);
-		const searchUrl = `https://us-east-1.discovery.bff.dev.brightspace.com/search?q=${searchParam}`;
-		this._fetchEntity(searchUrl)
+		this._getSearchAction(e.detail.value)
+			.then(this._fetchEntity.bind(this))
 			.then(this._handleSearchResponse.bind(this));
 	}
 
@@ -70,10 +69,51 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this._entitiesResult = entities;
 	}
 
-	getToken() {
-		const scope = ['*:*:*'];
-		const client = window.D2L.frau.client;
-		return client.request('frau-jwt-new-jwt', scope);
+	_getSearchAction(searchParam) {
+		const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
+		if (!bffEndpoint) {
+			return Promise.resolve();
+		}
+		return this._fetchEntity(bffEndpoint)
+			.then((response) => {
+				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
+				if (!searchAction) {
+					return false;
+				}
+				parameters = {
+					q: searchParam
+				}
+				return createActionUrl(searchAction, parameters);
+			});
+	}
+
+	createActionUrl(action, parameters) {
+		parameters = parameters || {};
+		action.fields = action.fields || [];
+		var query = {};
+
+		action.fields.forEach(function(field) {
+			if (parameters.hasOwnProperty(field.name)) {
+				query[field.name] = parameters[field.name];
+			} else {
+				query[field.name] = field.value;
+			}
+		});
+
+		var queryString = Object.keys(query).map(function(key) {
+			return key + '=' + encodeURI(query[key]);
+		}).join('&');
+
+		if (!queryString) {
+			return action.href;
+		}
+
+		if (action.href.indexOf('?') > -1) {
+			// href already has some query params, append ours
+			return action.href + '&' + queryString;
+		}
+
+		return action.href + '?' + queryString;
 	}
 }
 

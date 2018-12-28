@@ -1,4 +1,4 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {IfrauMixin} from './ifrau-mixin.js';
 
 
@@ -10,8 +10,9 @@ class DiscoveryInit extends IfrauMixin(PolymerElement) {
 	}
 	ready() {
 		super.ready();
-		this.frauConnect().then(() => {
+		this.frauConnect().then((fraSetup) => {
 			var element = document.createElement(this.elementName);
+			element.fraSetup = fraSetup;
 			document.body.appendChild(element);
 		});
 	}
