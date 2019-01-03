@@ -59,7 +59,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this.$.searchQuery.addEventListener('d2l-input-search-searched', this._onD2lInputSearchSearched.bind(this));
 	}
 	_onD2lInputSearchSearched(e) {
-		this._getSearchAction(e.detail.value)
+		this._getSearchActionUrl(e.detail.value)
 			.then(this._fetchEntity.bind(this))
 			.then(this._handleSearchResponse.bind(this));
 	}
@@ -69,16 +69,16 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this._entitiesResult = entities;
 	}
 
-	_getSearchAction(searchParam) {
+	_getSearchActionUrl(searchParam) {
 		const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
 		if (!bffEndpoint) {
-			return Promise.resolve();
+			return Promise.reject();
 		}
 		return this._fetchEntity(bffEndpoint)
 			.then((response) => {
 				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
 				if (!searchAction) {
-					return false;
+					return Promise.reject();
 				}
 				parameters = {
 					q: searchParam
@@ -92,7 +92,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		action.fields = action.fields || [];
 		var query = {};
 
-		action.fields.forEach(function(field) {
+		action.fields.forEach((field) => {
 			if (parameters.hasOwnProperty(field.name)) {
 				query[field.name] = parameters[field.name];
 			} else {
@@ -100,7 +100,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 			}
 		});
 
-		var queryString = Object.keys(query).map(function(key) {
+		var queryString = Object.keys(query).map((key) => {
 			return key + '=' + encodeURI(query[key]);
 		}).join('&');
 
