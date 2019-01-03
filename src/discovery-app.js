@@ -72,48 +72,46 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 	_getSearchActionUrl(searchParam) {
 		const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
 		if (!bffEndpoint) {
-			return Promise.reject();
+			return Promise.reject('BFF end point does not exist');
 		}
 		return this._fetchEntity(bffEndpoint)
 			.then((response) => {
 				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
 				if (!searchAction) {
-					return Promise.reject();
+					return Promise.reject('BFF end point does not exist');
 				}
-				parameters = {
+				const defaultParams = searchAction.fields.reduce((defaults, field) => {
+					defaults[field.name] = field.value;
+					return defaults;
+				}, {});
+				const userParams = {
 					q: searchParam
 				}
-				return createActionUrl(searchAction, parameters);
+				return createActionUrl(searchAction.href, defaultParams, userParams);
 			});
 	}
 
-	createActionUrl(action, parameters) {
-		parameters = parameters || {};
-		action.fields = action.fields || [];
-		var query = {};
+	_bffRootResponse(response) {
 
-		action.fields.forEach((field) => {
-			if (parameters.hasOwnProperty(field.name)) {
-				query[field.name] = parameters[field.name];
-			} else {
-				query[field.name] = field.value;
-			}
-		});
+	}
+
+	createActionUrl(href, defaultParams, userParams) {
+		const query = Object.assign({}, defaultParams, userParams);
 
 		var queryString = Object.keys(query).map((key) => {
 			return key + '=' + encodeURI(query[key]);
 		}).join('&');
 
 		if (!queryString) {
-			return action.href;
+			return href;
 		}
 
-		if (action.href.indexOf('?') > -1) {
+		if (href.indexOf('?') > -1) {
 			// href already has some query params, append ours
-			return action.href + '&' + queryString;
+			return href + '&' + queryString;
 		}
 
-		return action.href + '?' + queryString;
+		return href + '?' + queryString;
 	}
 }
 
