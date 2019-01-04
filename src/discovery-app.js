@@ -98,16 +98,12 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 			return key + '=' + encodeURI(query[key]);
 		}).join('&');
 
-		if (!queryString) {
-			return href;
+		let url = href;
+		if (queryString) {
+			const connectChar = href.indexOf('?') > -1 ? '&' : '?';
+			url += connectChar + queryString;
 		}
-
-		if (href.indexOf('?') > -1) {
-			// href already has some query params, append ours
-			return href + '&' + queryString;
-		}
-
-		return href + '?' + queryString;
+		return url;
 	}
 }
 
