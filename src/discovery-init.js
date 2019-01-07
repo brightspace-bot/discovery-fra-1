@@ -1,7 +1,6 @@
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {IfrauMixin} from './ifrau-mixin.js';
 
-
 class DiscoveryInit extends IfrauMixin(PolymerElement) {
 	static get properties() {
 		return {

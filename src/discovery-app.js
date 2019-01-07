@@ -1,10 +1,10 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
-import {SearchInput} from './components/search-input.js';
+import './components/search-input.js';
 import 'd2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.js';
 import 'd2l-fetch/d2l-fetch.js';
 import 'd2l-fetch-auth/d2l-fetch-auth-framed.js';
-import {D2lActivityListItem} from 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
+import 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
 
 /**
  * @customElement
@@ -86,8 +86,8 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 				}, {});
 				const userParams = {
 					q: searchParam
-				}
-				return _createActionUrl(searchAction.href, defaultParams, userParams);
+				};
+				return this._createActionUrl(searchAction.href, defaultParams, userParams);
 			});
 	}
 

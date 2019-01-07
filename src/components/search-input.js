@@ -1,7 +1,6 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
-import 'fastdom/fastdom.js';
+import 'fastdom/fastdom.min.js';
 import 'd2l-polymer-behaviors/d2l-focusable-behavior.js';
 import './d2l-input-style.js';
 /**
@@ -124,10 +123,10 @@ class SearchInput extends mixinBehaviors([D2L.PolymerBehaviors.FocusableBehavior
 		};
 	}
 	get hostAttributes() {
-		return {'role': 'search'}
+		return {'role': 'search'};
 	}
 	get _keyCodes() {
-		return { ENTER: 13 }
+		return { ENTER: 13 };
 	}
 
 	/**
@@ -137,7 +136,7 @@ class SearchInput extends mixinBehaviors([D2L.PolymerBehaviors.FocusableBehavior
 		var noClear = (this.noClear === true);
 		this._setLastSearchValue(this.value);
 		this._dispatchEvent();
-		fastdom.mutate(function() {
+		window.fastdom.mutate(function() {
 			if (!noClear && this.value.length > 0) {
 				Polymer.dom(this.root).querySelector('.d2l-input-search-clear').focus();
 			}
@@ -163,7 +162,7 @@ class SearchInput extends mixinBehaviors([D2L.PolymerBehaviors.FocusableBehavior
 	}
 	_handleBlur(e) {
 		if (this._isFocusableChild(e.relatedTarget)) return;
-		fastdom.mutate(function() {
+		window.fastdom.mutate(function() {
 			this._getContainer().classList.remove('d2l-input-search-focus');
 		}.bind(this));
 	}
@@ -173,13 +172,13 @@ class SearchInput extends mixinBehaviors([D2L.PolymerBehaviors.FocusableBehavior
 			this._setLastSearchValue('');
 			this._dispatchEvent();
 		}
-		fastdom.mutate(function() {
+		window.fastdom.mutate(function() {
 			var input = Polymer.dom(this.root).querySelector('input');
 			input.focus();
 		}.bind(this));
 	}
 	_handleFocus() {
-		fastdom.mutate(function() {
+		window.fastdom.mutate(function() {
 			this._getContainer().classList.add('d2l-input-search-focus');
 		}.bind(this));
 	}
@@ -195,13 +194,13 @@ class SearchInput extends mixinBehaviors([D2L.PolymerBehaviors.FocusableBehavior
 		this.value = e.target.value;
 	}
 	_handleMouseEnter() {
-		fastdom.mutate(function() {
+		window.fastdom.mutate(function() {
 			this._getContainer().classList.add('d2l-input-search-hover');
 		}.bind(this));
 	}
 	_handleMouseLeave(e) {
 		if (this._isFocusableChild(e.relatedTarget)) return;
-		fastdom.mutate(function() {
+		window.fastdom.mutate(function() {
 			this._getContainer().classList.remove('d2l-input-search-hover');
 		}.bind(this));
 	}

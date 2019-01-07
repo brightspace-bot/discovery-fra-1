@@ -8,6 +8,10 @@
   "lint": {
     "rules": [
       "polymer-3"
+    ],
+    "ignoreWarnings": [
+      "databind-with-unknown-property",
+      "undefined-elements"
     ]
   },
   "sources": [

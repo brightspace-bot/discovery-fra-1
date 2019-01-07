@@ -7,7 +7,7 @@
     <title>Discovery-app test</title>
 
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+	<script src="../node_modules/web-component-tester/browser.js"></script>
 
     <script type="module" src="../src/discovery-app.js"></script>
   </head>
@@ -26,13 +26,13 @@
 			var element = fixture('BasicTestFixture');
 			var href = 'http://url.example.com/test';
 			var defaultParams = {
-			param1: 'test',
-			param2: 'test2 Space',
-			param3: 'test3'
-			}
+				param1: 'test',
+				param2: 'test2 Space',
+				param3: 'test3'
+			};
 			var userParams = {
 				param3: 'test4'
-			}
+			};
 			var url = element._createActionUrl(href, defaultParams, userParams);
 			assert.equal(url, 'http://url.example.com/test?param1=test&param2=test2%20Space&param3=test4');
 		});
