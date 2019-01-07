@@ -12,6 +12,7 @@ jobs:
       - run: npm install polymer-cli
       - run: npm run build
       - run: npm run lint
+      - run: npm run test:polymer:sauce
       - persist_to_workspace:
           root: ~/project
           paths: .
