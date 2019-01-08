@@ -23,17 +23,17 @@
 	suite('discovery-app', function() {
 
 		test('check if url is encoded correctly.', function() {
-			var element = fixture('BasicTestFixture');
-			var href = 'http://url.example.com/test';
-			var defaultParams = {
+			const element = fixture('BasicTestFixture');
+			const href = 'http://url.example.com/test';
+			const defaultParams = {
 				param1: 'test',
 				param2: 'test2 Space',
 				param3: 'test3'
 			};
-			var userParams = {
+			const userParams = {
 				param3: 'test4'
 			};
-			var url = element._createActionUrl(href, defaultParams, userParams);
+			const url = element._createActionUrl(href, defaultParams, userParams);
 			assert.equal(url, 'http://url.example.com/test?param1=test&param2=test2%20Space&param3=test4');
 		});
 

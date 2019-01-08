@@ -94,7 +94,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 	_createActionUrl(href, defaultParams, userParams) {
 		const query = Object.assign({}, defaultParams, userParams);
 
-		var queryString = Object.keys(query).map((key) => {
+		const queryString = Object.keys(query).map((key) => {
 			return key + '=' + encodeURI(query[key]);
 		}).join('&');
 
