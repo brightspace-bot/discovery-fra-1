@@ -16,7 +16,7 @@
   ],
   "extraDependencies": [
     "manifest.json",
-    "node_modules/@webcomponents/webcomponentsjs/*.js",
+    "node_modules/@webcomponents/webcomponentsjs/**/*.js",
     "node_modules/d2l-*/*.js",
     "node_modules/fastdom/*.js",
     "!bower_components/webcomponentsjs/gulpfile.js"
