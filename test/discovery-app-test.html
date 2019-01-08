@@ -34,7 +34,7 @@
 				param3: 'test4'
 			};
 			const url = element._createActionUrl(href, defaultParams, userParams);
-			assert.equal(url, 'http://url.example.com/test?param1=test&param2=test2%20Space&param3=test4');
+			assert.equal(url, 'http://url.example.com/test?param1=test&param2=test2+Space&param3=test4');
 		});
 
 	});
