@@ -61,6 +61,8 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 	_onD2lInputSearchSearched(e) {
 		this._getSearchActionUrl(e.detail.value)
 			.then(this._fetchEntity.bind(this))
+			// TODO route to 404 page.
+			.catch()
 			.then(this._handleSearchResponse.bind(this));
 	}
 
@@ -70,15 +72,18 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 	}
 
 	_getSearchActionUrl(searchParam) {
-		const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
-		if (!bffEndpoint) {
-			return Promise.reject('BFF end point does not exist');
-		}
-		return this._fetchEntity(bffEndpoint)
+		return Promise.resolve(() => {
+			const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
+			if (!bffEndpoint) {
+				throw 'BFF end point does not exist';
+			}
+			return bffEndpoint;
+		})
+			.then(this._fetchEntity)
 			.then((response) => {
 				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
 				if (!searchAction) {
-					return Promise.reject('BFF end point does not exist');
+					throw 'BFF end point does not exist';
 				}
 				const defaultParams = searchAction.fields.reduce((defaults, field) => {
 					defaults[field.name] = field.value;
