@@ -28,24 +28,65 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				.discovery-course-summary {
 					background-color: white;
 					border-radius: 5px;
+					display: flex;
 					height: auto;
-					margin-bottom: 10rem;
 					margin-left: 1.5rem;
 					margin-right: 1.5rem;
 					margin-top: 2rem;
-					min-width: 680px;
-					width: 680px;
+					max-width: 760px;
+					min-width: 560px;
 				}
 
 				.discovery-course-action {
 					background-color: white;
 					border-radius: 5px;
+					display: flex;
 					height: auto;
 					margin-left: 1.5rem;
 					margin-right: 1.5rem;
 					margin-top: 2rem;
-					min-width: 435px;
-					width: 435px;
+					max-width: 350px;
+					min-width: 250px;
+				}
+
+				@media only screen and (max-width: 929px) {
+					.discovery-course-container {
+						align-items: center;
+						flex-direction: column;
+					}
+					.discovery-course-summary {
+						margin-left: 0.9rem;
+						margin-right: 0.9rem;
+						max-width: 680px;
+					}
+					.discovery-course-action {
+						margin-left: 2.1rem;
+						margin-right: 2.1rem;
+						max-width: 645px;
+						min-width: 532px;
+					}
+				}
+
+				@media only screen and (max-width: 615px) {
+					.discovery-course-summary {
+						max-width: 579px;
+						min-width: 384px;
+					}
+					.discovery-course-action {
+						margin-left: 1.8rem;
+						margin-right: 1.8rem;
+						max-width: 542px;
+						min-width: 348px;
+					}
+				}
+
+				@media only screen and (max-width: 419px) {
+					.discovery-course-summary,
+					.discovery-course-action {
+						margin-left: 0;
+						margin-right: 0;
+						min-width: 320px;
+					}
 				}
 			</style>
 
