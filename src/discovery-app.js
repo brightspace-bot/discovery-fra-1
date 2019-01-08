@@ -77,9 +77,8 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 			if (!bffEndpoint) {
 				throw 'BFF end point does not exist';
 			}
-			return bffEndpoint;
+			return this._fetchEntity(bffEndpoint);
 		})
-			.then(this._fetchEntity.bind(this))
 			.then((response) => {
 				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
 				if (!searchAction) {
