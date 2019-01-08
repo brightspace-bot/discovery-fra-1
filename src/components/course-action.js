@@ -15,7 +15,12 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 		return html `
 			<style include="d2l-typography">
 				:host {
-					display: inline;
+					display: flex;
+					width: 100%;
+				}
+
+				.discovery-course-action-container {
+					width: 100%;
 				}
 
 				.discovery-course-action-thumbnail {
@@ -25,7 +30,7 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					width: 100%;
 				}
 
-				.discovery-course-action-container {
+				.discovery-course-action-details-container {
 					display: flex;
 					flex-direction: row;
 					width: 100%;
@@ -51,7 +56,7 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 				.discovery-course-action-buttons-container {
 					display: flex;
-					flex-direction: row;
+					flex-direction: column; /* TODO: Modified to 'column' temporarily - buttons will be moved out of course action. */
 					justify-content: space-between;
 					margin-bottom: 1.5rem;
 					margin-left: 1.5rem;
@@ -60,7 +65,6 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 				.discovery-course-action-alert {
 					height: auto;
-					width: 415px;
 				}
 
 				.discovery-course-action-alert-container {
@@ -120,10 +124,10 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				}
 			</style>
 
-			<div class="d2l-typography">
+			<div class="discovery-course-action-container d2l-typography">
 				<img class="discovery-course-action-thumbnail" src="[[courseThumbnailLink]]">
 
-				<div class="discovery-course-action-container">
+				<div class="discovery-course-action-details-container">
 					<div class="discovery-course-action-duration">
 						<div class="d2l-label-text">[[localize('duration')]]</div>
 						<div class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</div>
