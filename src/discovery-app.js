@@ -79,7 +79,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 			}
 			return bffEndpoint;
 		})
-			.then(this._fetchEntity)
+			.then(this._fetchEntity.bind(this))
 			.then((response) => {
 				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
 				if (!searchAction) {
