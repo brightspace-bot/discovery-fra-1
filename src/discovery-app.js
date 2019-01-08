@@ -75,14 +75,14 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		return Promise.resolve(() => {
 			const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
 			if (!bffEndpoint) {
-				throw 'BFF end point does not exist';
+				throw new Error('BFF endpoint does not exist');
 			}
 			return this._fetchEntity(bffEndpoint);
 		})
 			.then((response) => {
-				const searchAction = response.hasAction('search-activities') && response.getAction('search-activities');
+				const searchAction = response.getAction('search-activities');
 				if (!searchAction) {
-					throw 'BFF end point does not exist';
+					throw new Error('Can\'t find action search-activities');
 				}
 				const defaultParams = searchAction.fields.reduce((defaults, field) => {
 					defaults[field.name] = field.value;
@@ -99,7 +99,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		const query = Object.assign({}, defaultParams, userParams);
 
 		const queryString = Object.keys(query).map((key) => {
-			return key + '=' + encodeURI(query[key]);
+			return `${key}=${encodeURI(query[key])}`;
 		}).join('&');
 
 		let url = href;
