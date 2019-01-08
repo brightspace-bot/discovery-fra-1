@@ -23,6 +23,7 @@
     "node_modules/@webcomponents/webcomponentsjs/**/*.js",
     "node_modules/d2l-*/*.js",
     "node_modules/fastdom/*.js",
+    "node_modules/url-polyfill/*.js",
     "!bower_components/webcomponentsjs/gulpfile.js"
   ],
   "builds": [{

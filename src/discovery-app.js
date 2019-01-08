@@ -5,6 +5,7 @@ import 'd2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.js';
 import 'd2l-fetch/d2l-fetch.js';
 import 'd2l-fetch-auth/d2l-fetch-auth-framed.js';
 import 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
+import 'url-polyfill/url-polyfill.min.js';
 
 /**
  * @customElement
