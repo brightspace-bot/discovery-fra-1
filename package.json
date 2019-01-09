@@ -55,6 +55,7 @@
     "d2l-polymer-behaviors": "Brightspace/d2l-polymer-behaviors-ui#semver:^2",
     "fastdom": "^1.0.8",
     "frau-appconfig-builder": "^1.0.0",
+    "promise-polyfill": "8.1.0",
     "siren-parser": "^8.0.0",
     "url-polyfill": "^1.1.3"
   },

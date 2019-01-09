@@ -24,6 +24,7 @@
     "node_modules/d2l-*/*.js",
     "node_modules/fastdom/*.js",
     "node_modules/url-polyfill/*.js",
+    "node_modules/promise-polyfill/src/*.js",
     "!bower_components/webcomponentsjs/gulpfile.js"
   ],
   "builds": [{
