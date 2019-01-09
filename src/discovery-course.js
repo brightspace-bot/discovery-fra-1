@@ -113,7 +113,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				<div class="discovery-course-action">
 					<course-action
 						course-title=[[courseTitle]]
-						course-thumbnail-link=[[courseThumbnailLink]]
 						course-duration=[[courseDuration]]
 						course-last-updated=[[courseLastUpdated]]
 						course-tags=[[courseTags]]
@@ -144,7 +143,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			courseDuration: Number,
 			courseLastUpdated: String,
 			courseTags: Array,
-			courseThumbnailLink: String,
 			isInMyLearning: Boolean,
 			isOnMyList: Boolean,
 		};
@@ -185,7 +183,6 @@ Common macros and shortcuts in Excel can save tons of time. Here you will learn 
 Excel shortcuts can be learned by anybody, but a proper and systematic guidance is necessary to make sure you achieve the best possible speed while working on Excel.';
 
 		// data for course action
-		this.courseThumbnailLink = 'https://www.d2l.com/wp-content/uploads/2017/02/img_D2L_knockout.jpg';
 		this.courseDuration = 45;
 		this.courseLastUpdated = 'April 1st, 2018';
 		this.courseTags = [

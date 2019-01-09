@@ -17,17 +17,6 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				}
 
 				.discovery-course-action-container {
-					width: 100%;
-				}
-
-				.discovery-course-action-thumbnail {
-					border-radius: 5px;
-					height: 190px;
-					padding-bottom: 1rem;
-					width: 100%;
-				}
-
-				.discovery-course-action-details-container {
 					display: flex;
 					flex-direction: row;
 					width: 100%;
@@ -52,10 +41,8 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				}
 			</style>
 
-			<div class="discovery-course-action-container d2l-typography">
-				<img class="discovery-course-action-thumbnail" src="[[courseThumbnailLink]]">
-
-				<div class="discovery-course-action-details-container">
+			<div class="d2l-typography">
+				<div class="discovery-course-action-container">
 					<div class="discovery-course-action-duration">
 						<div class="d2l-label-text">[[localize('duration')]]</div>
 						<div class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</div>
@@ -87,7 +74,6 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	static get properties() {
 		return {
 			courseTitle: String,
-			courseThumbnailLink: String,
 			courseDuration: Number,
 			courseLastUpdated: String,
 			courseTags: Array,
