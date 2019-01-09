@@ -63,10 +63,9 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this._getSearchActionUrl(e.detail.value)
 			.then(this._fetchEntity.bind(this))
 			.then(this._handleSearchResponse.bind(this))
-			.catch((error) => {
+			.catch(() => {
 				// TODO route to 404 page.
 				// TODO Report ERROR to LE to put into our logs. http://search.dev.d2l/source/xref/Lms/lp/framework/logging/D2L.LP.Logging.Web/Controllers/
-				console.log(error); // eslint-disable-line
 			});
 	}
 
