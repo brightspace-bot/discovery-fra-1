@@ -1,10 +1,12 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
-import {SearchInput} from './components/search-input.js';
+import './components/search-input.js';
 import 'd2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.js';
 import 'd2l-fetch/d2l-fetch.js';
 import 'd2l-fetch-auth/d2l-fetch-auth-framed.js';
-import {D2lActivityListItem} from 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
+import 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
+import 'url-polyfill/url-polyfill.min.js';
+import 'promise-polyfill/src/polyfill.js';
 
 /**
  * @customElement
@@ -59,10 +61,13 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this.$.searchQuery.addEventListener('d2l-input-search-searched', this._onD2lInputSearchSearched.bind(this));
 	}
 	_onD2lInputSearchSearched(e) {
-		const searchParam = encodeURI(e.detail.value);
-		const searchUrl = `https://us-east-1.discovery.bff.dev.brightspace.com/search?q=${searchParam}`;
-		this._fetchEntity(searchUrl)
-			.then(this._handleSearchResponse.bind(this));
+		this._getSearchActionUrl(e.detail.value)
+			.then(this._fetchEntity.bind(this))
+			.then(this._handleSearchResponse.bind(this))
+			.catch(() => {
+				// TODO route to 404 page.
+				// TODO Report ERROR to LE to put into our logs. http://search.dev.d2l/source/xref/Lms/lp/framework/logging/D2L.LP.Logging.Web/Controllers/
+			});
 	}
 
 	_handleSearchResponse(sirenEntity) {
@@ -70,10 +75,39 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		this._entitiesResult = entities;
 	}
 
-	getToken() {
-		const scope = ['*:*:*'];
-		const client = window.D2L.frau.client;
-		return client.request('frau-jwt-new-jwt', scope);
+	_getSearchActionUrl(searchParam) {
+		return Promise.resolve(() => {
+			const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
+			if (!bffEndpoint) {
+				throw new Error('BFF endpoint does not exist');
+			}
+			return this._fetchEntity(bffEndpoint);
+		})
+			.then((response) => {
+				const searchAction = response.getAction('search-activities');
+				if (!searchAction) {
+					throw new Error('Can\'t find action search-activities');
+				}
+				const defaultParams = searchAction.fields.reduce((defaults, field) => {
+					defaults[field.name] = field.value;
+					return defaults;
+				}, {});
+				const userParams = {
+					q: searchParam
+				};
+				return this._createActionUrl(searchAction.href, defaultParams, userParams);
+			});
+	}
+
+	_createActionUrl(href, defaultParams, userParams) {
+		const query = Object.assign({}, defaultParams, userParams);
+		const parsedUrl = new URL(href);
+
+		Object.keys(query).forEach((key) => {
+			parsedUrl.searchParams.append(key, query[key]);
+		});
+
+		return parsedUrl.href;
 	}
 }
 

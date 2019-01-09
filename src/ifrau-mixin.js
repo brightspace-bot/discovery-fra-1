@@ -6,7 +6,7 @@ window.D2L.frau = window.D2L.frau || {};
 window.D2L.frau.options = window.D2L.frau.options || {};
 
 /* @polymerMixin */
-let internalIfrauMixin = (superClass) => class extends superClass {
+const internalIfrauMixin = (superClass) => class extends superClass {
 	constructor() {
 		super();
 	}
@@ -57,6 +57,6 @@ let internalIfrauMixin = (superClass) => class extends superClass {
 				return setup;
 			});
 	}
-}
+};
 
 export const IfrauMixin = dedupingMixin(internalIfrauMixin);

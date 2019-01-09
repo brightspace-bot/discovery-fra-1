@@ -1,2 +1,2 @@
-bower_components-1.x
-*.ejs
+scripts/**.js
+index.html
