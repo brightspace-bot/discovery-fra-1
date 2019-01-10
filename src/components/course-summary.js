@@ -162,7 +162,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					<div class="discovery-course-summary-info-container">
 						<div class="discovery-course-summary-info-property">
 							<d2l-icon icon="d2l-tier1:time"></d2l-icon>
-							<span class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</span>
+							<span class="d2l-body-standard">[[localize('durationMinutes', 'minutes', courseDuration)]]</span>
 						</div>
 						<div class="discovery-course-summary-info-property">
 							<d2l-icon icon="d2l-tier1:locations"></d2l-icon>
@@ -170,7 +170,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 						</div>
 						<div class="discovery-course-summary-info-property">
 							<d2l-icon icon="d2l-tier1:calendar"></d2l-icon>
-							<span class="d2l-body-standard">[[localize('lastUpdated')]] [[courseLastUpdated]]</span>
+							<span class="d2l-body-standard">[[localize('lastUpdatedDate', 'date', courseLastUpdated)]]</span>
 						</div>
 					</div>
 				</div>
