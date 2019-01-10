@@ -51,24 +51,93 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 			</style>
 
 			<div class="d2l-typography discovery-course-summary-container">
-				<div class="discovery-course-summary-breadcrumbs">
-					<d2l-link href="javascript:void(0)" on-click="_navigateToHome">[[localize('discover')]]</d2l-link>
-					<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
-					<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
-						<span value="[[courseCategory]]">[[courseCategory]]</span>
-					</d2l-link>
-					<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
+				<div class="discovery-course-summary-card">
+					<div class="discovery-course-summary-breadcrumbs">
+						<d2l-link href="javascript:void(0)" on-click="_navigateToHome">[[localize('discover')]]</d2l-link>
+						<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
+						<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
+							<span value="[[courseCategory]]">[[courseCategory]]</span>
+						</d2l-link>
+						<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
+					</div>
+
+					<div class="discovery-course-summary-title">
+						<h1 class="d2l-heading-1 discovery-course-summary-d2l-heading-1">[[courseTitle]]</h1>
+					</div>
+
+					<div class="discovery-course-summary-info-container">
+						<div class="discovery-course-summary-info-property">
+							<d2l-icon icon="d2l-tier1:time"></d2l-icon>
+							<span class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</span>
+						</div>
+						<div class="discovery-course-summary-info-property">
+							<d2l-icon icon="d2l-tier1:locations"></d2l-icon>
+							<span class="d2l-body-standard">[[format]]</span>
+						</div>
+						<div class="discovery-course-summary-info-property">
+							<d2l-icon icon="d2l-tier1:calendar"></d2l-icon>
+							<span class="d2l-body-standard">[[localize('lastUpdated')]] [[courseLastUpdated]]</span>
+						</div>
+					</div>
 				</div>
 
-				<div class="discovery-course-summary-title">
-					<h1 class="d2l-heading-1 discovery-course-summary-d2l-heading-1">[[courseTitle]]</h1>
+				<div class="discovery-course-summary-actions">
+					<template is="dom-if" if="[[isInMyLearning]]">
+						<d2l-button on-click="_addToMyLearning" primary>[[localize('accessMaterials')]]</d2l-button>
+					</template>
+					<template is="dom-if" if="[[!isInMyLearning]]">
+						<d2l-button on-click="_addToMyLearning" primary>[[localize('enrollInCourse')]]</d2l-button>
+					</template>
+					<template is="dom-if" if="[[isInMyLearning]]">
+						<d2l-button on-click="_addToMyList">[[localize('unenroll')]]</d2l-button>
+					</template>
+					<template is="dom-if" if="[[!isInMyLearning]]">
+						<template is="dom-if" if="[[isOnMyList]]">
+							<d2l-button on-click="_addToMyList">[[localize('onMyList')]]</d2l-button>
+						</template>
+						<template is="dom-if" if="[[!isOnMyList]]">
+							<d2l-button on-click="_addToMyList">[[localize('addToMyList')]]</d2l-button>
+						</template>
+					</template>
 				</div>
 
 				<div class="discovery-course-summary-description">
-					<h4 class="d2l-heading-4 discovery-course-summary-d2l-heading-4">[[localize('courseDescription')]]</h4>
+					<h2 class="d2l-heading-2 discovery-course-summary-d2l-heading-2">[[localize('courseDescription')]]</h2>
 					<div class="d2l-body-compact discovery-course-summary-text-stuff">[[courseDescription]]</div>
 				</div>
 			</div>
+
+			<d2l-alert-toast class="discovery-course-summary-alert" id="addedAlert" type="success" hide-close-button>
+				<div class="discovery-course-summary-alert-container">
+					<div class="discovery-course-summary-alert-content">[[localize('addedToYourList')]]</div>
+					<div class="discovery-course-summary-alert-content">
+						<d2l-link href="javascript:void(0)" on-click="_navigateToMyList">[[localize('viewMyList')]]</d2l-link>
+					</div>
+				</div>
+			</d2l-alert-toast>
+
+			<paper-dialog class="discovery-course-summary-dialog d2l-typography" id="myLearningDialog" always-on-top with-backdrop>
+				<div class="discovery-course-summary-dialog-container">
+					<div class="discovery-course-summary-dialog-header-container">
+						<h4 class="d2l-heading-4 discovery-course-summary-d2l-heading-4">[[localize('addedToMyLearningHeader')]]</h4>
+						<d2l-icon class="discovery-course-summary-dialog-close" on-click="_closeDialog" icon="d2l-tier1:close-small"></d2l-icon>
+					</div>
+
+					<h2 class="d2l-heading-2 discovery-course-summary-d2l-heading-2">[[courseTitle]]</h2>
+					<h4 class="d2l-heading-4 discovery-course-summary-d2l-heading-4">[[localize('welcomeToTheCourse')]]</h4>
+					<span class="d2l-body-standard">
+						[[localize('addedToMyLearningMessage')]]
+					</span>
+					<div class="discovery-course-summary-dialog-button-container">
+						<div>
+							<d2l-button on-click="_navigateToHome" primary>[[localize('startLearning')]]</d2l-button>
+						</div>
+						<div class="discovery-course-summary-second-dialog-button">
+							<d2l-button on-click="_closeDialog">[[localize('continueBrowsing')]]</d2l-button>
+						</div>
+					</div>
+				</div>
+			</paper-dialog>
 		`;
 	}
 
@@ -77,7 +146,50 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 			courseCategory: String,
 			courseTitle: String,
 			courseDescription: String,
+			courseDuration: Number,
+			courseLastUpdated: String,
+			format: String,
+			isInMyLearning: {
+				type: Boolean,
+				notify: true
+			},
+			isOnMyList: {
+				type: Boolean,
+				notify: true
+			},
 		};
+	}
+
+	_addToMyLearning() {
+		this.isInMyLearning = !this.isInMyLearning; // temporary toggle functionality for testing
+
+		var myLearningDialog = this.shadowRoot.querySelector('#myLearningDialog');
+		myLearningDialog.opened = true;
+	}
+
+	_addToMyList() {
+		this.isOnMyList = !this.isOnMyList; // temporary toggle functionality for testing
+
+		var addedAlert = this.shadowRoot.querySelector('#addedAlert');
+		addedAlert.open = true;
+	}
+
+	_closeDialog() {
+		var myLearningDialog = this.shadowRoot.querySelector('#myLearningDialog');
+		myLearningDialog.opened = false;
+	}
+
+	_navigateToMyList() {
+		this.dispatchEvent(new CustomEvent('navigate', {
+			detail: {
+				path: this.routeLocations().myList(),
+			},
+			bubbles: true,
+			composed: true,
+		}));
+
+		var myLearningDialog = this.shadowRoot.querySelector('#myLearningDialog');
+		myLearningDialog.opened = false;
 	}
 
 	_navigateToHome() {
@@ -88,6 +200,9 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 			bubbles: true,
 			composed: true,
 		}));
+
+		var myLearningDialog = this.shadowRoot.querySelector('#myLearningDialog');
+		myLearningDialog.opened = false;
 	}
 
 	_navigateToSearch(e) {
