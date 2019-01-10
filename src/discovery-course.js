@@ -105,18 +105,22 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					<course-summary
 						course-category=[[courseCategory]]
 						course-title=[[courseTitle]]
-						course-description=[[courseDescription]]>
+						course-description=[[courseDescription]]
+						course-duration=[[courseDuration]]
+						course-last-updated=[[courseLastUpdated]]
+						format=[[format]]
+						is-in-my-learning=[[isInMyLearning]]
+						is-on-my-list=[[isOnMyList]]>
 					</course-summary>
 				</div>
 
 				<div class="discovery-course-action">
 					<course-action
-						course-title=[[courseTitle]]
-						course-duration=[[courseDuration]]
-						course-last-updated=[[courseLastUpdated]]
+						course-code=[[courseCode]]
 						course-tags=[[courseTags]]
-						is-in-my-learning=[[isInMyLearning]]
-						is-on-my-list=[[isOnMyList]]>
+						end-date=[[endDate]]
+						first-published=[[firstPublished]]
+						start-date=[[startDate]]>
 					</course-action>
 				</div>
 			</div>
@@ -136,13 +140,17 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			searchQuery: String,
 
 			courseCategory: String,
-			courseTitle: String,
+			courseCode: String,
 			courseDescription: String,
 			courseDuration: Number,
 			courseLastUpdated: String,
 			courseTags: Array,
+			courseTitle: String,
+			endDate: String,
+			firstPublished: String,
 			isInMyLearning: Boolean,
 			isOnMyList: Boolean,
+			startDate: String,
 		};
 	}
 	ready() {
@@ -166,35 +174,28 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 		}
 
 		// data for the course summary
-		this.courseCategory = 'Finance Skills';
-		this.courseTitle = 'Excel and Other Tips to Improve Efficiency';
-		this.courseDescription =
-'Excel is hype! (Helping Young People Excel) \n\n\
-Common macros and shortcuts in Excel can save tons of time. Here you will learn almost 200 excel shortcuts, with their usage properly demonstrated, to help you become an absolute Excel speedster. You can navigate much faster through worksheets, select and edit cell contents, work on multiple worksheets, work on pivot tables more efficiently, and do most tasks on excel without touching the mouse, and thus saving a whole lot of time. Learning and using these keyboard excel shortcuts will multiply your confidence and add a whole new weapon in your armory, which you can use to impress your bosses and colleagues.\n\n\
-Excel shortcuts can be learned by anybody, but a proper and systematic guidance is necessary to make sure you achieve the best possible speed while working on Excel.';
-
-		// data for course action
+		this.courseCategory = 'Financial Planning';
+		this.courseTitle = 'Financial Planning and you';
+		this.courseDescription = 'An overview of the ideas, methods, and institutions that permit human society to manage risks and foster enterprise.  Emphasis on financially-savvy leadership skills. Description of practices today and analysis of prospects for the future. Introduction to risk management and behavioral finance principles to understand the real-world functioning of securities, insurance, and banking industries.  The ultimate goal of this course is using such industries effectively and towards a better society.';
 		this.courseDuration = 45;
-		this.courseLastUpdated = 'April 1st, 2018';
-		this.courseTags = [
-			'Accounting',
-			'Business Skills',
-			'Finance',
-			'Software',
-			'Microsoft',
-			'Accounting',
-			'Business Skills',
-			'Finance',
-			'Software',
-			'Microsoft',
-			'Accounting',
-			'Business Skills',
-			'Finance',
-			'Software',
-			'Microsoft',
-		];
+		this.courseLastUpdated = 'April 27th, 2018';
+		this.format = 'Online';
 		this.isInMyLearning = false;
 		this.isOnMyList = false;
+
+		// data for course action
+		this.courseCode = 'FIN101';
+		this.courseTags = [
+			'Boots',
+			'Bears',
+			'Beets',
+			'Battlestar Gallactica',
+			'Business Intelligence',
+			'Learning about Stuff',
+		];
+		this.endDate = 'Dec 1st, 2019';
+		this.firstPublished = 'Jan 1st, 2018';
+		this.startDate = 'Jan 1st, 2019';
 	}
 
 	_navigateToHome() {
