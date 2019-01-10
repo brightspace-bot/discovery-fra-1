@@ -18,22 +18,25 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 				.discovery-course-action-container {
 					display: flex;
-					flex-direction: row;
+					flex-direction: column;
+					margin: 1.5rem;
+				}
+
+				.discovery-course-action-d2l-heading-3 {
+					margin-bottom: 0.9rem !important;
+					margin-top: 0 !important;
+				}
+
+				.discovery-course-action-info-property {
+					display: flex;
+					margin-bottom: 0.6rem !important;
+				}
+
+				.discovery-course-action-info-property .d2l-body-compact {
+					display: flex;
+					margin-right: 0.5rem;
 					width: 100%;
 				}
-
-				.discovery-course-action-duration {
-					margin-left: 1.5rem;
-					margin-right: 1.5rem;
-					width: 50%;
-				}
-
-				.discovery-course-action-last-updated {
-					margin-left: 2rem;
-					margin-right: 2rem;
-					width: 50%;
-				}
-
 				.discovery-course-action-tags-container {
 					display: flex;
 					flex-direction: column;
@@ -43,20 +46,31 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 			<div class="d2l-typography">
 				<div class="discovery-course-action-container">
-					<div class="discovery-course-action-duration">
-						<div class="d2l-label-text">[[localize('duration')]]</div>
-						<div class="d2l-body-standard">[[courseDuration]] [[localize('minutes')]]</div>
+					<h3 class="d2l-heading-3 discovery-course-action-d2l-heading-3">[[localize('courseInfo')]]</h3>
+					<div class="discovery-course-action-info-property">
+						<div class="d2l-body-compact">[[localize('startDate')]]</div>
+						<div class="d2l-body-compact">[[startDate]]</div>
 					</div>
 
-					<div class="discovery-course-action-last-updated">
-						<div class="d2l-label-text">[[localize('lastUpdated')]]</div>
-						<div class="d2l-body-standard">[[courseLastUpdated]]</div>
+					<div class="discovery-course-action-info-property">
+						<div class="d2l-body-compact">[[localize('endDate')]]</div>
+						<div class="d2l-body-compact">[[endDate]]</div>
+					</div>
+
+					<div class="discovery-course-action-info-property">
+						<div class="d2l-body-compact">[[localize('courseCode')]]</div>
+						<div class="d2l-body-compact">[[courseCode]]</div>
+					</div>
+
+					<div class="discovery-course-action-info-property">
+						<div class="d2l-body-compact">[[localize('firstPublished')]]</div>
+						<div class="d2l-body-compact">[[firstPublished]]</div>
 					</div>
 				</div>
 
 				<template is="dom-if" if="[[tagsExist]]">
 					<div class="discovery-course-action-tags-container">
-						<span class="d2l-label-text">[[localize('taggedWith')]]</span>
+						<h3 class="d2l-heading-3 discovery-course-action-d2l-heading-3">[[localize('searchKeywords')]]</h3>
 						<div>
 							<template is="dom-repeat" items="[[courseTags]]">
 								<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
@@ -66,17 +80,17 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 						</div>
 					</div>
 				</template>
-
 			</div>
 		`;
 	}
 
 	static get properties() {
 		return {
-			courseTitle: String,
-			courseDuration: Number,
-			courseLastUpdated: String,
+			courseCode: String,
 			courseTags: Array,
+			endDate: String,
+			firstPublished: String,
+			startDate: String,
 			tagsExist: {
 				type: Boolean,
 				computed: '_tagsExist(courseTags)',
