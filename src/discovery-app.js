@@ -42,7 +42,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 				<div class="discovery-search">
 					<search-input id="searchQuery" label="Search"></search-input>
 					<template is="dom-repeat" items="[[_entitiesResult]]">
-						<d2l-activity-list-item href="#" entity=[[item]]></d2l-activity-list-item>
+						<d2l-activity-list-item href="#" entity=[[item]] action-enroll-show></d2l-activity-list-item>
 					</template>
 				</div>
 			</div>
@@ -62,12 +62,12 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 	}
 	_onD2lInputSearchSearched(e) {
 		this._getSearchActionUrl(e.detail.value)
-			.then(this._fetchEntity.bind(this))
-			.then(this._handleSearchResponse.bind(this))
 			.catch(() => {
 				// TODO route to 404 page.
 				// TODO Report ERROR to LE to put into our logs. http://search.dev.d2l/source/xref/Lms/lp/framework/logging/D2L.LP.Logging.Web/Controllers/
-			});
+			})
+			.then(this._fetchEntity.bind(this))
+			.then(this._handleSearchResponse.bind(this));
 	}
 
 	_handleSearchResponse(sirenEntity) {
@@ -76,13 +76,14 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 	}
 
 	_getSearchActionUrl(searchParam) {
-		return Promise.resolve(() => {
-			const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
-			if (!bffEndpoint) {
-				throw new Error('BFF endpoint does not exist');
-			}
-			return this._fetchEntity(bffEndpoint);
-		})
+		return Promise.resolve()
+			.then(() => {
+				const bffEndpoint = this.fraSetup && this.fraSetup.options && this.fraSetup.options.endpoint;
+				if (!bffEndpoint) {
+					throw new Error('BFF endpoint does not exist');
+				}
+				return this._fetchEntity(bffEndpoint);
+			})
 			.then((response) => {
 				const searchAction = response.getAction('search-activities');
 				if (!searchAction) {
@@ -104,7 +105,9 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 		const parsedUrl = new URL(href);
 
 		Object.keys(query).forEach((key) => {
-			parsedUrl.searchParams.append(key, query[key]);
+			if (query[key] !== undefined) {
+				parsedUrl.searchParams.append(key, query[key]);
+			}
 		});
 
 		return parsedUrl.href;
