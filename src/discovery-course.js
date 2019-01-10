@@ -4,6 +4,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { IfrauMixin } from './mixins/ifrau-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
+import 'd2l-colors/d2l-colors.js';
 import './components/course-action.js';
 import './components/course-summary.js';
 import './components/search-header.js';
@@ -39,7 +40,9 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 
 				.discovery-course-action {
 					background-color: white;
+					border: 1px solid var(--d2l-color-mica);
 					border-radius: 5px;
+					box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
 					display: flex;
 					height: auto;
 					margin-left: 1.5rem;
@@ -62,6 +65,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					.discovery-course-action {
 						margin-left: 2.1rem;
 						margin-right: 2.1rem;
+						margin-top: 1rem;
 						max-width: 645px;
 						min-width: 532px;
 					}
@@ -83,6 +87,9 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				@media only screen and (max-width: 419px) {
 					.discovery-course-summary,
 					.discovery-course-action {
+						background: var(--d2l-color-regolith);
+						border: none;
+						box-shadow: none;
 						margin-left: 0;
 						margin-right: 0;
 						min-width: 320px;
