@@ -50,7 +50,7 @@ class SearchResultEntry extends LocalizeMixin(RouteLocationsMixin(PolymerElement
 					<p class="d2l-body-small">[[processedDescription]]</p>
 					<p>
 						<d2l-icon icon="d2l-tier2:time"></d2l-icon>
-						<span class="d2l-body-small">[[courseDuration]] [[localize('minutes')]]</span>
+						<span class="d2l-body-small">[[localize('durationMinutes', 'minutes', courseDuration)]]</span>
 
 						<span class="discovery-search-result-entry-tags">
 							<template is="dom-if" if="[[hasTags]]">
