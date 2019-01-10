@@ -13,12 +13,13 @@
 
     <test-fixture id="BasicTestFixture">
       <template>
+		  <div>Test</div>
       </template>
     </test-fixture>
 
     <script type="module">
-		suite('Skeleton Test', function() {
-			test('True is True', function() {
+		suite('Skeleton Test', () => {
+			test('True is True', () => {
 				assert.equal(true, true);
 			});
 		});
