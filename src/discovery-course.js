@@ -105,7 +105,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					<course-summary
 						course-category=[[courseCategory]]
 						course-title=[[courseTitle]]
-						course-key-outcomes=[[courseKeyOutcomes]]
 						course-description=[[courseDescription]]>
 					</course-summary>
 				</div>
@@ -113,7 +112,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				<div class="discovery-course-action">
 					<course-action
 						course-title=[[courseTitle]]
-						course-thumbnail-link=[[courseThumbnailLink]]
 						course-duration=[[courseDuration]]
 						course-last-updated=[[courseLastUpdated]]
 						course-tags=[[courseTags]]
@@ -139,12 +137,10 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 
 			courseCategory: String,
 			courseTitle: String,
-			courseKeyOutcomes: Array,
 			courseDescription: String,
 			courseDuration: Number,
 			courseLastUpdated: String,
 			courseTags: Array,
-			courseThumbnailLink: String,
 			isInMyLearning: Boolean,
 			isOnMyList: Boolean,
 		};
@@ -172,20 +168,12 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 		// data for the course summary
 		this.courseCategory = 'Finance Skills';
 		this.courseTitle = 'Excel and Other Tips to Improve Efficiency';
-		this.courseKeyOutcomes = [
-			"You'll be an advanced level user after taking this Microsoft Excel Course",
-			'Use advanced graphs in minutes instead of wasting hours trying to figure them out',
-			'Increase interactivity by automating your spreadsheets with macros and VBA',
-			'Solve complex problems with superpower functions',
-			"Turn raw data into 'must make' decisions using PivotTables and PowerPivots",
-		];
 		this.courseDescription =
 'Excel is hype! (Helping Young People Excel) \n\n\
 Common macros and shortcuts in Excel can save tons of time. Here you will learn almost 200 excel shortcuts, with their usage properly demonstrated, to help you become an absolute Excel speedster. You can navigate much faster through worksheets, select and edit cell contents, work on multiple worksheets, work on pivot tables more efficiently, and do most tasks on excel without touching the mouse, and thus saving a whole lot of time. Learning and using these keyboard excel shortcuts will multiply your confidence and add a whole new weapon in your armory, which you can use to impress your bosses and colleagues.\n\n\
 Excel shortcuts can be learned by anybody, but a proper and systematic guidance is necessary to make sure you achieve the best possible speed while working on Excel.';
 
 		// data for course action
-		this.courseThumbnailLink = 'https://www.d2l.com/wp-content/uploads/2017/02/img_D2L_knockout.jpg';
 		this.courseDuration = 45;
 		this.courseLastUpdated = 'April 1st, 2018';
 		this.courseTags = [

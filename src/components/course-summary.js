@@ -45,26 +45,6 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					margin-top: 0 !important;
 				}
 
-				.discovery-course-summary-key-outcomes {
-					margin-bottom: 1rem;
-				}
-
-				.discovery-course-summary-key-outcomes ul{
-					-moz-column-gap: 3rem;
-					-moz-columns: 2;
-					-webkit-column-gap: 3rem;
-					-webkit-columns: 2;
-
-					column-gap: 3rem;
-					columns: 2;
-					list-style-position: inside;
-					list-style-type: disc;
-					margin-left: 0.5rem;
-					margin-top: 0;
-					padding: 0;
-					width: 100%;
-				}
-
 				.discovery-course-summary-text-stuff {
 					white-space: pre-wrap;
 				}
@@ -84,17 +64,6 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					<h1 class="d2l-heading-1 discovery-course-summary-d2l-heading-1">[[courseTitle]]</h1>
 				</div>
 
-				<div class="discovery-course-summary-key-outcomes">
-					<h4 class="d2l-heading-4 discovery-course-summary-d2l-heading-4">[[localize('keyOutcomes')]]</h4>
-					<div class="d2l-body-compact">
-						<ul class="discovery-course-summary-key-outcomes">
-							<template is="dom-repeat" items="[[courseKeyOutcomes]]">
-								<li>[[item]]</li>
-							</template>
-						</ul>
-					</div>
-				</div>
-
 				<div class="discovery-course-summary-description">
 					<h4 class="d2l-heading-4 discovery-course-summary-d2l-heading-4">[[localize('courseDescription')]]</h4>
 					<div class="d2l-body-compact discovery-course-summary-text-stuff">[[courseDescription]]</div>
@@ -107,7 +76,6 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 		return {
 			courseCategory: String,
 			courseTitle: String,
-			courseKeyOutcomes: Array,
 			courseDescription: String,
 		};
 	}
