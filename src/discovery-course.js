@@ -27,7 +27,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				}
 
 				.discovery-course-summary {
-					background-color: white;
 					border-radius: 5px;
 					display: flex;
 					height: auto;
