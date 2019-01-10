@@ -42,7 +42,7 @@ class DiscoveryApp extends mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntity
 				<div class="discovery-search">
 					<search-input id="searchQuery" label="Search"></search-input>
 					<template is="dom-repeat" items="[[_entitiesResult]]">
-						<d2l-activity-list-item href="#" entity=[[item]]></d2l-activity-list-item>
+						<d2l-activity-list-item href="#" entity=[[item]] action-enroll-show></d2l-activity-list-item>
 					</template>
 				</div>
 			</div>
