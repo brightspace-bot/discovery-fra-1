@@ -11,6 +11,7 @@
     "test": "wct test --skip-plugin sauce --npm",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "test:polymer:sauce": "wct test --skip-plugin local --npm",
+    "build": "polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled && npm run frau:build-config",
     "start": "npm run build && npm run frau:resolve",
     "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
