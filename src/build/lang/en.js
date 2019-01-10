@@ -69,9 +69,8 @@ window.D2L.Discovery.LangEn = {
 
 	// Course
 	'backToSearchResults': 'Back to Search Result',
-	'minutes': 'minutes',
-	'duration': 'Duration',
-	'lastUpdated': 'Last Updated',
+	'durationMinutes': '{minutes} minutes',
+	'lastUpdatedDate': 'Last Updated {date}',
 	'courseInfo': 'Course Info',
 	'startDate': 'Start Date',
 	'endDate': 'End Date',
