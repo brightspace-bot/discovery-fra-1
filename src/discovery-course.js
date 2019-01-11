@@ -64,7 +64,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					.discovery-course-action {
 						margin-left: 2.1rem;
 						margin-right: 2.1rem;
-						margin-top: 1rem;
+						margin-top: 0;
 						max-width: 645px;
 						min-width: 532px;
 					}
@@ -78,6 +78,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					.discovery-course-action {
 						margin-left: 1.8rem;
 						margin-right: 1.8rem;
+						margin-top: 1rem;
 						max-width: 542px;
 						min-width: 348px;
 					}
@@ -89,8 +90,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 						background: var(--d2l-color-regolith);
 						border: none;
 						box-shadow: none;
-						margin-left: 0;
-						margin-right: 0;
+						margin: 0;
 						min-width: 320px;
 					}
 				}
