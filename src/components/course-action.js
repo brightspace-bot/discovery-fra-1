@@ -12,8 +12,7 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 		return html `
 			<style include="d2l-typography">
 				:host {
-					display: flex;
-					width: 100%;
+					display: inline;
 				}
 
 				.discovery-course-action-container {

@@ -27,8 +27,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 				}
 
 				.discovery-course-summary {
-					border-radius: 5px;
-					display: flex;
 					height: auto;
 					margin-left: 1.5rem;
 					margin-right: 1.5rem;
@@ -42,7 +40,6 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					border: 1px solid var(--d2l-color-mica);
 					border-radius: 5px;
 					box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-					display: flex;
 					height: auto;
 					margin-left: 1.5rem;
 					margin-right: 1.5rem;
@@ -107,28 +104,26 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			</div>
 
 			<div class="d2l-typography discovery-course-container">
-				<div class="discovery-course-summary">
-					<course-summary
-						course-category=[[courseCategory]]
-						course-title=[[courseTitle]]
-						course-description=[[courseDescription]]
-						course-duration=[[courseDuration]]
-						course-last-updated=[[courseLastUpdated]]
-						format=[[format]]
-						is-in-my-learning=[[isInMyLearning]]
-						is-on-my-list=[[isOnMyList]]>
-					</course-summary>
-				</div>
+				<course-summary
+					class="discovery-course-summary"
+					course-category=[[courseCategory]]
+					course-title=[[courseTitle]]
+					course-description=[[courseDescription]]
+					course-duration=[[courseDuration]]
+					course-last-updated=[[courseLastUpdated]]
+					format=[[format]]
+					is-in-my-learning=[[isInMyLearning]]
+					is-on-my-list=[[isOnMyList]]>
+				</course-summary>
 
-				<div class="discovery-course-action">
-					<course-action
-						course-code=[[courseCode]]
-						course-tags=[[courseTags]]
-						end-date=[[endDate]]
-						first-published=[[firstPublished]]
-						start-date=[[startDate]]>
-					</course-action>
-				</div>
+				<course-action
+					class="discovery-course-action"
+					course-code=[[courseCode]]
+					course-tags=[[courseTags]]
+					end-date=[[endDate]]
+					first-published=[[firstPublished]]
+					start-date=[[startDate]]>
+				</course-action>
 			</div>
 		`;
 	}
