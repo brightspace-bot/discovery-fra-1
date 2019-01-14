@@ -1,5 +1,6 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
 import 'd2l-dropdown/d2l-dropdown.js';
 import 'd2l-dropdown/d2l-dropdown-menu.js';
 import 'd2l-icons/d2l-icon.js';
@@ -8,10 +9,10 @@ import 'd2l-menu/d2l-menu.js';
 import 'd2l-menu/d2l-menu-item-link.js';
 import 'd2l-typography/d2l-typography.js';
 
+import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
-import './search-result-entry.js';
 
-class SearchResults extends LocalizeMixin(PolymerElement) {
+class SearchResults extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	static get template() {
 		return html`
 			<style include="d2l-typography">
@@ -58,8 +59,8 @@ class SearchResults extends LocalizeMixin(PolymerElement) {
 					margin-left: 0.25rem;
 				}
 
-				.discovery-search-results-search-result {
-					margin-bottom: 2rem;
+				d2l-activity-list-item {
+					border-bottom: 1px solid var(--d2l-color-mica);
 				}
 			</style>
 
@@ -90,16 +91,14 @@ class SearchResults extends LocalizeMixin(PolymerElement) {
 
 					<div class="discovery-search-results-container">
 						<template is="dom-repeat" items="[[searchResults.results]]">
-							<div class="discovery-search-results-search-result">
-								<search-result-entry
-									course-id="[[item.id]]"
-									course-title="[[item.title]]"
-									course-description="[[item.description]]"
-									course-thumbnail-link="[[item.thumbnail]]"
-									course-duration="[[item.duration]]"
-									course-tags="[[item.tags]]">
-								</search-result-entry>
-							</div>
+							<d2l-activity-list-item
+								href="src/placeholder-data/activity.json"
+								_tags="[[item.tags]]"
+								_link="javascript:void(0)"
+								_category="[[item.category]]"
+								on-click="_navigateToCourse"
+								id="[[item.id]]">
+							</d2l-activity-list-item>
 						</template>
 					</div>
 				</template>
@@ -141,6 +140,17 @@ class SearchResults extends LocalizeMixin(PolymerElement) {
 			return `${startIndex}-${endIndex}`;
 		}
 		return '';
+	}
+	_navigateToCourse(e) {
+		if (e && e.target && e.target.id) {
+			this.dispatchEvent(new CustomEvent('navigate', {
+				detail: {
+					path: this.routeLocations().course(e.target.id)
+				},
+				bubbles: true,
+				composed: true
+			}));
+		}
 	}
 }
 
