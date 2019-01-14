@@ -26,17 +26,26 @@
     "@polymer/polymer": "^3.0.1",
     "d2l-alert": "BrightspaceUI/alert#semver:^4",
     "d2l-button": "BrightspaceUI/button#semver:^5",
+    "d2l-activities": "BrightspaceHypermediaComponents/activities#semver:^0.2.1",
     "d2l-colors": "BrightspaceUI/colors#semver:^4",
     "d2l-dropdown": "BrightspaceUI/dropdown#semver:^7",
+    "d2l-fetch": "Brightspace/d2l-fetch#semver:^2",
+    "d2l-fetch-auth": "github:Brightspace/d2l-fetch-auth",
     "d2l-icons": "BrightspaceUI/icons#semver:^6",
     "d2l-inputs": "BrightspaceUI/inputs#semver:^2",
     "d2l-link": "BrightspaceUI/link#semver:^5",
     "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2",
     "d2l-menu": "BrightspaceUI/menu#semver:^2",
-    "d2l-typography": "BrightspaceUI/typography#semver:^7"
+    "d2l-typography": "BrightspaceUI/typography#semver:^7",
+    "promise-polyfill": "8.1.0",
+    "siren-parser": "^8.0.0",
+    "url-polyfill": "^1.1.3"
   },
   "devDependencies": {
     "@d2l/ifrautoaster": "^0.7.2",
+    "@babel/polyfill": "^7.0.0",
+    "@polymer/iron-component-page": "^3.0.0-pre.18",
+    "@polymer/iron-test-helpers": "^3.0.0-pre.18",
     "@webcomponents/webcomponentsjs": "^2.1.3",
     "babel-eslint": "^10.0.1",
     "bower": "^1.8.4",
@@ -47,7 +56,8 @@
     "frau-local-appresolver": "^1.0.0",
     "frau-publisher": "^2.7.1",
     "wct-browser-legacy": "^1.0.2",
-    "web-component-tester": "6.9.2"
+    "wct-none": "^0.1.1",
+    "web-component-tester": "^6.9.2"
   },
   "engines": {
     "node": ">=8.0"
