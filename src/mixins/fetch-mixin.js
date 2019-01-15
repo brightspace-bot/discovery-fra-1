@@ -2,7 +2,7 @@
 import { dedupingMixin } from '@polymer/polymer/lib/utils/mixin.js';
 import SirenParse from 'siren-parser';
 import 'd2l-fetch/d2l-fetch.js';
-import 'd2l-fetch-auth/d2l-fetch-auth-framed.js';
+import fetchAuthFramed from 'd2l-fetch-auth/es6/d2lfetch-auth-framed.js';
 import 'promise-polyfill/src/polyfill.js';
 import 'url-polyfill/url-polyfill.min.js';
 
@@ -10,7 +10,7 @@ import 'url-polyfill/url-polyfill.min.js';
 const internalFetchMixin = (superClass) => class extends superClass {
 	constructor() {
 		super();
-		window.d2lfetch.use({name: 'auth', fn: window.d2lfetch.auth});
+		window.d2lfetch.use({name: 'auth', fn: fetchAuthFramed});
 	}
 	_fetchEntity(url) {
 		if (!url) {
