@@ -55,12 +55,13 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				.discovery-course-summary-info-property {
 					display: flex;
 					align-items: center;
+					margin-bottom: 0.2rem;
 					margin-right: 0.9rem;
-					margin-top: 0.5rem;
+					margin-top: 0.2rem;
 				}
 
-				.discovery-course-summary-info-container span {
-					margin-left: 0.5rem;
+				.discovery-course-summary-info-container d2l-icon {
+					margin-right: 0.5rem;
 				}
 
 				.discovery-course-summary-actions {
@@ -152,9 +153,18 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					.discovery-course-summary-description {
 						padding: 1.5rem 0.9rem 0.9rem;
 					}
+
+					.discovery-course-summary-info-property {
+						margin-bottom: 0.3rem;
+						margin-top: 0.3rem;
+					}
 				}
 
 				@media only screen and (max-width: 419px) {
+					.discovery-course-summary-breadcrumbs {
+						display: none;
+					}
+
 					.discovery-course-summary-card {
 						border-radius: 0;
 						border: none;
@@ -184,7 +194,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 						<d2l-link href="javascript:void(0)" on-click="_navigateToHome">[[localize('discover')]]</d2l-link>
 						<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
 						<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
-							<span value="[[courseCategory]]">[[courseCategory]]</span>
+							<div value="[[courseCategory]]">[[courseCategory]]</div>
 						</d2l-link>
 						<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
 					</div>
@@ -196,15 +206,15 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					<div class="discovery-course-summary-info-container">
 						<div class="discovery-course-summary-info-property">
 							<d2l-icon icon="d2l-tier1:time"></d2l-icon>
-							<span class="d2l-body-standard">[[localize('durationMinutes', 'minutes', courseDuration)]]</span>
+							<div class="d2l-body-standard">[[localize('durationMinutes', 'minutes', courseDuration)]]</div>
 						</div>
 						<div class="discovery-course-summary-info-property">
 							<d2l-icon icon="d2l-tier1:locations"></d2l-icon>
-							<span class="d2l-body-standard">[[format]]</span>
+							<div class="d2l-body-standard">[[format]]</div>
 						</div>
 						<div class="discovery-course-summary-info-property">
 							<d2l-icon icon="d2l-tier1:calendar"></d2l-icon>
-							<span class="d2l-body-standard">[[localize('lastUpdatedDate', 'date', courseLastUpdated)]]</span>
+							<div class="d2l-body-standard">[[localize('lastUpdatedDate', 'date', courseLastUpdated)]]</div>
 						</div>
 					</div>
 				</div>
@@ -253,9 +263,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 					<h2 class="d2l-heading-2 discovery-course-summary-d2l-heading-2">[[courseTitle]]</h2>
 					<h4 class="d2l-heading-4 discovery-course-summary-d2l-heading-4">[[localize('welcomeToTheCourse')]]</h4>
-					<span class="d2l-body-standard">
-						[[localize('addedToMyLearningMessage')]]
-					</span>
+					<div class="d2l-body-standard">[[localize('addedToMyLearningMessage')]]</div>
 					<div class="discovery-course-summary-dialog-button-container">
 						<div>
 							<d2l-button on-click="_navigateToHome" primary>[[localize('startLearning')]]</d2l-button>
