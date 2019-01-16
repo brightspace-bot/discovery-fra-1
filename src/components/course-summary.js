@@ -64,7 +64,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					margin-right: 0.5rem;
 				}
 
-				.discovery-course-summary-actions {
+				.discovery-course-summary-buttons {
 					background: var(--d2l-color-regolith);
 					border-radius: 0 0 6px 6px;
 					border: 1px solid var(--d2l-color-mica);
@@ -73,7 +73,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					padding: 0.9rem 1.2rem;
 				}
 
-				.discovery-course-summary-actions d2l-button {
+				.discovery-course-summary-buttons d2l-button {
 					margin-right: 0.6rem;
 				}
 
@@ -146,7 +146,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 
 				@media only screen and (max-width: 615px) {
 					.discovery-course-summary-card,
-					.discovery-course-summary-actions {
+					.discovery-course-summary-buttons {
 						padding: 0.9rem;
 					}
 
@@ -170,20 +170,17 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 						border: none;
 					}
 
-					.discovery-course-summary-actions {
+					.discovery-course-summary-buttons {
 						border-left: none;
 						border-radius: 0;
 						border-right: none;
 						box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 						flex-direction: column;
 					}
-					.discovery-course-summary-actions d2l-button {
-						--d2l-button: {
-							width: 100%;
-						}
-
+					.discovery-course-summary-buttons d2l-button {
 						margin-bottom: 0.6rem;
 						margin-right: 0;
+						width: 100%;
 					}
 				}
 			</style>
@@ -219,7 +216,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					</div>
 				</div>
 
-				<div class="discovery-course-summary-actions">
+				<div class="discovery-course-summary-buttons">
 					<template is="dom-if" if="[[isInMyLearning]]">
 						<d2l-button on-click="_addToMyLearning" primary>[[localize('accessMaterials')]]</d2l-button>
 					</template>

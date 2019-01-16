@@ -33,12 +33,13 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					margin-top: 2rem;
 					max-width: 760px;
 					min-width: 560px;
+					width: 100%;
 				}
 
 				.discovery-course-action {
 					background-color: white;
-					border: 1px solid var(--d2l-color-mica);
 					border-radius: 5px;
+					border: 1px solid var(--d2l-color-mica);
 					box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
 					height: auto;
 					margin-left: 1.5rem;
@@ -46,6 +47,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					margin-top: 2rem;
 					max-width: 350px;
 					min-width: 250px;
+					width: 100%;
 				}
 
 				@media only screen and (max-width: 929px) {
