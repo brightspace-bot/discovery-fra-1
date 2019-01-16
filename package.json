@@ -22,6 +22,7 @@
   "dependencies": {
     "@polymer/app-route": "^3.0.0-pre.15",
     "@polymer/iron-pages": "^3.0.0-pre.15",
+    "@polymer/iron-resizable-behavior": "^3.0.0",
     "@polymer/paper-dialog": "^3.0.1",
     "@polymer/polymer": "^3.0.1",
     "d2l-activities": "BrightspaceHypermediaComponents/activities#semver:^1.0.0",
