@@ -30,7 +30,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					height: auto;
 					margin-left: 1.5rem;
 					margin-right: 1.5rem;
-					margin-top: 2rem;
+					margin-top: 90px;
 					max-width: 760px;
 					min-width: 560px;
 					width: 100%;
@@ -44,7 +44,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					height: auto;
 					margin-left: 1.5rem;
 					margin-right: 1.5rem;
-					margin-top: 2rem;
+					margin-top: 90px;
 					max-width: 350px;
 					min-width: 250px;
 					width: 100%;
@@ -59,6 +59,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 						margin-left: 0.9rem;
 						margin-right: 0.9rem;
 						max-width: 680px;
+						width: 90%;
 					}
 					.discovery-course-action {
 						margin-left: 2.1rem;
@@ -66,6 +67,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 						margin-top: 0;
 						max-width: 645px;
 						min-width: 532px;
+						width: 90%;
 					}
 				}
 
@@ -73,6 +75,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 					.discovery-course-summary {
 						max-width: 579px;
 						min-width: 384px;
+						width: 95%;
 					}
 					.discovery-course-action {
 						margin-left: 1.8rem;
@@ -80,6 +83,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 						margin-top: 1rem;
 						max-width: 542px;
 						min-width: 348px;
+						width: 95%;
 					}
 				}
 
@@ -91,6 +95,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 						box-shadow: none;
 						margin: 0;
 						min-width: 320px;
+						width: 100%;
 					}
 				}
 			</style>
@@ -108,6 +113,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			<div class="d2l-typography discovery-course-container">
 				<course-summary
 					class="discovery-course-summary"
+					course-image="[[courseImage]]"
 					course-category=[[courseCategory]]
 					course-title=[[courseTitle]]
 					course-description=[[courseDescription]]
@@ -149,6 +155,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			courseLastUpdated: String,
 			courseTags: Array,
 			courseTitle: String,
+			courseImage: String,
 			endDate: String,
 			firstPublished: String,
 			isInMyLearning: Boolean,
@@ -177,6 +184,7 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 		}
 
 		// data for the course summary
+		this.courseImage = 'https://s.brightspace.com/course-images/images/b53fc2ae-0de4-41da-85ff-875372daeacc/banner-narrow-high-density-min-size.jpg';
 		this.courseCategory = 'Financial Planning';
 		this.courseTitle = 'Financial Planning and you';
 		this.courseDescription = 'An overview of the ideas, methods, and institutions that permit human society to manage risks and foster enterprise.  Emphasis on financially-savvy leadership skills. Description of practices today and analysis of prospects for the future. Introduction to risk management and behavioral finance principles to understand the real-world functioning of securities, insurance, and banking industries.  The ultimate goal of this course is using such industries effectively and towards a better society.';

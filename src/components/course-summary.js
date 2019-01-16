@@ -1,4 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import { IronResizableBehavior } from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import 'd2l-alert/d2l-alert-toast.js';
 import 'd2l-colors/d2l-colors.js';
@@ -11,7 +13,7 @@ import 'd2l-typography/d2l-typography.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 
-class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
+class CourseSummary extends mixinBehaviors([IronResizableBehavior], LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
 		return html `
 			<style include="d2l-typography">
@@ -144,6 +146,16 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					white-space: pre-wrap;
 				}
 
+				.discovery-header-image-container {
+					background-position: center center;
+					background-size: cover;
+					left: 0;
+					margin-top: -90px;
+					position: absolute;
+					width: 100%;
+					z-index: -10;
+				}
+
 				@media only screen and (max-width: 615px) {
 					.discovery-course-summary-card,
 					.discovery-course-summary-buttons {
@@ -182,11 +194,19 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 						margin-right: 0;
 						width: 100%;
 					}
+
+					.discovery-header-image-container {
+						margin: 0;
+						position: static;
+						z-index: auto;
+					}
 				}
 			</style>
 
 			<div class="d2l-typography discovery-course-summary-container">
-				<div class="discovery-course-summary-card">
+				<img id="discovery-header-image" on-load="_headerImageLoaded" src="[[courseImage]]" hidden/>
+				<div id="discovery-header-image-container" class="discovery-header-image-container"></div>
+				<div id="discovery-course-summary-card" class="discovery-course-summary-card">
 					<div class="discovery-course-summary-breadcrumbs">
 						<d2l-link href="javascript:void(0)" on-click="_navigateToHome">[[localize('discover')]]</d2l-link>
 						<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
@@ -216,7 +236,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					</div>
 				</div>
 
-				<div class="discovery-course-summary-buttons">
+				<div id="discovery-course-summary-buttons" class="discovery-course-summary-buttons">
 					<template is="dom-if" if="[[isInMyLearning]]">
 						<d2l-button on-click="_addToMyLearning" primary>[[localize('accessMaterials')]]</d2l-button>
 					</template>
@@ -281,6 +301,7 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 			courseDescription: String,
 			courseDuration: Number,
 			courseLastUpdated: String,
+			courseImage: String,
 			format: String,
 			isInMyLearning: {
 				type: Boolean,
@@ -291,6 +312,38 @@ class CourseSummary extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				notify: true
 			},
 		};
+	}
+
+	connectedCallback() {
+		super.connectedCallback();
+		this.addEventListener('iron-resize', this._onIronResize.bind(this));
+	}
+
+	_onIronResize() {
+		const headerImageContainer = this.shadowRoot.querySelector('#discovery-header-image-container');
+		const courseSummaryCard = this.shadowRoot.querySelector('#discovery-course-summary-card');
+		const courseSummaryButtons = this.shadowRoot.querySelector('#discovery-course-summary-buttons');
+
+		if (headerImageContainer && courseSummaryCard && courseSummaryCard) {
+			if (window.innerWidth < 420) {
+				headerImageContainer.style.height = '150px';
+			} else {
+				const resHeight = courseSummaryCard.offsetHeight + courseSummaryButtons.offsetHeight * (4 / 6) + 90;
+				headerImageContainer.style.height = `${resHeight}px`;
+			}
+		}
+	}
+
+	_headerImageLoaded() {
+		const headerImageContainer = this.shadowRoot.querySelector('#discovery-header-image-container');
+		if (headerImageContainer && headerImageContainer.style['background-image'] !== undefined && this.courseImage) {
+			headerImageContainer.style['background-image'] = `url('${this.courseImage}')`;
+			this._onIronResize();
+		}
+		const imageElement = this.shadowRoot.querySelector('#discovery-header-image');
+		if (imageElement) {
+			imageElement.parentNode.removeChild(imageElement);
+		}
 	}
 
 	_addToMyLearning() {
