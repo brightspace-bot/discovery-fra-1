@@ -67,7 +67,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 			<div>
 				<template is="dom-if" if="[[!_searchResultsExists]]">
-					<h4 class="d2l-heading-4">0 [[localize('resultsFor')]] [[searchQuery]]</h4>
+					<h4 class="d2l-heading-4">[[localize('resultsFor', 'amount', 0, 'searchQuery', searchQuery)]]</h4>
 				</template>
 
 				<template is="dom-if" if="[[_searchResultsExists]]">
