@@ -54,7 +54,7 @@ window.D2L.Discovery.LangEn = {
 	'more': 'More',
 	'less': 'Less',
 	'of': 'of',
-	'resultsFor': 'results for',
+	'resultsFor': '{amount} results for "{searchQuery}"',
 	'sortBy': 'Sort by',
 	'relevance': 'Relevance',
 	'new': 'New',

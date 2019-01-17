@@ -8,14 +8,15 @@ import 'd2l-icons/tier1-icons.js';
 import 'd2l-menu/d2l-menu.js';
 import 'd2l-menu/d2l-menu-item-link.js';
 import 'd2l-typography/d2l-typography.js';
+import { FetchMixin } from '../mixins/fetch-mixin.js';
 
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 
-class SearchResults extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
+class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
 		return html`
-			<style include="d2l-typography">
+			<style include="d2l-typography-shared-styles">
 				:host {
 					display: inline;
 				}
@@ -64,14 +65,14 @@ class SearchResults extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				}
 			</style>
 
-			<div class="d2l-typography">
-				<template is="dom-if" if="[[!searchResultsExists]]">
-					<h4 class="d2l-heading-4">0 [[localize('resultsFor')]] [[searchQuery]]</h4>
+			<div>
+				<template is="dom-if" if="[[!_searchResultsExists]]">
+					<h4 class="d2l-heading-4">[[localize('resultsFor', 'amount', 0, 'searchQuery', searchQuery)]]</h4>
 				</template>
 
-				<template is="dom-if" if="[[searchResultsExists]]">
+				<template is="dom-if" if="[[_searchResultsExists]]">
 					<div class="discovery-search-results-header">
-						<span class="d2l-label-text discovery-search-results-search-message">[[localize('searchResultCount', 'searchResultRange', searchResultsRangeToString, 'searchResultsTotal', searchResultsTotal, 'searchQuery', searchQuery)]]</span>
+						<span class="d2l-label-text discovery-search-results-search-message">[[localize('searchResultCount', 'searchResultRange', _searchResultsRangeToString, 'searchResultsTotal', _searchResultsTotal, 'searchQuery', searchQuery)]]</span>
 						<div class="discovery-search-results-sort-by">
 							<span class="d2l-label-text">[[localize('sortBy')]]:</span>
 							<d2l-dropdown>
@@ -88,16 +89,12 @@ class SearchResults extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 							</d2l-dropdown>
 						</div>
 					</div>
-
 					<div class="discovery-search-results-container">
-						<template is="dom-repeat" items="[[searchResults.results]]">
+						<template is="dom-repeat" items="[[_searchResult]]">
 							<d2l-activity-list-item
-								href="src/placeholder-data/activity.json"
-								_tags="[[item.tags]]"
+								entity=[[item]]
 								_link="javascript:void(0)"
-								_category="[[item.category]]"
-								on-click="_navigateToCourse"
-								id="[[item.id]]">
+								on-click="_navigateToCourse">
 							</d2l-activity-list-item>
 						</template>
 					</div>
@@ -107,40 +104,45 @@ class SearchResults extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 	}
 	static get properties() {
 		return {
-			searchQuery: String,
-			searchResults: Object,
-			searchResultsExists: {
-				type: Boolean,
-				computed: '_computeSearchResultsExist(searchResults)'
-			},
-			searchResultsRangeToString: {
+			href: {
 				type: String,
-				computed: '_computeSearchResultsRange(searchResults)'
+				observer: '_onHrefChange'
 			},
-			searchResultsTotal: {
-				type: Number,
-				computed: '_computeTotalSizeOfSearchResults(searchResults)'
-			}
+			searchQuery: {
+				type: String,
+				value: ''
+			},
+			_searchResult: {
+				type: Array,
+				value: function() { return []; }
+			},
+			_searchResultsExists: Boolean,
+			_searchResultsRangeToString: String,
+			_searchResultsTotal: Number
 		};
 	}
-	_computeTotalSizeOfSearchResults(searchResults) {
-		return searchResults && searchResults.metadata && searchResults.metadata.total;
+
+	_onHrefChange(href) {
+		this._reset();
+		this._fetchEntity(href)
+			.then(this._handleSearchResponse.bind(this));
 	}
 
-	_computeSearchResultsExist(searchResults) {
-		return searchResults && searchResults.results && searchResults.results.length > 0;
-	}
-	_computeSearchResultsRange(searchResults) {
-		if (searchResults &&
-			searchResults.metadata &&
-			searchResults.metadata.startIndex !== undefined &&
-			searchResults.metadata.size !== undefined) {
-			const startIndex = searchResults.metadata.startIndex + 1;
-			const endIndex = searchResults.metadata.startIndex + searchResults.metadata.size;
-			return `${startIndex}-${endIndex}`;
+	_handleSearchResponse(sirenEntity) {
+		if (!sirenEntity || !sirenEntity.properties) {
+			return;
 		}
-		return '';
+
+		this._searchResultsTotal = sirenEntity.properties.pagingInfo.total;
+		this._searchResultsExists = this._searchResultsTotal > 0;
+
+		const startIndex = sirenEntity.properties.pagingInfo.page * sirenEntity.properties.pagingInfo.pageSize + 1;
+		const endIndex = Math.min(startIndex + sirenEntity.properties.pagingInfo.pageSize - 1, this._searchResultsTotal);
+		this._searchResultsRangeToString = `${startIndex}-${endIndex}`;
+
+		this._searchResult = sirenEntity.getSubEntitiesByRel('https://discovery.brightspace.com');
 	}
+
 	_navigateToCourse(e) {
 		if (e && e.target && e.target.id) {
 			this.dispatchEvent(new CustomEvent('navigate', {
@@ -151,6 +153,13 @@ class SearchResults extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				composed: true
 			}));
 		}
+	}
+
+	_reset() {
+		this._searchResult = [];
+		this._searchResultsExists = undefined;
+		this._searchResultsRangeToString = undefined;
+		this._searchResultsTotal = undefined;
 	}
 }
 
