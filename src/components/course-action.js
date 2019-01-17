@@ -26,26 +26,37 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					margin-top: 0 !important;
 				}
 
-				.discovery-course-action-info-property {
-					display: flex;
-					margin-bottom: 0.6rem !important;
+				.discovery-course-action-description-list {
+					margin: 0;
 				}
 
-				.discovery-course-action-info-property .d2l-body-compact {
-					margin-right: 0.5rem;
-					width: 100%;
+				.discovery-course-action-description-list-row {
+					display: flex;
+					margin-bottom: 0.6rem;
+				}
+
+				.discovery-course-action-description-list-gutter {
+					flex-grow: 1;
+					max-width: 1.5rem;
+					min-width: 0.5rem;
+				}
+
+				.discovery-course-action-description-list-term {
+					color: var(--d2l-color-tungsten);
+					flex: 0 1 6rem;
+					margin: 0;
+				}
+
+				.discovery-course-action-description-list-data {
+					color: var(--d2l-color-ferrite);
+					flex: 0 1 6rem;
+					margin: 0;
 				}
 
 				.discovery-course-action-tags-container {
 					display: flex;
 					flex-direction: column;
 					margin-top: 1.5rem;
-				}
-
-				@media only screen and (max-width: 929px) {
-					.discovery-course-action-info-property .d2l-body-compact {
-						width: 6rem;
-					}
 				}
 
 				@media only screen and (max-width: 615px) {
@@ -55,42 +66,47 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				}
 			</style>
 
-			<div class="d2l-typography">
-				<div class="discovery-course-action-container">
-					<h3 class="d2l-heading-3 discovery-course-action-d2l-heading-3">[[localize('courseInfo')]]</h3>
-					<div class="discovery-course-action-info-property">
-						<div class="d2l-body-compact">[[localize('startDate')]]</div>
-						<div class="d2l-body-compact">[[startDate]]</div>
+			<div class="d2l-typography discovery-course-action-container">
+				<h3 class="d2l-heading-3 discovery-course-action-d2l-heading-3">[[localize('courseInfo')]]</h3>
+
+				<dl class="discovery-course-action-description-list">
+					<div class="discovery-course-action-description-list-row">
+						<dt class="d2l-body-compact discovery-course-action-description-list-term">[[localize('startDate')]]</dt>
+						<div class="discovery-course-action-description-list-gutter"></div>
+						<dd class="d2l-body-compact discovery-course-action-description-list-data">[[startDate]]</dd>
 					</div>
 
-					<div class="discovery-course-action-info-property">
-						<div class="d2l-body-compact">[[localize('endDate')]]</div>
-						<div class="d2l-body-compact">[[endDate]]</div>
+					<div class="discovery-course-action-description-list-row">
+						<dt class="d2l-body-compact discovery-course-action-description-list-term">[[localize('endDate')]]</dt>
+						<div class="discovery-course-action-description-list-gutter"></div>
+						<dd class="d2l-body-compact discovery-course-action-description-list-data">[[endDate]]</dd>
 					</div>
 
-					<div class="discovery-course-action-info-property">
-						<div class="d2l-body-compact">[[localize('courseCode')]]</div>
-						<div class="d2l-body-compact">[[courseCode]]</div>
+					<div class="discovery-course-action-description-list-row">
+						<dt class="d2l-body-compact discovery-course-action-description-list-term">[[localize('courseCode')]]</dt>
+						<div class="discovery-course-action-description-list-gutter"></div>
+						<dd class="d2l-body-compact discovery-course-action-description-list-data">[[courseCode]]</dd>
 					</div>
 
-					<div class="discovery-course-action-info-property">
-						<div class="d2l-body-compact">[[localize('firstPublished')]]</div>
-						<div class="d2l-body-compact">[[firstPublished]]</div>
+					<div class="discovery-course-action-description-list-row">
+						<dt class="d2l-body-compact discovery-course-action-description-list-term">[[localize('firstPublished')]]</dt>
+						<div class="discovery-course-action-description-list-gutter"></div>
+						<dd class="d2l-body-compact discovery-course-action-description-list-data">[[firstPublished]]</dd>
 					</div>
+				</dl>
 
-					<template is="dom-if" if="[[tagsExist]]">
-						<div class="discovery-course-action-tags-container">
-							<h3 class="d2l-heading-3 discovery-course-action-d2l-heading-3">[[localize('searchKeywords')]]</h3>
-							<div>
-								<template is="dom-repeat" items="[[courseTags]]">
-									<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
-										<span value="[[item]]">[[item]][[_getTagSuffix(index)]]</span>
-									</d2l-link>
-								</template>
-							</div>
+				<template is="dom-if" if="[[tagsExist]]">
+					<div class="discovery-course-action-tags-container">
+						<h3 class="d2l-heading-3 discovery-course-action-d2l-heading-3">[[localize('searchKeywords')]]</h3>
+						<div>
+							<template is="dom-repeat" items="[[courseTags]]">
+								<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
+									<span value="[[item]]">[[item]][[_getTagSuffix(index)]]</span>
+								</d2l-link>
+							</template>
 						</div>
-					</template>
-				</div>
+					</div>
+				</template>
 			</div>
 		`;
 	}
