@@ -38,6 +38,7 @@
     "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2",
     "d2l-menu": "BrightspaceUI/menu#semver:^2",
     "d2l-typography": "BrightspaceUI/typography#semver:^7",
+    "fastdom": "^1.0.8",
     "promise-polyfill": "8.1.0",
     "siren-parser": "^8.0.0",
     "url-polyfill": "^1.1.3"
