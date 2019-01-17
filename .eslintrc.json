@@ -3,6 +3,9 @@
   "env": {
     "es6": true
   },
+  "globals": {
+    "fastdom": false
+  },
   "parser": "babel-eslint",
   "parserOptions": {
       "sourceType": "module"

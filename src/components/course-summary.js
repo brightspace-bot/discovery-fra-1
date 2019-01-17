@@ -9,6 +9,7 @@ import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
 import 'd2l-typography/d2l-typography.js';
+import 'fastdom/fastdom.js';
 
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
@@ -342,7 +343,9 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], LocalizeMixi
 		}
 		const imageElement = this.shadowRoot.querySelector('#discovery-header-image');
 		if (imageElement) {
-			imageElement.parentNode.removeChild(imageElement);
+			fastdom.mutate(() => {
+				imageElement.parentNode.removeChild(imageElement);
+			});
 		}
 	}
 
