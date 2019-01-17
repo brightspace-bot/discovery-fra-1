@@ -16,7 +16,7 @@ import { LocalizeMixin } from '../mixins/localize-mixin.js';
 class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
 		return html`
-			<style include="d2l-typography">
+			<style include="d2l-typography-shared-styles">
 				:host {
 					display: inline;
 				}
