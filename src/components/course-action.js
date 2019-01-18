@@ -1,4 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import { IronResizableBehavior } from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
@@ -7,7 +9,7 @@ import 'd2l-typography/d2l-typography.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 
-class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
+class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
 		return html `
 			<style include="d2l-typography">
@@ -41,15 +43,17 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 					min-width: 0.5rem;
 				}
 
+				.discovery-course-action-description-list-gutter-multiline {
+					width: 0.5rem;
+				}
+
 				.discovery-course-action-description-list-term {
 					color: var(--d2l-color-tungsten);
-					flex: 0 1 6rem;
 					margin: 0;
 				}
 
 				.discovery-course-action-description-list-data {
 					color: var(--d2l-color-ferrite);
-					flex: 0 1 6rem;
 					margin: 0;
 				}
 
@@ -111,6 +115,20 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 		`;
 	}
 
+	connectedCallback() {
+		super.connectedCallback();
+		this.addEventListener('iron-resize', this._onIronResize.bind(this));
+
+		this.descriptionListTerms = this.shadowRoot.querySelectorAll('dt');
+		this.descriptionListData = this.shadowRoot.querySelectorAll('dd');
+		this.descriptionListElements = this.descriptionListTerms.concat(this.descriptionListData);
+		this.descriptionListGutters = this.shadowRoot
+			.querySelectorAll('.discovery-course-action-description-list-gutter');
+
+		this.descriptionListElementsInitialHeight = 0;
+		this.descriptionListElementsMaxWidth = 0;
+	}
+
 	static get properties() {
 		return {
 			courseCode: String,
@@ -123,6 +141,48 @@ class CourseAction extends LocalizeMixin(RouteLocationsMixin(PolymerElement)) {
 				computed: '_tagsExist(courseTags)',
 			},
 		};
+	}
+
+	_onIronResize() {
+		// The initial height of the element is used to determine whether a word wrap has occurred
+		if (!this.descriptionListElementsInitialHeight) {
+			this.descriptionListElementsInitialHeight =
+				this._getInitialElementWidthAndHeight(this.descriptionListElements[0]).initialHeight;
+		}
+
+		// The flex-basis is set to the max width of all elements, so that it only takes up the space
+		// required to fit on one line
+		if (!this.descriptionListElementsMaxWidth) {
+			this.descriptionListElementsMaxWidth = this.descriptionListElements
+				.map(e => this._getInitialElementWidthAndHeight(e).initialWidth)
+				.reduce((acc, currentWidth) => Math.max(acc, currentWidth));
+
+			this.descriptionListElements.forEach(e => {
+				e.style.flex = `0 1 ${this.descriptionListElementsMaxWidth}px`;
+			});
+		}
+
+		// If the word wrap has occurred, we switch to the resizing (10-30px) gutter class
+		if (this.descriptionListElements.some(e => e.clientHeight > this.descriptionListElementsInitialHeight)) {
+			this.descriptionListGutters.forEach(g =>
+				g.classList.replace('discovery-course-action-description-list-gutter',
+					'discovery-course-action-description-list-gutter-multiline'));
+		} else {
+			this.descriptionListGutters.forEach(g =>
+				g.classList.replace('discovery-course-action-description-list-gutter-multiline',
+					'discovery-course-action-description-list-gutter'));
+		}
+	}
+
+	_getInitialElementWidthAndHeight(e) {
+		// Set nowrap so that the initial height/width is not affected by word wrapping
+		e.style.setProperty('white-space', 'nowrap');
+		const initialValues = {
+			initialHeight: e.clientHeight,
+			initialWidth: e.clientWidth
+		};
+		e.style.removeProperty('white-space');
+		return initialValues;
 	}
 
 	_tagsExist(courseTags) {
