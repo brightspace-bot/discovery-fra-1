@@ -5,6 +5,7 @@ import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
 import 'd2l-typography/d2l-typography.js';
+import 'fastdom/fastdom.js';
 
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
@@ -115,18 +116,20 @@ class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin
 		`;
 	}
 
-	connectedCallback() {
-		super.connectedCallback();
-		this.addEventListener('iron-resize', this._onIronResize.bind(this));
-
-		this.descriptionListTerms = this.shadowRoot.querySelectorAll('dt');
-		this.descriptionListData = this.shadowRoot.querySelectorAll('dd');
-		this.descriptionListElements = this.descriptionListTerms.concat(this.descriptionListData);
-		this.descriptionListGutters = this.shadowRoot
-			.querySelectorAll('.discovery-course-action-description-list-gutter');
-
+	constructor() {
+		super();
 		this.descriptionListElementsInitialHeight = 0;
 		this.descriptionListElementsMaxWidth = 0;
+		this.addEventListener('iron-resize', this._onIronResize.bind(this));
+
+	}
+
+	ready() {
+		super.ready();
+		this.descriptionListElements = this.shadowRoot.querySelectorAll('dt')
+			.concat(this.shadowRoot.querySelectorAll('dd'));
+		this.descriptionListGutters = this.shadowRoot
+			.querySelectorAll('.discovery-course-action-description-list-gutter');
 	}
 
 	static get properties() {
@@ -157,9 +160,14 @@ class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin
 				.map(e => this._getInitialElementWidthAndHeight(e).initialWidth)
 				.reduce((acc, currentWidth) => Math.max(acc, currentWidth));
 
-			this.descriptionListElements.forEach(e => {
-				e.style.flex = `0 1 ${this.descriptionListElementsMaxWidth}px`;
-			});
+			// IE11 doesn't seem to have width for any elements on initial load
+			if (this.descriptionListElementsMaxWidth > 0) {
+				this.descriptionListElements.forEach(e => {
+					fastdom.mutate(() => {
+						e.style.flex = `0 1 ${this.descriptionListElementsMaxWidth}px`;
+					});
+				});
+			}
 		}
 
 		// If the word wrap has occurred, we switch to the resizing (10-30px) gutter class
