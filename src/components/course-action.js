@@ -5,6 +5,7 @@ import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
 import 'd2l-typography/d2l-typography.js';
+import 'fastdom/fastdom.js';
 
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
@@ -162,7 +163,9 @@ class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin
 			// IE11 doesn't seem to have width for any elements on initial load
 			if (this.descriptionListElementsMaxWidth > 0) {
 				this.descriptionListElements.forEach(e => {
-					e.style.flex = `0 1 ${this.descriptionListElementsMaxWidth}px`;
+					fastdom.mutate(() => {
+						e.style.flex = `0 1 ${this.descriptionListElementsMaxWidth}px`;
+					});
 				});
 			}
 		}
