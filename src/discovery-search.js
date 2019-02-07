@@ -1,6 +1,7 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-route/app-route.js';
+import './components/app-location-ifrau.js';
 import './components/search-header.js';
 import './components/search-results.js';
 import './components/search-sidebar.js';
@@ -9,6 +10,7 @@ import './styles/discovery-styles.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
 import { FetchMixin } from './mixins/fetch-mixin.js';
+import 'url-polyfill/url-polyfill.min.js';
 
 class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(PolymerElement))) {
 	static get template() {
@@ -63,6 +65,7 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 					}
 				}
 			</style>
+			<app-location-ifrau route="[[route]]"></app-location-ifrau>
 			<app-route
 				route="[[route]]"
 				pattern="/d2l/le/discovery/view/search/:searchQuery"
@@ -89,7 +92,14 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 	}
 	static get properties() {
 		return {
-			route: Object,
+			route: {
+				type: Object,
+				value: () => {
+					return {
+						path: ''
+					};
+				}
+			},
 			routeData: {
 				type: Object,
 				value: () => {
@@ -98,10 +108,16 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 					};
 				}
 			},
+			queryParams: {
+				type: Object,
+				value: () => {
+					return {};
+				}
+			},
+			_pageCurrent: Number,
 			_searchQuery: {
 				type: String,
-				value: '',
-				computed: '_getDecodedQuery(routeData.searchQuery)'
+				value: ''
 			},
 			_searchActionHref: String,
 			visible: {
@@ -109,6 +125,11 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 				observer: '_visible'
 			}
 		};
+	}
+	static get observers() {
+		return [
+			'_getDecodedQuery(_searchQuery, _pageCurrent)'
+		];
 	}
 	static get _searchAction() {
 		return 'search-activities';
@@ -118,6 +139,9 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 		const route = this.shadowRoot.querySelector('app-route');
 		route.addEventListener('route-changed', this._routeChanged.bind(this));
 		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
+
+		const location = this.shadowRoot.querySelector('app-location-ifrau');
+		location.addEventListener('query-params-changed', this._queryParamsChanged.bind(this));
 	}
 	_visible() {
 		const searchHeader = this.shadowRoot.querySelector('#discovery-search-search-header');
@@ -127,21 +151,31 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 		}
 	}
 	_routeChanged(route) {
+		route.stopPropagation();
 		route = route.detail.value || {};
 		this.route = route;
 	}
 	_routeDataChanged(routeData) {
+		routeData.stopPropagation();
 		routeData = routeData.detail.value || {};
+		this._searchQuery = routeData.searchQuery;
 		this.routeData = routeData;
 	}
-	_getDecodedQuery(searchQuery) {
-		if (!searchQuery) {
+	_queryParamsChanged(queryParams) {
+		queryParams.stopPropagation();
+		queryParams = queryParams.detail.value || {};
+		this._pageCurrent = queryParams && queryParams.has && queryParams.has('page') ? Math.max(queryParams.get('page') - 1, 0) : 0;
+		this.queryParams = queryParams;
+	}
+	_getDecodedQuery(searchQuery, page) {
+		if (!searchQuery || page === undefined) {
 			this._searchActionHref = undefined;
 			return;
 		}
 		searchQuery = decodeURIComponent(searchQuery);
 		const parameters = {
-			q: searchQuery
+			q: searchQuery,
+			page: page
 		};
 		this._getActionUrl(this._searchAction, parameters)
 			.then(url => {
@@ -156,7 +190,6 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 					composed: true
 				}));
 			});
-		return searchQuery;
 	}
 }
 

@@ -2,6 +2,7 @@
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { AppRouteConverterBehavior } from '@polymer/app-route/app-route-converter-behavior.js';
+import 'url-polyfill/url-polyfill.min.js';
 import '@polymer/app-route/app-route.js';
 
 /**
@@ -43,10 +44,8 @@ class AppLocationIfrau extends
 	_handleLocationChanged(newLocation) {
 		this._frauIsSynchronizing = true;
 		this.path = newLocation;
-		// Since IE11 doesn't support URL, there's a need to figure out a way to get query params to work with IFrau
-		// var parsed = new window.URL(newLocation, window.D2L.frau.valenceHost);
-		// this.queryParams = createQueryParams(parsed.searchParams);
-		this.queryParams = {};
+		var parsed = new URL(newLocation, window.D2L.frau.valenceHost);
+		this.queryParams = parsed.searchParams;
 		this._frauIsSynchronizing = false;
 	}
 	rewriteTo(pathAndQuery) {

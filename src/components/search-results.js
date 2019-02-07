@@ -5,6 +5,8 @@ import 'd2l-dropdown/d2l-dropdown.js';
 import 'd2l-dropdown/d2l-dropdown-menu.js';
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
+import 'd2l-button/d2l-button-icon.js';
+import 'd2l-inputs/d2l-input-text.js';
 import 'd2l-menu/d2l-menu.js';
 import 'd2l-menu/d2l-menu-item-link.js';
 import 'd2l-typography/d2l-typography.js';
@@ -61,6 +63,14 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				d2l-activity-list-item {
 					border-bottom: 1px solid var(--d2l-color-mica);
 				}
+				.discovery-search-results-page-number-container {
+					margin: 15px;
+					text-align: center;
+					align-items: center;
+				}
+				.discovery-search-results-page-count {
+					width: unset;
+				}
 			</style>
 			<div>
 				<template is="dom-if" if="[[!_searchResultsExists]]">
@@ -79,6 +89,42 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 								on-click="_navigateToCourse">
 							</d2l-activity-list-item>
 						</template>
+					</div>
+					<div class="discovery-search-results-page-number-container">
+						<d2l-button-icon
+							icon="d2l-tier1:chevron-left"
+							role="button"
+							aria-label="[[label]]"
+							disabled$="[[disabled]]"
+							aria-disabled$="[[disabled]]"
+							on-click="_toPreviousPage"
+							on-keydown="_toPreviousPage">
+						</d2l-button-icon>
+						<span>
+							<d2l-input-text
+								class="discovery-search-results-page-count"
+								type="number"
+								ariaLabel="On page [[_pageCurrent]] of [[_pageTotal]]. Enter a page number to go to that page."
+								ariaInvalid="Value must be between [[_pageCurrent]] of [[_pageTotal]]"
+								name="myInput"
+								value="[[_pageCurrent]]"
+								min="1"
+								max="[[_pageTotal]]"
+								size=[[_countDigits(_pageTotal)]]
+								on-keydown="_toPage"
+								on-blur="_inputPageCounterOnBlur">
+							</d2l-input-text>
+							<span aria-hidden>/ [[_pageTotal]]</span>
+						</span>
+						<d2l-button-icon
+							icon="d2l-tier1:chevron-right"
+							role="button"
+							aria-label="[[label]]"
+							disabled$="[[disabled]]"
+							aria-disabled$="[[disabled]]"
+							on-click="_toNextPage"
+							on-keydown="_toNextPage">
+						</d2l-button-icon>
 					</div>
 				</template>
 			</div>
@@ -100,12 +146,17 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			},
 			_searchResultsExists: Boolean,
 			_searchResultsRangeToString: String,
+			_pageCurrent: Number,
+			_pageTotal: Number,
 			_searchResultsTotal: Number
 		};
 	}
 
 	_onHrefChange(href) {
-		this._reset();
+		if (!href) {
+			this._reset();
+			return;
+		}
 		this._fetchEntity(href)
 			.then(this._handleSearchResponse.bind(this));
 	}
@@ -114,12 +165,14 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		if (!sirenEntity || !sirenEntity.properties) {
 			return;
 		}
-
+		const pageSize = sirenEntity.properties.pagingInfo.pageSize;
 		this._searchResultsTotal = sirenEntity.properties.pagingInfo.total;
 		this._searchResultsExists = this._searchResultsTotal > 0;
+		this._pageCurrent = sirenEntity.properties.pagingInfo.page + 1;
+		this._pageTotal = Math.ceil(this._searchResultsTotal / pageSize);
 
-		const startIndex = sirenEntity.properties.pagingInfo.page * sirenEntity.properties.pagingInfo.pageSize + 1;
-		const endIndex = Math.min(startIndex + sirenEntity.properties.pagingInfo.pageSize - 1, this._searchResultsTotal);
+		const startIndex = sirenEntity.properties.pagingInfo.page * pageSize + 1;
+		const endIndex = Math.min(startIndex + pageSize - 1, this._searchResultsTotal);
 		this._searchResultsRangeToString = `${startIndex}-${endIndex}`;
 
 		this._searchResult = sirenEntity.getSubEntitiesByRel('https://discovery.brightspace.com');
@@ -135,6 +188,49 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				composed: true
 			}));
 		}
+	}
+
+	_toPreviousPage(event) {
+		if (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 32) {
+			return;
+		}
+
+		this._navigateToPage(this._pageCurrent - 1);
+	}
+
+	_toNextPage(event) {
+		if (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 32) {
+			return;
+		}
+
+		this._navigateToPage(this._pageCurrent + 1);
+	}
+
+	_toPage(event) {
+		if (event.type === 'keydown' && event.keyCode !== 13) {
+			return;
+		}
+		this._navigateToPage(event.srcElement.value);
+	}
+	_inputPageCounterOnBlur(event) {
+		event.srcElement.value = this._pageCurrent;
+	}
+
+	_navigateToPage(pageNumber) {
+		// keep page number within the range of the search results.
+		pageNumber = Math.min(pageNumber, this._pageTotal);
+		pageNumber = Math.max(pageNumber, 1);
+		this.dispatchEvent(new CustomEvent('navigate', {
+			detail: {
+				path: this.routeLocations().search(this.searchQuery, { page: pageNumber })
+			},
+			bubbles: true,
+			composed: true
+		}));
+	}
+
+	_countDigits(number) {
+		return number.toString().length;
 	}
 
 	_reset() {
