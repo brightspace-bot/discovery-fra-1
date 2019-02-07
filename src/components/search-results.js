@@ -95,8 +95,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							icon="d2l-tier1:chevron-left"
 							role="button"
 							aria-label="[[label]]"
-							disabled$="[[disabled]]"
-							aria-disabled$="[[disabled]]"
+							disabled$="[[_previousPageDisabled(_pageCurrent)]]"
+							aria-disabled$="[[_previousPageDisabled(_pageCurrent)]]"
 							on-click="_toPreviousPage"
 							on-keydown="_toPreviousPage">
 						</d2l-button-icon>
@@ -120,8 +120,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							icon="d2l-tier1:chevron-right"
 							role="button"
 							aria-label="[[label]]"
-							disabled$="[[disabled]]"
-							aria-disabled$="[[disabled]]"
+							disabled$="[[_previousPageDisabled(_pageCurrent, _pageTotal)]]"
+							aria-disabled$="[[_previousPageDisabled(_pageCurrent, _pageTotal)]]"
 							on-click="_toNextPage"
 							on-keydown="_toNextPage">
 						</d2l-button-icon>
@@ -197,7 +197,9 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 		this._navigateToPage(this._pageCurrent - 1);
 	}
-
+	_previousPageDisabled(pageCurrent) {
+		return pageCurrent <= 1;
+	}
 	_toNextPage(event) {
 		if (event.type === 'keydown' && event.keyCode !== 13 && event.keyCode !== 32) {
 			return;
@@ -205,9 +207,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 		this._navigateToPage(this._pageCurrent + 1);
 	}
-
+	_nextPageDisabled(pageCurrent, pageTotal) {
+		return pageCurrent >= pageTotal;
+	}
 	_toPage(event) {
-		if (event.type === 'keydown' && event.keyCode !== 13) {
+		if (event.type !== 'keydown' || event.keyCode !== 13) {
 			return;
 		}
 		this._navigateToPage(event.srcElement.value);
