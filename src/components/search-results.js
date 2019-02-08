@@ -119,7 +119,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							icon="d2l-tier1:chevron-right"
 							role="button"
 							aria-label="[[localize('pageNext')]]"
-							disabled$="[[_previousPageDisabled(_pageCurrent, _pageTotal)]]"
+							disabled$="[[_nextPageDisabled(_pageCurrent, _pageTotal)]]"
 							on-click="_toNextPage"
 							on-keydown="_toNextPage">
 						</d2l-button-icon>
