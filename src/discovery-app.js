@@ -57,6 +57,12 @@ class DiscoveryApp extends RouteLocationsMixin(PolymerElement) {
 				type: String,
 				reflectToAttribute: true
 			},
+			queryParams: {
+				type: Object,
+				value: () => {
+					return {};
+				}
+			},
 			routeData: Object,
 			subroute: Object,
 		};

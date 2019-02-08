@@ -59,6 +59,10 @@ window.D2L.Discovery.LangEn = {
 	'relevance': 'Relevance',
 	'new': 'New',
 	'searchResultCount': '{searchResultRange} of {searchResultsTotal} for "{searchQuery}"',
+	'pageSelection': 'On page {pageCurrent} of {pageTotal}. Enter a page number to go to that page',
+	'pageSelectionInvalid': 'Value must be between 1 and {pageTotal}',
+	'pagePrevious': 'To previous page',
+	'pageNext': 'To next page',
 
 	// Discovery Home
 	'recommendationHeader': 'Recommended for you:',
