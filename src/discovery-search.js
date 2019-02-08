@@ -152,8 +152,7 @@ class DiscoverySearch extends FetchMixin(RouteLocationsMixin(LocalizeMixin(Polym
 	}
 	_routeChanged(route) {
 		route.stopPropagation();
-		route = route.detail.value || {};
-		this.route = route;
+		this.route = route.detail.value || {};
 	}
 	_routeDataChanged(routeData) {
 		routeData.stopPropagation();

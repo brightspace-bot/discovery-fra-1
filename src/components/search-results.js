@@ -94,9 +94,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 						<d2l-button-icon
 							icon="d2l-tier1:chevron-left"
 							role="button"
-							aria-label="[[label]]"
+							aria-label="[[localize('pagePrevious')]]"
 							disabled$="[[_previousPageDisabled(_pageCurrent)]]"
-							aria-disabled$="[[_previousPageDisabled(_pageCurrent)]]"
 							on-click="_toPreviousPage"
 							on-keydown="_toPreviousPage">
 						</d2l-button-icon>
@@ -104,8 +103,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							<d2l-input-text
 								class="discovery-search-results-page-count"
 								type="number"
-								ariaLabel="On page [[_pageCurrent]] of [[_pageTotal]]. Enter a page number to go to that page."
-								ariaInvalid="Value must be between [[_pageCurrent]] of [[_pageTotal]]"
+								aria-label="[[localize('pageSelection', 'pageCurrent', _pageCurrent, 'pageTotal', _pageTotal)]]"
+								aria-invalid="[[localize('pageSelectionInvalid', 'pageTotal', _pageTotal)]]"
 								name="myInput"
 								value="[[_pageCurrent]]"
 								min="1"
@@ -114,14 +113,13 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 								on-keydown="_toPage"
 								on-blur="_inputPageCounterOnBlur">
 							</d2l-input-text>
-							<span aria-hidden>/ [[_pageTotal]]</span>
+							/ [[_pageTotal]]
 						</span>
 						<d2l-button-icon
 							icon="d2l-tier1:chevron-right"
 							role="button"
-							aria-label="[[label]]"
+							aria-label="[[localize('pageNext')]]"
 							disabled$="[[_previousPageDisabled(_pageCurrent, _pageTotal)]]"
-							aria-disabled$="[[_previousPageDisabled(_pageCurrent, _pageTotal)]]"
 							on-click="_toNextPage"
 							on-keydown="_toNextPage">
 						</d2l-button-icon>
