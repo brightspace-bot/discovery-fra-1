@@ -85,8 +85,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 						<template is="dom-repeat" items="[[_searchResult]]">
 							<d2l-activity-list-item
 								entity=[[item]]
-								_link="javascript:void(0)"
-								on-click="_navigateToCourse">
+								send-on-trigger-event>
 							</d2l-activity-list-item>
 						</template>
 					</div>
@@ -150,6 +149,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		};
 	}
 
+	ready() {
+		super.ready();
+		this.addEventListener('d2l-activity-trigger', this._navigateToCourse.bind(this));
+	}
+
 	_onHrefChange(href) {
 		if (!href) {
 			this._reset();
@@ -177,10 +181,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	}
 
 	_navigateToCourse(e) {
-		if (e && e.target && e.target.id) {
+		e.stopPropagation();
+		if (e && e.detail && e.detail.orgUnitId) {
 			this.dispatchEvent(new CustomEvent('navigate', {
 				detail: {
-					path: this.routeLocations().course(e.target.id)
+					path: this.routeLocations().course(e.detail.orgUnitId)
 				},
 				bubbles: true,
 				composed: true
