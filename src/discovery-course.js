@@ -1,16 +1,24 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { Classes, Rels } from 'd2l-hypermedia-constants';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+
+import 'd2l-organization-hm-behavior/d2l-organization-hm-behavior.js';
+import 'd2l-colors/d2l-colors.js';
 
 import { IfrauMixin } from './mixins/ifrau-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
-import 'd2l-colors/d2l-colors.js';
+import { FetchMixin } from './mixins/fetch-mixin.js';
 import './components/course-action.js';
 import './components/course-summary.js';
 import './styles/discovery-styles.js';
 
-class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(PolymerElement))) {
+class DiscoveryCourse extends mixinBehaviors(
+	[D2L.PolymerBehaviors.Hypermedia.OrganizationHMBehavior],
+	FetchMixin(RouteLocationsMixin(LocalizeMixin(IfrauMixin(PolymerElement))))) {
 	static get template() {
+		/* global moment*/
 		return html `
 			<style include="discovery-styles">
 				:host {
@@ -109,24 +117,24 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			<div class="d2l-typography discovery-course-container">
 				<course-summary
 					class="discovery-course-summary"
-					course-image="[[courseImage]]"
-					course-category=[[courseCategory]]
-					course-title=[[courseTitle]]
-					course-description=[[courseDescription]]
-					course-duration=[[courseDuration]]
-					course-last-updated=[[courseLastUpdated]]
-					format=[[format]]
-					is-in-my-learning=[[isInMyLearning]]
-					is-on-my-list=[[isOnMyList]]>
+					course-image="[[_courseImage]]"
+					course-category=[[_courseCategory]]
+					course-title=[[_courseTitle]]
+					course-description=[[_courseDescription]]
+					course-duration=[[_courseDuration]]
+					course-last-updated=[[_courseLastUpdated]]
+					format=[[_format]]
+					is-in-my-learning=[[_isInMyLearning]]
+					is-on-my-list=[[_isOnMyList]]>
 				</course-summary>
 
 				<course-action
 					class="discovery-course-action"
-					course-code=[[courseCode]]
-					course-tags=[[courseTags]]
-					end-date=[[endDate]]
-					first-published=[[firstPublished]]
-					start-date=[[startDate]]>
+					course-code=[[_courseCode]]
+					course-tags=[[_courseTags]]
+					end-date=[[_endDate]]
+					first-published=[[_firstPublished]]
+					start-date=[[_startDate]]>
 				</course-action>
 			</div>
 		`;
@@ -137,26 +145,20 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 			route: Object,
 			routeData: Object,
 
-			visible: {
-				type: Boolean,
-				observer: '_visible'
-			},
-
-			searchQuery: String,
-
-			courseCategory: String,
-			courseCode: String,
-			courseDescription: String,
-			courseDuration: Number,
-			courseLastUpdated: String,
-			courseTags: Array,
-			courseTitle: String,
-			courseImage: String,
-			endDate: String,
-			firstPublished: String,
-			isInMyLearning: Boolean,
-			isOnMyList: Boolean,
-			startDate: String,
+			_courseCategory: String,
+			_courseCode: String,
+			_courseDescription: String,
+			_courseDuration: Number,
+			_courseImage: String,
+			_courseLastUpdated: String,
+			_courseTags: Array,
+			_courseTitle: String,
+			_endDate: String,
+			_firstPublished: String,
+			_format: String,
+			_isInMyLearning: Boolean,
+			_isOnMyList: Boolean,
+			_startDate: String,
 		};
 	}
 	ready() {
@@ -166,38 +168,67 @@ class DiscoveryCourse extends RouteLocationsMixin(LocalizeMixin(IfrauMixin(Polym
 		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
 	}
 	_routeChanged(route) {
-		route = route.detail.value || {};
-		this.route = route;
+		this.route = route.detail.value || {};
 	}
 	_routeDataChanged(routeData) {
-		routeData = routeData.detail.value || {};
-		this.routeData = routeData;
+		this.routeData = routeData.detail.value || {};
+		if (this.routeData.courseId) {
+			const parameters = { id: this.routeData.courseId };
+			this._getActionUrl('course', parameters)
+				.then(url => this._fetchEntity(url))
+				.then(this._handleCourseEntity.bind(this));
+		}
 	}
-	_visible() {
-		// data for the course summary
-		this.courseImage = 'https://s.brightspace.com/course-images/images/b53fc2ae-0de4-41da-85ff-875372daeacc/banner-narrow-high-density-min-size.jpg';
-		this.courseCategory = 'Financial Planning';
-		this.courseTitle = 'Financial Planning and you';
-		this.courseDescription = 'An overview of the ideas, methods, and institutions that permit human society to manage risks and foster enterprise.  Emphasis on financially-savvy leadership skills. Description of practices today and analysis of prospects for the future. Introduction to risk management and behavioral finance principles to understand the real-world functioning of securities, insurance, and banking industries.  The ultimate goal of this course is using such industries effectively and towards a better society.';
-		this.courseDuration = 45;
-		this.courseLastUpdated = 'April 27th, 2018';
-		this.format = 'Online';
-		this.isInMyLearning = false;
-		this.isOnMyList = false;
+	_handleCourseEntity(courseEntity) {
+		if (!courseEntity.properties) { return; }
 
-		// data for course action
-		this.courseCode = 'FIN101';
-		this.courseTags = [
-			'Boots',
-			'Bears',
-			'Beets',
-			'Battlestar Gallactica',
-			'Business Intelligence',
-			'Learning about Stuff',
-		];
-		this.endDate = 'Dec 1st, 2019';
-		this.firstPublished = 'Jan 1st, 2018';
-		this.startDate = 'Jan 1st, 2019';
+		//TODO: These properties still need to be added
+		// 	// data for the course summary
+		// 	this._courseCategory = '';
+		// 	this._courseDuration = null;
+		// 	this._courseLastUpdated = '';
+		// 	this._format = '';
+
+		// 	this._isInMyLearning = false;
+		// 	this._isOnMyList = false;
+
+		// 	// data for course action
+		// 	this._courseTags = [];
+		// 	this._firstPublished = '';
+		this._courseDescription = courseEntity.properties.description;
+
+		const organizationUrl = courseEntity.hasLink(Rels.organization)
+			&& courseEntity.getLinkByRel(Rels.organization).href;
+		if (organizationUrl) {
+			this._fetchEntity(organizationUrl)
+				.then(this._handleOrganizationEntity.bind(this));
+		}
+	}
+	_handleOrganizationEntity(organizationEntity) {
+		if (!organizationEntity.properties) { return; }
+
+		const { code, endDate, name, startDate } = organizationEntity.properties;
+		const dateFormat = 'MMM Do, YYYY';
+		moment.locale(this.language);
+
+		this._courseCode = code;
+		this._courseTitle = name; // TODO: this can also be fetched from BFF's course entity
+		this._endDate = moment.utc(endDate).format(dateFormat); // TODO: Date can be empty, we'll need a fallback langterm?
+		this._startDate = moment.utc(startDate).format(dateFormat);
+
+		if (organizationEntity.hasSubEntityByClass(Classes.courseImage.courseImage)) {
+			const imageEntity = organizationEntity.getSubEntityByClass(Classes.courseImage.courseImage);
+			// TODO: Do we need to do something similar to this?
+			// https://github.com/Brightspace/course-image/blob/master/d2l-course-image.js#L147
+			if (imageEntity.href) {
+				this._fetchEntity(imageEntity.href)
+					.then(function(hydratedImageEntity) {
+						this._courseImage = this.getDefaultImageLink(hydratedImageEntity, 'banner');
+					}.bind(this));
+			}
+		}
+
+		return Promise.resolve();
 	}
 
 	_navigateToHome() {
