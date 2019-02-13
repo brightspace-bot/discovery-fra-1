@@ -41,11 +41,11 @@ class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin
 				.discovery-course-action-description-list-gutter {
 					flex-grow: 1;
 					max-width: 1.5rem;
-					min-width: 0.5rem;
+					min-width: 0.6rem;
 				}
 
 				.discovery-course-action-description-list-gutter-multiline {
-					width: 0.5rem;
+					width: 0.6rem;
 				}
 
 				.discovery-course-action-description-list-term {
