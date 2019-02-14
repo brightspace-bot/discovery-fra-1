@@ -7,6 +7,7 @@ window.D2L.Discovery = window.D2L.Discovery || {};
 */
 window.D2L.Discovery.LangEn = {
 	"discover": "Discover",
+	"discovery": "Discovery",
 	"courseDescription": "Course Description",
 	"search": "Search",
 	"search.placeholder": "Search...",
