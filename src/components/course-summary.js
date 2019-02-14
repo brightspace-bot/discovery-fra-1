@@ -213,7 +213,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], LocalizeMixi
 				<div id="discovery-header-image-container" class="discovery-header-image-container"></div>
 				<div id="discovery-course-summary-card" class="discovery-course-summary-card">
 					<div class="discovery-course-summary-breadcrumbs">
-						<d2l-link href="javascript:void(0)" on-click="_navigateToHome">[[localize('discover')]]</d2l-link>
+						<d2l-link href="javascript:void(0)" on-click="_navigateToHome">[[localize('discovery')]]</d2l-link>
 						<d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
 						<d2l-link href="javascript:void(0)" on-click="_navigateToSearch">
 							<div value="[[courseCategory]]">[[courseCategory]]</div>
@@ -231,7 +231,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], LocalizeMixi
 							<div class="d2l-body-standard">[[localize('durationMinutes', 'minutes', courseDuration)]]</div>
 						</div>
 						<div class="discovery-course-summary-info-property">
-							<d2l-icon icon="d2l-tier1:locations"></d2l-icon>
+							<d2l-icon icon="d2l-tier1:my-computer"></d2l-icon>
 							<div class="d2l-body-standard">[[format]]</div>
 						</div>
 						<div class="discovery-course-summary-info-property">
