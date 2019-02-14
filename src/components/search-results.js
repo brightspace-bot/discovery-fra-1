@@ -65,11 +65,12 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				}
 				.discovery-search-results-page-number-container {
 					margin: 15px;
-					text-align: center;
 					align-items: center;
+					display:flex;
+					justify-content:center;
 				}
 				.discovery-search-results-page-count {
-					width: unset;
+					width: auto;
 				}
 			</style>
 			<div>
@@ -98,22 +99,20 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							on-click="_toPreviousPage"
 							on-keydown="_toPreviousPage">
 						</d2l-button-icon>
-						<span>
-							<d2l-input-text
-								class="discovery-search-results-page-count"
-								type="number"
-								aria-label="[[localize('pageSelection', 'pageCurrent', _pageCurrent, 'pageTotal', _pageTotal)]]"
-								aria-invalid="[[localize('pageSelectionInvalid', 'pageTotal', _pageTotal)]]"
-								name="myInput"
-								value="[[_pageCurrent]]"
-								min="1"
-								max="[[_pageTotal]]"
-								size=[[_countDigits(_pageTotal)]]
-								on-keydown="_toPage"
-								on-blur="_inputPageCounterOnBlur">
-							</d2l-input-text>
-							/ [[_pageTotal]]
-						</span>
+						<d2l-input-text
+							class="discovery-search-results-page-count"
+							type="number"
+							aria-label="[[localize('pageSelection', 'pageCurrent', _pageCurrent, 'pageTotal', _pageTotal)]]"
+							aria-invalid="[[localize('pageSelectionInvalid', 'pageTotal', _pageTotal)]]"
+							name="myInput"
+							value="[[_pageCurrent]]"
+							min="1"
+							max="[[_pageTotal]]"
+							size=[[_countDigits(_pageTotal)]]
+							on-keydown="_toPage"
+							on-blur="_inputPageCounterOnBlur">
+						</d2l-input-text>
+						/ [[_pageTotal]]
 						<d2l-button-icon
 							icon="d2l-tier1:chevron-right"
 							role="button"
