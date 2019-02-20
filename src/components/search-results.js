@@ -65,12 +65,13 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				}
 				.discovery-search-results-page-number-container {
 					margin: 15px;
+					display: flex;
 					align-items: center;
-					display:flex;
 					justify-content:center;
 				}
 				.discovery-search-results-page-count {
 					width: auto;
+					max-width: 4rem;
 				}
 			</style>
 			<div>
@@ -93,7 +94,6 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					<div class="discovery-search-results-page-number-container">
 						<d2l-button-icon
 							icon="d2l-tier1:chevron-left"
-							role="button"
 							aria-label="[[localize('pagePrevious')]]"
 							disabled$="[[_previousPageDisabled(_pageCurrent)]]"
 							on-click="_toPreviousPage"
@@ -112,10 +112,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							on-keydown="_toPage"
 							on-blur="_inputPageCounterOnBlur">
 						</d2l-input-text>
+						<div>
 						/ [[_pageTotal]]
+						</div>
 						<d2l-button-icon
 							icon="d2l-tier1:chevron-right"
-							role="button"
 							aria-label="[[localize('pageNext')]]"
 							disabled$="[[_nextPageDisabled(_pageCurrent, _pageTotal)]]"
 							on-click="_toNextPage"
