@@ -6,7 +6,6 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-organization-hm-behavior/d2l-organization-hm-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 
-import { IfrauMixin } from './mixins/ifrau-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 import { FetchMixin } from './mixins/fetch-mixin.js';
@@ -17,7 +16,7 @@ import './styles/discovery-styles.js';
 
 class DiscoveryCourse extends mixinBehaviors(
 	[D2L.PolymerBehaviors.Hypermedia.OrganizationHMBehavior],
-	FetchMixin(RouteLocationsMixin(LocalizeMixin(IfrauMixin(PolymerElement))))) {
+	FetchMixin(RouteLocationsMixin(LocalizeMixin(PolymerElement)))) {
 	static get template() {
 		/* global moment*/
 		return html `
@@ -125,8 +124,9 @@ class DiscoveryCourse extends mixinBehaviors(
 					course-duration=[[_courseDuration]]
 					course-last-updated=[[_courseLastUpdated]]
 					format=[[_format]]
-					is-in-my-learning=[[_isInMyLearning]]
-					is-on-my-list=[[_isOnMyList]]>
+					action-enroll=[[_actionEnroll]]
+					organization-homepage=[[_organizationHomepage]]
+					organization-href=[[_organizationHref]]>
 				</course-summary>
 
 				<course-action
@@ -144,6 +144,10 @@ class DiscoveryCourse extends mixinBehaviors(
 			route: Object,
 			routeData: Object,
 
+			_actionEnroll: {
+				type: String,
+				value: ''
+			},
 			_courseCategory: String,
 			_courseCode: String,
 			_courseDescription: String,
@@ -155,10 +159,10 @@ class DiscoveryCourse extends mixinBehaviors(
 			_endDate: String,
 			_firstPublished: String,
 			_format: String,
-			_isInMyLearning: Boolean,
-			_isOnMyList: Boolean,
 			_startDate: String,
-			_courseDescriptionItems: Array
+			_courseDescriptionItems: Array,
+			_organizationHomepage: String,
+			_organizationHref: String,
 		};
 	}
 	ready() {
@@ -184,25 +188,32 @@ class DiscoveryCourse extends mixinBehaviors(
 		}
 	}
 	_handleCourseEntity(courseEntity) {
-		if (!courseEntity.properties) { return; }
+		if (!courseEntity) return Promise.resolve();
 
-		//TODO: These properties still need to be added
-		// 	// data for the course summary
-		// 	this._courseCategory = '';
-		// 	this._courseDuration = null;
-		// 	this._courseLastUpdated = '';
-		// 	this._format = '';
+		if (courseEntity.hasAction('assign') && !courseEntity.hasClass('enroll')) {
+			this._actionEnroll = courseEntity.getAction('assign');
+		}
 
-		// 	this._isInMyLearning = false;
-		// 	this._isOnMyList = false;
+		if (courseEntity.properties) {
+			//TODO: These properties still need to be added
+			// 	// data for the course summary
+			// 	this._courseCategory = '';
+			// 	this._courseDuration = null;
+			// 	this._courseLastUpdated = '';
+			// 	this._format = '';
 
-		// 	// data for course action
-		// 	this._courseTags = [];
-		// 	this._firstPublished = '';
-		this._courseDescription = courseEntity.properties.description;
+			// 	this._isInMyLearning = false;
+			// 	this._isOnMyList = false;
+
+			// 	// data for course action
+			// 	this._courseTags = [];
+			// 	this._firstPublished = '';
+			this._courseDescription = courseEntity.properties.description;
+		}
 
 		const organizationUrl = courseEntity.hasLink(Rels.organization)
 			&& courseEntity.getLinkByRel(Rels.organization).href;
+		this._organizationHref = organizationUrl;
 		if (organizationUrl) {
 			return this._fetchEntity(organizationUrl)
 				.then(this._handleOrganizationEntity.bind(this));
@@ -211,22 +222,25 @@ class DiscoveryCourse extends mixinBehaviors(
 		return Promise.resolve();
 	}
 	_handleOrganizationEntity(organizationEntity) {
-		if (!organizationEntity.properties) { return; }
+		if (organizationEntity.properties) {
+			const { code, endDate, name, startDate } = organizationEntity.properties;
+			this._courseCode = code;
+			this._courseTitle = name; // TODO: this can also be fetched from BFF's course entity
 
-		const { code, endDate, name, startDate } = organizationEntity.properties;
-		this._courseCode = code;
-		this._courseTitle = name; // TODO: this can also be fetched from BFF's course entity
+			const dateFormat = 'MMM Do, YYYY';
+			moment.locale(this.language);
+			if (startDate) {
+				this._startDate = moment.utc(startDate).format(dateFormat);
+			}
+			if (endDate) {
+				this._endDate = moment.utc(endDate).format(dateFormat);
+			}
 
-		const dateFormat = 'MMM Do, YYYY';
-		moment.locale(this.language);
-		if (startDate) {
-			this._startDate = moment.utc(startDate).format(dateFormat);
+			this._processCourseDescriptionItems();
 		}
-		if (endDate) {
-			this._endDate = moment.utc(endDate).format(dateFormat);
-		}
 
-		this._processCourseDescriptionItems();
+		this._organizationHomepage = organizationEntity.hasLink(Rels.organizationHomepage)
+			&& organizationEntity.getLinkByRel(Rels.organizationHomepage).href;
 
 		if (organizationEntity.hasSubEntityByClass(Classes.courseImage.courseImage)) {
 			const imageEntity = organizationEntity.getSubEntityByClass(Classes.courseImage.courseImage);
@@ -271,6 +285,8 @@ class DiscoveryCourse extends mixinBehaviors(
 		this._courseDescriptionItems = courseDescriptionItemsArray;
 	}
 	_reset() {
+		this._actionEnroll = '';
+		this._organizationHomepage = '';
 		this._courseCategory = '';
 		this._courseCode = '';
 		this._courseDescription = '';
@@ -282,8 +298,6 @@ class DiscoveryCourse extends mixinBehaviors(
 		this._endDate =  '';
 		this._firstPublished =  '';
 		this._format =  '';
-		this._isInMyLearning =  false;
-		this._isOnMyList =  false;
 		this._startDate =  '';
 		this._courseDescriptionItems = [];
 	}

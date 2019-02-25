@@ -33,9 +33,11 @@ window.D2L.Discovery.LangEn = {
 	"addedToYourList": "Added to your list",
 	"viewMyList": "View my list",
 	"addedToMyLearningHeader": "Successfully Added to My Learning",
-	"addedToMyLearningMessage": "You've successfully enrolled in the course. The course has been added to your My Learning widget.",
+	"enrollmentMessage.success": "You can find the course in the My Courses widget.",
+	"enrollmentMessage.fail": "Unable to enroll at this time, please try again later.",
 	"welcomeToTheCourse": "Welcome to the Course!",
 	"startLearning": "Start Learning",
 	"continueBrowsing": "Continue Browsing",
-	"unenroll": "Unenroll"
+	"unenroll": "Unenroll",
+	"openCourse": "Open Course"
 };
