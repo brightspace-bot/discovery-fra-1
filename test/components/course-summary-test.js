@@ -167,7 +167,7 @@ describe('course-summary', () => {
 				const dialog = component.$$('#discovery-course-summary-enroll-dialog');
 				expect(dialog.opened).to.equal(true);
 				const dialogMessage = component.$$('.discovery-course-summary-dialog-content-container').innerHTML;
-				expect(dialogMessage).to.include('You can find the course in the My Courses widget.');
+				expect(dialogMessage).to.include('will soon be available in the My Courses widget.');
 
 				// Open Course button does exist and is displayed
 				const openCourseButton = component.$$('#discovery-course-summary-open-course');
