@@ -17,7 +17,6 @@ import 'fastdom/fastdom.js';
 import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
-import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 
 class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement)))) {
 	static get template() {
@@ -105,11 +104,11 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 				}
 
 				.discovery-course-summary-dialog-header-container {
-					display: flex;
-					width: 100%;
-					justify-content: space-between;
 					align-items: center;
+					display: flex;
+					justify-content: space-between;
 					margin-bottom: 0.5rem;
+					width: 100%;
 				}
 				.discovery-course-summary-dialog-heading-text {
 					@apply --d2l-heading-3;
