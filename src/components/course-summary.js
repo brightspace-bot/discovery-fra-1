@@ -7,6 +7,7 @@ import 'd2l-colors/d2l-colors.js';
 import 'd2l-breadcrumbs/d2l-breadcrumb';
 import 'd2l-breadcrumbs/d2l-breadcrumbs';
 import 'd2l-button/d2l-button.js';
+import 'd2l-button/d2l-button-icon.js';
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
@@ -84,29 +85,35 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 				.discovery-course-summary-dialog {
 					border-radius: 5px;
 					overflow: auto;
-					width: 45%;
 				}
-
 				.discovery-course-summary-dialog-container {
 					display: flex;
 					flex-direction: column;
+					align-items: baseline;
+				}
+
+				.discovery-course-summary-dialog-container d2l-button {
+					display: flex;
+					flex-direction: column;
+					align-items: baseline;
+				}
+
+				.discovery-course-summary-dialog-content-container {
+					margin-right: 1rem;
+					margin-bottom: 1.5rem;
 				}
 
 				.discovery-course-summary-dialog-header-container {
+					align-items: center;
+					display: flex;
+					justify-content: space-between;
 					margin-bottom: 0.5rem;
-					text-align: right;
+					width: 100%;
 				}
-
-				.discovery-course-summary-dialog-close {
-					cursor: pointer;
-					float: right;
-					font-size: 1.4rem;
+				.discovery-course-summary-dialog-heading-text {
+					@apply --d2l-heading-3;
+					margin: 0;
 				}
-
-				.discovery-course-summary-dialog-content-container{
-					margin-right: 1rem;
-				}
-
 				.discovery-course-summary-d2l-heading-1 {
 					margin-bottom: 0.7rem !important;
 					margin-top: 0.9rem !important;
@@ -251,11 +258,18 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 			<paper-dialog class="discovery-course-summary-dialog d2l-typography" id="discovery-course-summary-enroll-dialog" always-on-top with-backdrop>
 				<div class="discovery-course-summary-dialog-container">
 					<div class="discovery-course-summary-dialog-header-container">
-						<d2l-icon class="discovery-course-summary-dialog-close" on-click="_closeDialog" icon="d2l-tier1:close-small"></d2l-icon>
+						<h3 class="discovery-course-summary-dialog-heading-text">[[_enrollmentDialogHeader]]</h3>
+						<d2l-button-icon on-click="_closeDialog" icon="d2l-tier1:close-small" text$="[[localize('close')]]"></d2l-button-icon>
 					</div>
 					<div class="discovery-course-summary-dialog-content-container">
 						<div class="d2l-body-standard">[[_enrollmentDialogMessage]]</div>
 					</div>
+					<d2l-button
+						on-click="_closeDialog"
+						primary
+						autofocus>
+						[[localize('OK')]]
+					</d2l-button>
 				</div>
 			</paper-dialog>
 		`;
@@ -273,6 +287,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 			actionEnroll: Object,
 			organizationHomepage: String,
 			organizationHref: String,
+			_enrollmentDialogHeader: String,
 			_enrollmentDialogMessage: String
 		};
 	}
@@ -370,13 +385,15 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 			return this._fetchEntity(this.actionEnroll.href, this.actionEnroll.method)
 				.then(() => {
 					this.actionEnroll = null;
-					this._enrollmentDialogMessage = this.localize('enrollmentMessage.success');
+					this._enrollmentDialogHeader = this.localize('enrollmentHeaderSuccess');
+					this._enrollmentDialogMessage = this.localize('enrollmentMessageSuccess', 'title', this.courseTitle);
 				})
 				.catch(() => {
-					this._enrollmentDialogMessage = this.localize('enrollmentMessage.fail');
+					this._enrollmentDialogHeader = this.localize('enrollmentHeaderFail');
+					this._enrollmentDialogMessage = this.localize('enrollmentMessageFail');
 				})
-				.then(() => {
-					var enrollmentDialog = this.shadowRoot.querySelector('#discovery-course-summary-enroll-dialog');
+				.finally(() => {
+					const enrollmentDialog = this.shadowRoot.querySelector('#discovery-course-summary-enroll-dialog');
 					enrollmentDialog.opened = true;
 				});
 		}
