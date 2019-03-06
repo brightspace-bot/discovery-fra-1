@@ -208,7 +208,6 @@ class DiscoveryCourse extends mixinBehaviors(
 			// 	// data for course action
 			// 	this._courseTags = [];
 			// 	this._firstPublished = '';
-			this._courseDescription = courseEntity.properties.description;
 		}
 
 		const organizationUrl = courseEntity.hasLink(Rels.organization)
@@ -223,9 +222,10 @@ class DiscoveryCourse extends mixinBehaviors(
 	}
 	_handleOrganizationEntity(organizationEntity) {
 		if (organizationEntity.properties) {
-			const { code, endDate, name, startDate } = organizationEntity.properties;
+			const { code, endDate, name, startDate, description } = organizationEntity.properties;
 			this._courseCode = code;
-			this._courseTitle = name; // TODO: this can also be fetched from BFF's course entity
+			this._courseTitle = name;
+			this._courseDescription = description;
 
 			const dateFormat = 'MMM Do, YYYY';
 			moment.locale(this.language);
