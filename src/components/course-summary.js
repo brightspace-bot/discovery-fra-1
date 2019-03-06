@@ -2,6 +2,8 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { IronResizableBehavior } from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import { Rels } from 'd2l-hypermedia-constants';
+import createDOMPurify from 'dompurify/dist/purify.es.js';
+const DOMPurify = createDOMPurify(window);
 import '@polymer/paper-dialog/paper-dialog.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-breadcrumbs/d2l-breadcrumb';
@@ -251,7 +253,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 
 				<div class="discovery-course-summary-description">
 					<h2 class="d2l-heading-2 discovery-course-summary-d2l-heading-2">[[localize('courseDescription')]]</h2>
-					<div class="d2l-body-compact discovery-course-summary-text-stuff">[[courseDescription]]</div>
+					<div id="discovery-course-summary-descritption-text" class="d2l-body-compact discovery-course-summary-text-stuff"></div>
 				</div>
 			</div>
 
@@ -279,7 +281,10 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 		return {
 			courseCategory: String,
 			courseTitle: String,
-			courseDescription: String,
+			courseDescription: {
+				type: String,
+				observer: '_onDescriptionChange'
+			},
 			courseDuration: Number,
 			courseLastUpdated: String,
 			courseImage: String,
@@ -407,6 +412,14 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 						&& organizationEntity.getLinkByRel(Rels.organizationHomepage).href;
 				});
 		}
+	}
+
+	_onDescriptionChange(description) {
+		const descriptionElement = this.shadowRoot.querySelector('#discovery-course-summary-descritption-text');
+
+		fastdom.mutate(() => {
+			descriptionElement.innerHTML = DOMPurify.sanitize(description);
+		});
 	}
 }
 

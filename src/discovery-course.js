@@ -9,7 +9,6 @@ import 'd2l-colors/d2l-colors.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 import { FetchMixin } from './mixins/fetch-mixin.js';
-import { sanitizeHtml } from 'sanitize-html/dist/index.js';
 
 import './components/course-action.js';
 import './components/course-summary.js';
@@ -227,7 +226,7 @@ class DiscoveryCourse extends mixinBehaviors(
 			const { code, endDate, name, startDate, description } = organizationEntity.properties;
 			this._courseCode = code;
 			this._courseTitle = name;
-			this._courseDescription = sanitizeHtml(description);
+			this._courseDescription = description;
 
 			const dateFormat = 'MMM Do, YYYY';
 			moment.locale(this.language);
