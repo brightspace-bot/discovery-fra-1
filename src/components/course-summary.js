@@ -74,9 +74,13 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 
 				.discovery-course-summary-buttons d2l-button {
 					margin-right: 0.6rem;
+					overflow: hidden;
 					--d2l-button: {
 						height: 100%;
 						white-space: normal;
+
+						word-wrap: break-word; /* Fallback for IE/Edge */
+						overflow-wrap: break-word; /* replaces 'word-wrap' in Firefox, Chrome, Safari */
 					}
 				}
 
