@@ -11,13 +11,13 @@
     "test": "wct test --skip-plugin sauce --npm",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "test:polymer:sauce": "wct test --skip-plugin local --npm",
-    "build": "gulp build && polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled && npm run frau:build-config",
-    "start": "npm run build && npm run frau:resolve",
+    "build": "gulp build && polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled",
+    "start": "npm run build && npm run frau:build-config && npm run frau:resolve",
     "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
     "frau:resolve": "frau-local-appresolver --hostname $(node scripts/getHostname.js)",
     "frau:publish": "frau-publisher",
-    "frau:release": "frau-publisher --version $(node scripts/package-version.js)"
+    "frau:release": "npm run frau:publish"
   },
   "dependencies": {
     "@polymer/app-route": "^3.0.0-pre.15",
@@ -98,7 +98,8 @@
         "key": "AKIAIX4OHXOJHJAHALOQ",
         "secretVar": "FRAU_PUBLISHER_SECRET"
       },
-      "devTagVar": "CIRCLE_SHA1"
+      "devTagVar": "DEV_VER",
+      "versionVar": "PACKAGE_VER"
     }
   }
 }
