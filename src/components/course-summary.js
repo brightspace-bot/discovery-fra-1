@@ -90,8 +90,8 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 
 				.discovery-course-summary-dialog {
 					border-radius: 5px;
-					top: 50px;
 					overflow: auto;
+					top: 50px;
 				}
 				.discovery-course-summary-dialog-container {
 					display: flex;
