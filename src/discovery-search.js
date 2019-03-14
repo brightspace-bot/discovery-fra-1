@@ -221,7 +221,6 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			this._searchActionHref = undefined;
 			return;
 		}
-		searchQuery = decodeURIComponent(searchQuery);
 		const parameters = {
 			q: searchQuery,
 			page: page
