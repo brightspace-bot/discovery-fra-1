@@ -254,7 +254,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 
 				<div class="discovery-course-summary-description">
 					<h2 class="d2l-heading-2 discovery-course-summary-d2l-heading-2">[[localize('courseDescription')]]</h2>
-					<div id="discovery-course-summary-descritption-text" class="d2l-body-compact"></div>
+					<div id="discovery-course-summary-description-text" class="d2l-body-compact"></div>
 				</div>
 			</div>
 
@@ -426,7 +426,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 	}
 
 	_onDescriptionChange(description) {
-		const descriptionElement = this.shadowRoot.querySelector('#discovery-course-summary-descritption-text');
+		const descriptionElement = this.shadowRoot.querySelector('#discovery-course-summary-description-text');
 
 		fastdom.mutate(() => {
 			descriptionElement.innerHTML = DOMPurify.sanitize(description);
