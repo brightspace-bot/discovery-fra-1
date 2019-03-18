@@ -10,7 +10,7 @@ window.D2L.Discovery.LangJa = {
 	"addToMyList": "マイリストに追加",
 	"addedToMyLearningHeader": "マイラーニングに正常に追加されました",
 	"addedToYourList": "リストに追加されました",
-	"backToDiscovery": "検出に戻る",
+	"backToDiscover": "検出に戻る",
 	"continueBrowsing": "参照の続行",
 	"courseCode": "コースコード",
 	"courseDescription": "コースの説明",

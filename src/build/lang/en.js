@@ -17,7 +17,7 @@ window.D2L.Discovery.LangEn = {
 	"pageSelectionInvalid": "Value must be between 1 and {pageTotal}",
 	"pagePrevious": "To previous page",
 	"pageNext": "To next page",
-	"backToDiscovery": "Back to Discovery",
+	"backToDiscover": "Back to Discover",
 	"durationMinutes": "{minutes} minutes",
 	"lastUpdatedDate": "Last Updated {date}",
 	"courseInfo": "Course Info",

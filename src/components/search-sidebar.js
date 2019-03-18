@@ -27,7 +27,7 @@ class SearchSidebar extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 				<div class="discovery-search-sidebar-container">
 					<div class="discovery-search-sidebar-nav-container">
 						<d2l-breadcrumbs compact>
-							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('backToDiscovery')]]"></d2l-breadcrumb>
+							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('backToDiscover')]]"></d2l-breadcrumb>
 						</d2l-breadcrumbs>
 					</div>
 				</div>

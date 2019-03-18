@@ -10,7 +10,7 @@ window.D2L.Discovery.LangAr = {
 	"addToMyList": "الإضافة إلى لائحتي",
 	"addedToMyLearningHeader": "تمت الإضافة بنجاح إلى تعلّمي",
 	"addedToYourList": "تمت الإضافة إلى لائحتك",
-	"backToDiscovery": "العودة إلى الاكتشاف",
+	"backToDiscover": "العودة إلى الاكتشاف",
 	"continueBrowsing": "متابعة الاستعراض",
 	"courseCode": "رمز المقرر التعليمي",
 	"courseDescription": "وصف المقرر التعليمي",
