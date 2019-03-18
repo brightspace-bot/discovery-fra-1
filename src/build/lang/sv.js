@@ -10,7 +10,7 @@ window.D2L.Discovery.LangSv = {
 	"addToMyList": "Lägg till i min lista",
 	"addedToMyLearningHeader": "Har lagts till i My Learning (mina kurser)",
 	"addedToYourList": "Tillagd i din lista",
-	"backToDiscovery": "Tillbaka till Discovery",
+	"backToDiscover": "Tillbaka till Discovery",
 	"continueBrowsing": "Fortsätt att bläddra",
 	"courseCode": "Kurskod",
 	"courseDescription": "Kursbeskrivning",

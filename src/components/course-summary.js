@@ -203,7 +203,7 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 				<div id="discovery-course-summary-card" class="discovery-course-summary-card">
 					<div class="discovery-course-summary-breadcrumbs">
 						<d2l-breadcrumbs class="discovery-search-header-breadcrumb">
-							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('discovery')]]"></d2l-breadcrumb>
+							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('discover')]]"></d2l-breadcrumb>
 						</d2l-breadcrumbs>
 					</div>
 

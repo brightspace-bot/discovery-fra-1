@@ -10,7 +10,7 @@ window.D2L.Discovery.LangNl = {
 	"addToMyList": "Toevoegen aan mijn lijst",
 	"addedToMyLearningHeader": "Toegevoegd aan Mijn leerproces",
 	"addedToYourList": "Toegevoegd aan je lijst",
-	"backToDiscovery": "Terug naar Discovery",
+	"backToDiscover": "Terug naar Discovery",
 	"continueBrowsing": "Doorgaan met bladeren",
 	"courseCode": "Cursuscode",
 	"courseDescription": "Cursusbeschrijving",

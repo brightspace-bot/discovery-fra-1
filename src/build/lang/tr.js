@@ -10,7 +10,7 @@ window.D2L.Discovery.LangTr = {
 	"addToMyList": "Listeme Ekle",
 	"addedToMyLearningHeader": "My Learning'e Başarıyla Eklendi",
 	"addedToYourList": "Listenize eklendi",
-	"backToDiscovery": "Keşif Sayfasına Dön",
+	"backToDiscover": "Keşif Sayfasına Dön",
 	"continueBrowsing": "Aramaya Devam Et",
 	"courseCode": "Ders Kodu",
 	"courseDescription": "Ders Açıklaması",

@@ -10,7 +10,7 @@ window.D2L.Discovery.LangZhtw = {
 	"addToMyList": "新增至我的清單",
 	"addedToMyLearningHeader": "已成功新增至「我的學習」(My Learning)",
 	"addedToYourList": "已新增至您的清單",
-	"backToDiscovery": "返回探索",
+	"backToDiscover": "返回探索",
 	"continueBrowsing": "繼續瀏覽",
 	"courseCode": "課程代碼",
 	"courseDescription": "課程說明",

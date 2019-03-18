@@ -10,7 +10,7 @@ window.D2L.Discovery.LangZh = {
 	"addToMyList": "添加至列表",
 	"addedToMyLearningHeader": "Successfully Added to My Learning",
 	"addedToYourList": "Added to your list",
-	"backToDiscovery": "Back to Discovery",
+	"backToDiscover": "Back to Discovery",
 	"continueBrowsing": "Continue Browsing",
 	"courseCode": "课程代码",
 	"courseDescription": "课程描述",

@@ -10,7 +10,7 @@ window.D2L.Discovery.LangFr = {
 	"addToMyList": "Ajouter à ma liste",
 	"addedToMyLearningHeader": "Ajouté avec succès à Mes apprentissages",
 	"addedToYourList": "Ajouté à votre liste",
-	"backToDiscovery": "Retour à Discovery",
+	"backToDiscover": "Retour à Discovery",
 	"continueBrowsing": "Poursuivre la navigation",
 	"courseCode": "Code de cours",
 	"courseDescription": "Description du cours",
