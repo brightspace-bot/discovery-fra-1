@@ -7,6 +7,7 @@ window.D2L.Discovery = window.D2L.Discovery || {};
 */
 window.D2L.Discovery.LangEn = {
 	"discover": "Discover",
+	"discoverHomeMessage": "This is the Discover home page.",
 	"discovery": "Discovery",
 	"courseDescription": "Course Description",
 	"search": "Search",
@@ -45,5 +46,7 @@ window.D2L.Discovery.LangEn = {
 	"startLearning": "Start Learning",
 	"continueBrowsing": "Continue Browsing",
 	"unenroll": "Unenroll",
-	"openCourse": "Open Course"
+	"openCourse": "Open Course",
+	"navigateHome": "Head back to home.",
+	"404message": " Oops you hit a 404."
 };
