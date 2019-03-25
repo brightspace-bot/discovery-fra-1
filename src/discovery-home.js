@@ -39,8 +39,8 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 				<div class="discovery-home-main">
 					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
 					<span>[[localize('discoverHomeMessage')]]</span>
+					<discovery-footer></discovery-footer>
 				</div>
-				<discovery-footer></discovery-footer>
 			</div>
 		`;
 	}
