@@ -29,7 +29,7 @@
    "lastUpdatedDate" : "上次更新時間：{date}",
    "navigateHome" : "返回首頁。",
    "onMyList" : "在我的清單上",
-   "openCourse" : "Open Course",
+   "openCourse" : "開啟課程",
    "pageNext" : "前往下一頁",
    "pagePrevious" : "前往上一頁",
    "pageSelection" : "在第 {pageCurrent} 頁，共 {pageTotal} 頁。請輸入頁面號碼以前往該頁面",
