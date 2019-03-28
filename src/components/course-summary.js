@@ -1,6 +1,4 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
-import { IronResizableBehavior } from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import { Rels } from 'd2l-hypermedia-constants';
 import createDOMPurify from 'dompurify/dist/purify.es.js';
 const DOMPurify = createDOMPurify(window);
@@ -21,7 +19,7 @@ import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 
-class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement)))) {
+class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
 		return html `
 			<style include="d2l-typography">
@@ -148,16 +146,6 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 					margin-top: 0 !important;
 				}
 
-				.discovery-header-image-container {
-					background-position: center center;
-					background-size: cover;
-					left: 0;
-					margin-top: -90px;
-					position: absolute;
-					width: 100%;
-					z-index: -10;
-				}
-
 				.discovery-course-summary-breadcrumbs {
 					font-size: 14px;
 					margin: -12px 0 -6px;
@@ -205,18 +193,10 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 						margin-right: 0;
 						width: 100%;
 					}
-
-					.discovery-header-image-container {
-						margin: 0;
-						position: static;
-						z-index: auto;
-					}
 				}
 			</style>
 
 			<div class="d2l-typography discovery-course-summary-container">
-				<img id="discovery-header-image" on-load="_headerImageLoaded" src="[[courseImage]]" hidden/>
-				<div id="discovery-header-image-container" class="discovery-header-image-container"></div>
 				<div id="discovery-course-summary-card" class="discovery-course-summary-card">
 					<div class="discovery-course-summary-breadcrumbs">
 						<d2l-breadcrumbs class="discovery-search-header-breadcrumb">
@@ -324,7 +304,6 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 			},
 			courseDuration: Number,
 			courseLastUpdated: String,
-			courseImage: String,
 			format: String,
 			actionEnroll: Object,
 			organizationHomepage: String,
@@ -358,43 +337,6 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 
 	connectedCallback() {
 		super.connectedCallback();
-		this.addEventListener('iron-resize', this._onIronResize.bind(this));
-	}
-
-	_onIronResize() {
-		const headerImageContainer = this.shadowRoot.querySelector('#discovery-header-image-container');
-		const courseSummaryCard = this.shadowRoot.querySelector('#discovery-course-summary-card');
-		const courseSummaryBottomContainer = this.shadowRoot.querySelector('#discovery-course-summary-bottom-container');
-
-		if (headerImageContainer && courseSummaryCard && courseSummaryCard) {
-			if (window.innerWidth < 420) {
-				headerImageContainer.style.height = '150px';
-			} else {
-				const resHeight = courseSummaryCard.offsetHeight + courseSummaryBottomContainer.offsetHeight * (4 / 6) + 90;
-				headerImageContainer.style.height = `${resHeight}px`;
-			}
-		}
-	}
-
-	_clearHeaderImage() {
-		const headerImageContainer = this.shadowRoot.querySelector('#discovery-header-image-container');
-		if (headerImageContainer && headerImageContainer.style['background-image'] !== undefined) {
-			headerImageContainer.style['background-image'] = '';
-		}
-	}
-
-	_headerImageLoaded() {
-		const headerImageContainer = this.shadowRoot.querySelector('#discovery-header-image-container');
-		if (headerImageContainer && headerImageContainer.style['background-image'] !== undefined && this.courseImage) {
-			headerImageContainer.style['background-image'] = `url('${this.courseImage}')`;
-			this._onIronResize();
-		}
-		const imageElement = this.shadowRoot.querySelector('#discovery-header-image');
-		if (imageElement) {
-			fastdom.mutate(() => {
-				imageElement.parentNode.removeChild(imageElement);
-			});
-		}
 	}
 
 	_closeDialog() {
@@ -504,6 +446,13 @@ class CourseSummary extends mixinBehaviors([IronResizableBehavior], FetchMixin(L
 
 	_showEndDateAlertComputed(endDateIsoFormat) {
 		return endDateIsoFormat ? moment().isAfter(moment(endDateIsoFormat)) : false;
+	}
+
+	_getImageAnchorHeight() {
+		const courseSummaryCard = this.shadowRoot.querySelector('#discovery-course-summary-card');
+		const courseSummaryBottomContainer = this.shadowRoot.querySelector('#discovery-course-summary-bottom-container');
+		return courseSummaryCard && courseSummaryBottomContainer ?
+			courseSummaryCard.offsetHeight + courseSummaryBottomContainer.offsetHeight * (4 / 6) : 0;
 	}
 }
 
