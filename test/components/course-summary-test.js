@@ -82,7 +82,6 @@ describe('course-summary', () => {
 	});
 
 	describe('property tests', ()=> {
-		const testCourseImageLink = 'http://google.ca/1234.jpg';
 		const testTitle = 'test course title';
 		const testDescription = 'test description';
 		const testDuration = 123412341234123412341234;
@@ -91,7 +90,6 @@ describe('course-summary', () => {
 
 		beforeEach(done => {
 			component = fixture('course-summary-basic-fixture');
-			component.setAttribute('course-image', testCourseImageLink);
 			component.setAttribute('course-title', testTitle);
 			component.setAttribute('course-description', testDescription);
 			component.setAttribute('course-duration', testDuration);
@@ -108,9 +106,6 @@ describe('course-summary', () => {
 			expect(infoContainer).to.include(testDuration);
 			expect(infoContainer).to.include(testLastUpdated);
 			expect(infoContainer).to.include(testFormat);
-
-			const image = component.$$('#discovery-header-image');
-			expect(image.src).to.equal(testCourseImageLink);
 
 			afterNextRender(component, () => {
 				const description = component.$$('.discovery-course-summary-description').innerHTML;

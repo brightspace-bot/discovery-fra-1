@@ -1,6 +1,7 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { Classes, Rels } from 'd2l-hypermedia-constants';
+import { IronResizableBehavior } from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 
 import 'd2l-organization-hm-behavior/d2l-organization-hm-behavior.js';
@@ -16,12 +17,17 @@ import './components/discovery-footer.js';
 import './styles/discovery-styles.js';
 
 class DiscoveryCourse extends mixinBehaviors(
-	[D2L.PolymerBehaviors.Hypermedia.OrganizationHMBehavior],
+	[D2L.PolymerBehaviors.Hypermedia.OrganizationHMBehavior, IronResizableBehavior],
 	FetchMixin(RouteLocationsMixin(LocalizeMixin(PolymerElement)))) {
 	static get template() {
 		return html `
 			<style include="discovery-styles">
 				:host {
+					display: block;
+					position: relative;
+				}
+
+				.discovery-course-outer-container {
 					display: block;
 					margin: 0 auto;
 					max-width: 1230px;
@@ -58,6 +64,15 @@ class DiscoveryCourse extends mixinBehaviors(
 					max-width: 350px;
 					min-width: 250px;
 					width: 100%;
+				}
+
+				.discovery-course-header-image-container {
+					background-position: center center;
+					background-size: cover;
+					left: 0;
+					position: absolute;
+					width: 100%;
+					z-index: -10;
 				}
 
 				@media only screen and (max-width: 929px) {
@@ -107,6 +122,12 @@ class DiscoveryCourse extends mixinBehaviors(
 						min-width: 320px;
 						width: 100%;
 					}
+
+					.discovery-course-header-image-container {
+						margin: 0;
+						position: static;
+						z-index: auto;
+					}
 				}
 			</style>
 
@@ -116,34 +137,37 @@ class DiscoveryCourse extends mixinBehaviors(
 				data="[[routeData]]">
 			</app-route>
 
-			<div class="d2l-typography discovery-course-container">
-				<course-summary
-					id="discovery-course-summary"
-					class="discovery-course-summary"
-					course-image="[[_courseImage]]"
-					course-category=[[_courseCategory]]
-					course-title=[[_courseTitle]]
-					course-description=[[_courseDescription]]
-					course-duration=[[_courseDuration]]
-					course-last-updated=[[_courseLastUpdated]]
-					format=[[_format]]
-					action-enroll=[[_actionEnroll]]
-					organization-homepage=[[_organizationHomepage]]
-					organization-href=[[_organizationHref]]
-					start-date=[[_startDate]]
-					start-date-iso-format=[[_startDateIsoFormat]]
-					end-date=[[_endDate]]
-					end-date-iso-format=[[_endDateIsoFormat]]
-					data-is-ready=[[_dataIsReady]]>
-				</course-summary>
+			<img id="discovery-course-header-image" on-load="_headerImageLoaded" src="[[_courseImage]]" hidden/>
+			<div id="discovery-course-header-image-container" class="discovery-course-header-image-container"></div>
+			<div class="d2l-typography discovery-course-outer-container">
+				<div class="discovery-course-container">
+					<course-summary
+						id="discovery-course-summary"
+						class="discovery-course-summary"
+						course-category=[[_courseCategory]]
+						course-title=[[_courseTitle]]
+						course-description=[[_courseDescription]]
+						course-duration=[[_courseDuration]]
+						course-last-updated=[[_courseLastUpdated]]
+						format=[[_format]]
+						action-enroll=[[_actionEnroll]]
+						organization-homepage=[[_organizationHomepage]]
+						organization-href=[[_organizationHref]]
+						start-date=[[_startDate]]
+						start-date-iso-format=[[_startDateIsoFormat]]
+						end-date=[[_endDate]]
+						end-date-iso-format=[[_endDateIsoFormat]]
+						data-is-ready=[[_dataIsReady]]>
+					</course-summary>
 
-				<course-action
-					class="discovery-course-action"
-					course-tags=[[_courseTags]]
-					course-description-items=[[_courseDescriptionItems]]>
-				</course-action>
+					<course-action
+						class="discovery-course-action"
+						course-tags=[[_courseTags]]
+						course-description-items=[[_courseDescriptionItems]]>
+					</course-action>
+				</div>
+				<discovery-footer></discovery-footer>
 			</div>
-			<discovery-footer></discovery-footer>
 		`;
 	}
 
@@ -176,12 +200,14 @@ class DiscoveryCourse extends mixinBehaviors(
 			_dataIsReady: {
 				type: Boolean,
 				value: false
-			}
+			},
+			visible: Boolean
 		};
 	}
 	ready() {
 		super.ready();
 		const route = this.shadowRoot.querySelector('app-route');
+		this.addEventListener('iron-resize', this._onIronResize.bind(this));
 		route.addEventListener('route-changed', this._routeChanged.bind(this));
 		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
 	}
@@ -323,10 +349,7 @@ class DiscoveryCourse extends mixinBehaviors(
 		this._endDateIsoFormat = '';
 		this._dataIsReady = false;
 
-		const courseSummary = this.shadowRoot.querySelector('#discovery-course-summary');
-		if (courseSummary) {
-			courseSummary._clearHeaderImage();
-		}
+		this._clearHeaderImage();
 	}
 	_navigateToHome() {
 		this.dispatchEvent(new CustomEvent('navigate', {
@@ -345,6 +368,45 @@ class DiscoveryCourse extends mixinBehaviors(
 			bubbles: true,
 			composed: true
 		}));
+	}
+	_onIronResize() {
+		if (!this.visible) {
+			return;
+		}
+
+		const headerImageContainer = this.shadowRoot.querySelector('#discovery-course-header-image-container');
+		const courseSummary = this.shadowRoot.querySelector('#discovery-course-summary');
+
+		if (courseSummary) {
+			const heightOfCard = courseSummary._getImageAnchorHeight();
+			if (heightOfCard && headerImageContainer) {
+				if (window.innerWidth < 420) {
+					headerImageContainer.style.height = '150px';
+				} else {
+					const resHeight = heightOfCard + 90;
+					headerImageContainer.style.height = `${resHeight}px`;
+				}
+			}
+		}
+	}
+	_headerImageLoaded() {
+		const headerImageContainer = this.shadowRoot.querySelector('#discovery-course-header-image-container');
+		if (headerImageContainer && headerImageContainer.style['background-image'] !== undefined && this._courseImage) {
+			headerImageContainer.style['background-image'] = `url('${this._courseImage}')`;
+			this._onIronResize();
+		}
+		const imageElement = this.shadowRoot.querySelector('#discovery-course-header-image');
+		if (imageElement) {
+			fastdom.mutate(() => {
+				imageElement.parentNode.removeChild(imageElement);
+			});
+		}
+	}
+	_clearHeaderImage() {
+		const headerImageContainer = this.shadowRoot.querySelector('#discovery-course-header-image-container');
+		if (headerImageContainer && headerImageContainer.style['background-image'] !== undefined) {
+			headerImageContainer.style['background-image'] = '';
+		}
 	}
 }
 
