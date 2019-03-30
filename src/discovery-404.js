@@ -1,7 +1,8 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { LocalizeMixin } from './mixins/localize-mixin.js';
 
-class Discovery404 extends PolymerElement {
+class Discovery404 extends LocalizeMixin(PolymerElement) {
 	static get template() {
 		return html`
 	  		<style>
@@ -10,7 +11,7 @@ class Discovery404 extends PolymerElement {
 					padding: 10px;
 				}
 	  		</style>
-			<p>Oops you hit a 404. <a href="javascript:void(0)" on-click="_goToHome">Head back to home.</a></p>
+			<p>[[localize('404message')]] <a href="javascript:void(0)" on-click="_goToHome">[[localize('navigateHome')]]</a></p>
 		`;
 	}
 	_goToHome() {

@@ -72,7 +72,7 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 				<div class="discovery-search-header-container">
 					<div class="discovery-search-header-nav-container">
 						<d2l-breadcrumbs class="discovery-search-header-breadcrumb" compact>
-							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('backToDiscovery')]]"></d2l-breadcrumb>
+							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('backToDiscover')]]"></d2l-breadcrumb>
 						</d2l-breadcrumbs>
 					</div>
 

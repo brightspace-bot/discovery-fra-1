@@ -4,7 +4,9 @@ import './components/discovery-footer.js';
 import './components/home-header.js';
 import './styles/discovery-styles.js';
 
-class DiscoveryHome extends PolymerElement {
+import { LocalizeMixin } from './mixins/localize-mixin.js';
+
+class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 	static get template() {
 
 		return html`
@@ -31,7 +33,7 @@ class DiscoveryHome extends PolymerElement {
 			<div class="d2l-typography">
 				<div class="discovery-home-main">
 					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
-					<span>This is the Discovery home page.</span>
+					<span>[[localize('discoverHomeMessage')]]</span>
 				</div>
 				<discovery-footer></discovery-footer>
 			</div>
