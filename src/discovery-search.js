@@ -4,6 +4,7 @@ import { afterNextRender, beforeNextRender } from '@polymer/polymer/lib/utils/re
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { IronResizableBehavior } from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import '@polymer/app-route/app-route.js';
+import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import './components/app-location-ifrau.js';
 import './components/discovery-footer.js';
 import './components/search-header.js';
@@ -21,6 +22,7 @@ import 'fastdom/fastdom.js';
 class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin(FetchMixin(RouteLocationsMixin(LocalizeMixin(PolymerElement))))) {
 	static get template() {
 		return html`
+			<style include="d2l-offscreen-shared-styles"></style>
 			<style include="discovery-styles">
 				:host {
 					display: block
@@ -73,6 +75,15 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 					width: 100%;
 				}
 
+				.discovery-search-offscreen-text {
+					display: inline-block;
+					@apply --d2l-offscreen;
+				}
+
+				:host(:dir(rtl)) .discovery-search-offscreen-text {
+					@apply --d2l-offscreen-rtl
+				}
+
 				@media only screen and (max-width: 929px) {
 					.discovery-search-container {
 						margin: 0 24px;
@@ -102,6 +113,8 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 				pattern="/d2l/le/discovery/view/search/:searchQuery"
 				data="[[routeData]]">
 			</app-route>
+
+			<h1 class="discovery-search-offscreen-text" tabindex="0">[[localize('searchResultsOffscreen', 'searchQuery', _searchQuery)]]</h1>
 
 			<!-- IE11 Bug with min-height not working with flex unless there's an outer flex column with flex-grow: 1 -->
 			<div class="discovery-search-outer-container">
@@ -196,7 +209,6 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		const searchHeader = this.shadowRoot.querySelector('#discovery-search-search-header');
 		if (searchHeader) {
 			searchHeader.showClear(this._searchQuery);
-			searchHeader.focusOnInput();
 		}
 		if (visible) {
 			beforeNextRender(this, () => {
@@ -234,6 +246,7 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		if (this._pageCurrent !== undefined) {
 			this._pageCurrent = 0;
 		}
+		this.setInitialFocusAfterRender();
 	}
 	_getDecodedQuery(searchQuery, page) {
 		if (!searchQuery || page === undefined || !this.visible) {
@@ -314,6 +327,14 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 				});
 			});
 		}
+	}
+	setInitialFocusAfterRender() {
+		const itemToFocus = this.shadowRoot.querySelector('.discovery-search-offscreen-text');
+		afterNextRender(this, () => {
+			if (itemToFocus) {
+				itemToFocus.focus();
+			}
+		});
 	}
 }
 
