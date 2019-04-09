@@ -16,7 +16,7 @@
   ],
   "builds": [{
     "preset": "es5-bundled",
-    "addServiceWorker": true
+    "addServiceWorker": false
   }],
   "npm": true,
   "lint": {
