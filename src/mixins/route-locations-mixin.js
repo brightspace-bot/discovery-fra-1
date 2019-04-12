@@ -12,11 +12,11 @@ const internalRouteLocationsMixin = (superClass) =>
 
 		search(query, queryParams = {}) {
 			var queryParamsKeys = Object.keys(queryParams);
-			var queryParamsUrl = '';
+			var queryParamsUrl = `query=${encodeURIComponent(query)}`;
 			if (queryParamsKeys.length) {
-				queryParamsUrl = queryParamsKeys.map(key => `${key}=${queryParams[key]}`).join('&');
+				queryParamsUrl = `${queryParamsUrl}&${queryParamsKeys.map(key => `${key}=${queryParams[key]}`).join('&')}`;
 			}
-			return `${discoveryBasePath}/search/${encodeURIComponent(query)}/${queryParamsUrl ? `?${queryParamsUrl}` : ''}`;
+			return `${discoveryBasePath}/search/?${queryParamsUrl}`;
 		}
 
 		routeLocations() {

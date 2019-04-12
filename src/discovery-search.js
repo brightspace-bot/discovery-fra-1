@@ -110,7 +110,7 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			<app-location-ifrau route="[[route]]"></app-location-ifrau>
 			<app-route
 				route="[[route]]"
-				pattern="/d2l/le/discovery/view/search/:searchQuery"
+				pattern="/d2l/le/discovery/view/search/"
 				data="[[routeData]]">
 			</app-route>
 
@@ -150,14 +150,7 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 					};
 				}
 			},
-			routeData: {
-				type: Object,
-				value: () => {
-					return {
-						searchQuery: ''
-					};
-				}
-			},
+			routeData: Object,
 			queryParams: {
 				type: Object,
 				value: () => {
@@ -171,7 +164,6 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			_searchQuery: {
 				type: String,
 				value: '',
-				observer: '_searchQueryChanged'
 			},
 			_searchActionHref: String,
 			visible: {
@@ -185,11 +177,6 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			_minViewPortHeight: Number
 		};
 	}
-	static get observers() {
-		return [
-			'_getDecodedQuery(_searchQuery, _pageCurrent)'
-		];
-	}
 	static get _searchAction() {
 		return 'search-activities';
 	}
@@ -197,7 +184,6 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		super.ready();
 		const route = this.shadowRoot.querySelector('app-route');
 		route.addEventListener('route-changed', this._routeChanged.bind(this));
-		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
 
 		const location = this.shadowRoot.querySelector('app-location-ifrau');
 		location.addEventListener('query-params-changed', this._queryParamsChanged.bind(this));
@@ -215,24 +201,25 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 				this._onIronResize();
 			});
 		} else {
-			this._searchQuery = null;
-			this._pageCurrent = undefined;
+			this._reset();
 		}
 	}
 	_routeChanged(route) {
 		route.stopPropagation();
 		this.route = route.detail.value || {};
 	}
-	_routeDataChanged(routeData) {
-		routeData.stopPropagation();
-		routeData = routeData.detail.value || {};
-		this._searchQuery = decodeURIComponent(routeData.searchQuery);
-		this.routeData = routeData;
-	}
 	_queryParamsChanged(queryParams) {
 		queryParams.stopPropagation();
 		queryParams = queryParams.detail.value || {};
+
+		const hasSearchQueryParam = queryParams && queryParams.has && queryParams.has('query');
+		const prevSearchQuery = this._searchQuery;
+		if (hasSearchQueryParam) {
+			this._searchQuery = queryParams.get('query');
+		}
+
 		const hasPageQueryParam = queryParams && queryParams.has && queryParams.has('page');
+		const prevCurrentPage = this._pageCurrent;
 		if (!this.visible) {
 			this._pageCurrent = undefined;
 		} else if (!hasPageQueryParam) {
@@ -240,13 +227,18 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		} else {
 			this._pageCurrent = Math.max(queryParams.get('page') - 1, 0);
 		}
+
 		this.queryParams = queryParams;
-	}
-	_searchQueryChanged() {
-		if (this._pageCurrent !== undefined) {
-			this._pageCurrent = 0;
+
+		const pageChanged = prevCurrentPage !== this._pageCurrent;
+		const queryChanged = prevSearchQuery !== this._searchQuery;
+		if (pageChanged || queryChanged) {
+			this._getDecodedQuery(this._searchQuery, this._pageCurrent);
 		}
-		this.setInitialFocusAfterRender();
+
+		if (queryChanged) {
+			this.setInitialFocusAfterRender();
+		}
 	}
 	_getDecodedQuery(searchQuery, page) {
 		if (!searchQuery || page === undefined || !this.visible) {
@@ -335,6 +327,11 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 				itemToFocus.focus();
 			}
 		});
+	}
+	_reset() {
+		this._searchQuery = null;
+		this._pageCurrent = undefined;
+		this._searchActionHref = undefined;
 	}
 }
 

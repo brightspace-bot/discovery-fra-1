@@ -94,11 +94,7 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 	}
 	static get properties() {
 		return {
-			query: {
-				type: String,
-				notify: true,
-				observer: '_queryChanged'
-			},
+			query: String,
 			searchInput: Object,
 			_homeHref: {
 				type: String,
@@ -113,7 +109,14 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			this.searchInput.addEventListener('d2l-input-search-searched', (e) => {
 				if (e && e.detail) {
 					if (e.detail.value) {
-						this.query = e.detail.value;
+						const query = e.detail.value;
+						this.dispatchEvent(new CustomEvent('navigate', {
+							detail: {
+								path: this.routeLocations().search(query.trim())
+							},
+							bubbles: true,
+							composed: true,
+						}));
 					} else {
 						this._navigateToHome();
 					}
@@ -145,17 +148,6 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			composed: true,
 		}));
 		this.clear();
-	}
-	_queryChanged(query) {
-		if (query) {
-			this.dispatchEvent(new CustomEvent('navigate', {
-				detail: {
-					path: this.routeLocations().search(query.trim())
-				},
-				bubbles: true,
-				composed: true,
-			}));
-		}
 	}
 	_getHomeHref() {
 		return this.valenceHomeHref();
