@@ -139,6 +139,9 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					margin-bottom: 0.7rem !important;
 					margin-top: 0.9rem !important;
 				}
+				.discovery-course-summary-d2l-heading-1:focus {
+					outline: none;
+				}
 
 				.discovery-course-summary-d2l-heading-2 {
 					margin-bottom: 1rem !important;
@@ -226,7 +229,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					</div>
 
 					<div class="discovery-course-summary-title">
-						<h1 class="d2l-heading-1 discovery-course-summary-d2l-heading-1">[[courseTitle]]</h1>
+						<h1 class="d2l-heading-1 discovery-course-summary-d2l-heading-1" tabindex="-1">[[courseTitle]]</h1>
 					</div>
 
 					<div class="discovery-course-summary-info-container">
@@ -550,6 +553,13 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 	_isPastAndCannotAccessObserver(endDateIsPast, organizationHomepage) {
 		this._isPastAndCannotAccess = endDateIsPast && !organizationHomepage;
+	}
+
+	setFocus() {
+		const itemToFocus = this.shadowRoot.querySelector('.discovery-course-summary-d2l-heading-1');
+		if (itemToFocus) {
+			itemToFocus.focus();
+		}
 	}
 }
 
