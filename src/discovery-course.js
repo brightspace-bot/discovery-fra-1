@@ -235,7 +235,10 @@ class DiscoveryCourse extends mixinBehaviors(
 				type: Boolean,
 				value: false
 			},
-			visible: Boolean,
+			visible: {
+				type: Boolean,
+				observer: '_visible'
+			},
 			courseImageIsReady: {
 				type: Boolean,
 				value: false
@@ -248,6 +251,11 @@ class DiscoveryCourse extends mixinBehaviors(
 		this.addEventListener('iron-resize', this._onIronResize.bind(this));
 		route.addEventListener('route-changed', this._routeChanged.bind(this));
 		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
+	}
+	_visible(visible) {
+		if (visible) {
+			this._updateDocumentTitle();
+		}
 	}
 	_routeChanged(route) {
 		this.route = route.detail.value || {};
@@ -303,6 +311,7 @@ class DiscoveryCourse extends mixinBehaviors(
 			const { code, endDate, name, startDate, description } = organizationEntity.properties;
 			this._courseCode = code;
 			this._courseTitle = name;
+			this._updateDocumentTitle();
 			this._courseDescription = description;
 
 			const dateFormat = 'MMM Do, YYYY';
@@ -470,6 +479,10 @@ class DiscoveryCourse extends mixinBehaviors(
 		if (courseSummary) {
 			courseSummary.setFocus();
 		}
+	}
+	_updateDocumentTitle() {
+		const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
+		document.title = this.localize('coursePageDocumentTitle', 'courseName', this._courseTitle, 'instanceName', instanceName ? instanceName : '');
 	}
 }
 

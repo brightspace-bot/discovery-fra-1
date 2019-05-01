@@ -199,6 +199,8 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 	}
 	_visible(visible) {
 		if (visible) {
+			this._updateDocumentTitle();
+
 			beforeNextRender(this, () => {
 				this._onIronResize();
 			});
@@ -243,6 +245,8 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		}
 
 		if (queryChanged) {
+			this._updateDocumentTitle();
+
 			const searchHeader = this.shadowRoot.querySelector('#discovery-search-search-header');
 			if (searchHeader) {
 				searchHeader.showClear(this.searchQuerySanitized);
@@ -355,6 +359,15 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			return _searchQuery;
 		}
 		return DOMPurify.sanitize(_searchQuery, {ALLOWED_TAGS: []});
+	}
+	_updateDocumentTitle() {
+		const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
+		document.title = this.localize(
+			'searchPageDocumentTitle',
+			'searchTerm',
+			this.searchQuerySanitized ? this.searchQuerySanitized : this.localize('browseAllContent'),
+			'instanceName',
+			instanceName ? instanceName : '');
 	}
 }
 
