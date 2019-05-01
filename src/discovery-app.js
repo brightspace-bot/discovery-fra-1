@@ -88,8 +88,18 @@ class DiscoveryApp extends RouteLocationsMixin(IfrauMixin(PolymerElement)) {
 		route.addEventListener('data-changed', this._routeDataChanged.bind(this));
 	}
 	_navigate(e) {
-		if (e && e.detail && e.detail.path) {
-			this.set('route.path', e.detail.path);
+		if (e && e.detail) {
+			if (e.detail.resetPages) {
+				e.detail.resetPages.forEach((page) => {
+					const pageElement = this.shadowRoot.querySelector(`[name="${page}"]`);
+					if (pageElement && typeof pageElement._reset === 'function') {
+						pageElement._reset();
+					}
+				});
+			}
+			if (e.detail.path) {
+				this.set('route.path', e.detail.path);
+			}
 		}
 	}
 	_navigateParent(e) {
