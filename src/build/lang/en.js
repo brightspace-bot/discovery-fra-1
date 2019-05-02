@@ -62,5 +62,8 @@ window.D2L.Discovery.LangEn = {
 	"searchResultCountForAllResults": "{searchResultRange} of {searchResultsTotal} results",
 	"searchResultsReadyMessageForAllResults": "Page {pageCurrent} of {pageTotal} is now ready",
 	"or": "or",
-	"browseAllContent": "Browse All Content"
+	"browseAllContent": "Browse All Content",
+	"homepageDocumentTitle": "Discover - {instanceName}",
+	"searchPageDocumentTitle": "Search: {searchTerm} - Discover - {instanceName}",
+	"coursePageDocumentTitle": "{courseName} - Discover - {instanceName}"
 };
