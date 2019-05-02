@@ -52,11 +52,12 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 
 				.discovery-home-header-search-browse-all-container {
 					flex-shrink: 0;
-					padding-left: 0.5rem;
+					padding-left: 0.9rem;
+					@apply --d2l-body-compact-text;
 				}
 
 				.discovery-home-header-browse-all-link {
-					padding-left: 0.2rem;
+					padding-left: 0.6rem;
 				}
 
 				@media only screen and (max-width: 767px) {
@@ -100,7 +101,8 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					}
 
 					.discovery-home-header-browse-all-link {
-						padding: 0;
+						font-size: 14px;
+						padding-left: 0.3rem;
 					}
 				}
 			</style>
