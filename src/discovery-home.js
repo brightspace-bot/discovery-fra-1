@@ -52,11 +52,16 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 			}
 		};
 	}
-	_visible() {
-		const homeHeader = this.shadowRoot.querySelector('#discovery-home-home-header');
-		if (homeHeader) {
-			homeHeader.clear();
-			homeHeader.focusOnInput();
+	_visible(visible) {
+		if (visible) {
+			const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
+			document.title = this.localize('homepageDocumentTitle', 'instanceName', instanceName ? instanceName : '');
+
+			const homeHeader = this.shadowRoot.querySelector('#discovery-home-home-header');
+			if (homeHeader) {
+				homeHeader.clear();
+				homeHeader.focusOnInput();
+			}
 		}
 	}
 }
