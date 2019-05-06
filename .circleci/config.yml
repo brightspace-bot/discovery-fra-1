@@ -51,17 +51,18 @@ workflows:
     jobs:
       - build:
           context: ci-read
+          filters: # required since `release` has tag filters and requires build
+            tags:
+              only: /.*/
       - publish:
           requires:
             - build
-          filters:
-            branches:
-              ignore:
-                - /^release.*/
       - release:
           requires:
             - build
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              only:
-                - /^release.*/
+              ignore:
+                - /.*/
