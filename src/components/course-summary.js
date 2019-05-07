@@ -38,11 +38,12 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					border: 1px solid var(--d2l-color-mica);
 					border-bottom: transparent;
 					border-radius: 6px 6px 0 0;
-					padding: 1.5rem 1.5rem 1.2rem;
+					padding: 1.1rem 1.5rem;
 				}
 
 				.discovery-course-summary-title {
-					margin-top: 0.5rem;
+					margin-top: 0.65rem;
+					margin-bottom: 0.25rem;
 				}
 
 				.discovery-course-summary-info-container {
@@ -137,21 +138,20 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					margin: 0;
 				}
 				.discovery-course-summary-d2l-heading-1 {
-					margin-bottom: 0.7rem !important;
-					margin-top: 0.9rem !important;
+					margin-bottom: 0 !important;
+					margin-top: 0 !important;
 				}
 				.discovery-course-summary-d2l-heading-1:focus {
 					outline: none;
 				}
 
 				.discovery-course-summary-d2l-heading-2 {
-					margin-bottom: 1rem !important;
+					margin-bottom: 0.55rem !important;
 					margin-top: 0 !important;
 				}
 
 				.discovery-course-summary-breadcrumbs {
 					font-size: 14px;
-					margin: -12px 0 -6px;
 				}
 
 				.discovery-course-summary-empty-description {
@@ -176,8 +176,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 				.discovery-course-summary-title-placeholder {
 					height: 1.7rem;
-					margin-bottom: 0.65rem;
-					margin-top: 0.8rem;
+					margin: 0.17rem 0rem;
 					width: 60%;
 				}
 
@@ -204,11 +203,11 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				@media only screen and (max-width: 615px) {
 					.discovery-course-summary-card,
 					.discovery-course-summary-bottom-container {
-						padding: 0.9rem;
+						padding: 0.8rem 0.9rem;
 					}
 
-					.discovery-course-summary-breadcrumbs {
-						margin: -6px 0 -12px;
+					.discovery-course-summary-title {
+						margin: 0.45rem 0rem;
 					}
 
 					.discovery-course-summary-description {
@@ -226,6 +225,10 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 					.discovery-course-summary-title-placeholder {
 						height: 1.1rem;
+					}
+
+					.discovery-course-summary-d2l-heading-2 {
+						margin-bottom: 0.5rem !important;
 					}
 				}
 
@@ -247,7 +250,6 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 						flex-direction: column;
 					}
 					.discovery-course-summary-bottom-container d2l-button {
-						margin-bottom: 0.6rem;
 						margin-right: 0;
 						width: 100%;
 					}
@@ -258,6 +260,10 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 					.discovery-course-summary-button-placeholder {
 						width: 100%;
+					}
+
+					.discovery-course-summary-title {
+						margin-top: 0.1rem;
 					}
 				}
 			</style>

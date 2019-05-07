@@ -23,7 +23,7 @@ class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin
 				.discovery-course-action-container {
 					display: flex;
 					flex-direction: column;
-					margin: 1.5rem 1.5rem 2.4rem;
+					margin: 1.5rem 1.5rem 1.8rem;
 				}
 
 				.discovery-course-action-d2l-heading-3 {
@@ -79,7 +79,7 @@ class CourseAction extends mixinBehaviors([IronResizableBehavior], LocalizeMixin
 
 				@media only screen and (max-width: 615px) {
 					.discovery-course-action-container {
-						margin: 1.2rem 0.9rem 1.8rem;
+						margin: 1.2rem 0.9rem 1.5rem;
 					}
 				}
 			</style>
