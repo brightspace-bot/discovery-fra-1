@@ -8,7 +8,7 @@ import 'd2l-typography/d2l-typography.js';
 class ActivityCardList extends mixinBehaviors([IronResizableBehavior], PolymerElement) {
 	static get template() {
 		return html`
-			<style>
+			<style include="d2l-typography">
 				:host {
 					display: inline;
 				}
@@ -27,14 +27,16 @@ class ActivityCardList extends mixinBehaviors([IronResizableBehavior], PolymerEl
 			</style>
 
 			<div class="d2l-typography">
-				<h3>[[header]]</h3>
+				<h2 class="d2l-heading-2">[[header]]</h2>
 				<div id="discovery-activity-card-list-container" class="discovery-activity-card-list-container">
 					<template is="dom-repeat" items="[[activities]]">
 						<d2l-activity-card
 							class="discovery-activity-card-list-item"
 							entity=[[item]]
 							send-event-on-click
-							presentation-href="src/presentation/presentation-href.json">
+							token="[[token]]"
+							show-organization-code
+							show-semester-name>
 						</d2l-activity-card>
 					</template>
 				</div>
@@ -48,7 +50,8 @@ class ActivityCardList extends mixinBehaviors([IronResizableBehavior], PolymerEl
 			columnGap: {
 				type: String,
 				value: '0.75rem'
-			}
+			},
+			token: String
 		};
 	}
 	ready() {
@@ -59,7 +62,6 @@ class ActivityCardList extends mixinBehaviors([IronResizableBehavior], PolymerEl
 		if (activityCardListContainer) {
 			activityCardListContainer.style['grid-column-gap'] = this.columnGap;
 		}
-
 	}
 	_generateIE11GridColumnsCss(numColumns, columnSize, columnGap) {
 		var gridTemplateColumns = columnSize;
