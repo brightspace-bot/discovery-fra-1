@@ -213,17 +213,21 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		this.route = route.detail.value || {};
 	}
 	_queryParamsChanged(queryParams) {
+		if (!this.visible) {
+			return;
+		}
+
 		queryParams.stopPropagation();
 		queryParams = queryParams.detail.value || {};
 
 		const hasSearchQueryParam = queryParams && queryParams.has && queryParams.has('query');
 		const prevSearchQuery = this.searchQuerySanitized;
 
-		if (!hasSearchQueryParam) {
-			return;
+		if (hasSearchQueryParam) {
+			this._searchQuery = queryParams.get('query');
+		} else {
+			this._searchQuery = '';
 		}
-
-		this._searchQuery = queryParams.get('query');
 		this.searchQuerySanitized = this._searchQuerySanitizedComputed(this._searchQuery);
 
 		const hasPageQueryParam = queryParams && queryParams.has && queryParams.has('page');
