@@ -274,7 +274,7 @@ class DiscoveryCourse extends mixinBehaviors(
 		}
 	}
 	_handleCourseEntity(courseEntity) {
-		if (!courseEntity) return Promise.resolve();
+		if (!courseEntity) return Promise.reject();
 
 		if (courseEntity.hasAction('assign') && !courseEntity.hasClass('enroll')) {
 			this._actionEnroll = courseEntity.getAction('assign');
@@ -307,6 +307,13 @@ class DiscoveryCourse extends mixinBehaviors(
 		return Promise.resolve();
 	}
 	_handleOrganizationEntity(organizationEntity) {
+		if (!organizationEntity) return Promise.reject();
+
+		if (!organizationEntity.hasClass('active') || !organizationEntity.hasClass('self-assignable')) {
+			this._navigateToNotFound();
+			return;
+		}
+
 		if (organizationEntity.properties) {
 			const { code, endDate, name, startDate, description } = organizationEntity.properties;
 			this._courseCode = code;
