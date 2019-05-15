@@ -50,14 +50,24 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					flex-grow: 1;
 				}
 
-				.discovery-home-header-search-browse-all-container {
+				.discovery-home-header-or {
 					flex-shrink: 0;
 					padding-left: 0.9rem;
 					@apply --d2l-body-compact-text;
 				}
+				:host(:dir(rtl)) .discovery-home-header-or {
+					padding-left: 0;
+					padding-right: 0.9rem;
+				}
 
 				.discovery-home-header-browse-all-link {
+					flex-shrink: 0;
 					padding-left: 0.6rem;
+					@apply --d2l-body-compact-text;
+				}
+				:host(:dir(rtl)) .discovery-home-header-browse-all-link {
+					padding-left: 0;
+					padding-right: 0.6rem;
 				}
 
 				@media only screen and (max-width: 767px) {
@@ -69,6 +79,9 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					.discovery-home-header-search-container {
 						padding: 0 12% 0 0;
 						width: 88%;
+					}
+					:host(:dir(rtl)) .discovery-home-header-search-container {
+						padding: 0 0 0 12%;
 					}
 
 					.discovery-home-header-my-list {
@@ -95,14 +108,14 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 						display: none;
 					}
 
-					.discovery-home-header-search-browse-all-container {
-						margin-top: 6px;
-						padding: 0;
-					}
-
 					.discovery-home-header-browse-all-link {
 						font-size: 14px;
+						margin-top: 6px;
 						padding-left: 0.3rem;
+					}
+					:host(:dir(rtl)) .discovery-home-header-browse-all-link {
+						padding-left: 0;
+						padding-right: 0.3rem;
 					}
 				}
 			</style>
@@ -122,15 +135,13 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 							value="[[query]]"
 							placeholder="[[localize('search.placeholder')]]">
 						</d2l-input-search>
-						<div class="discovery-home-header-search-browse-all-container">
-							<span class="discovery-home-header-or">[[localize('or')]]</span>
-							<d2l-link
-								class="discovery-home-header-browse-all-link"
-								href="javascript:void(0)"
-								on-click="_navigateToBrowseAll">
-								[[localize('browseAllContent')]]
-							</d2l-link>
-						</div>
+						<span class="discovery-home-header-or">[[localize('or')]]</span>
+						<d2l-link
+							class="discovery-home-header-browse-all-link"
+							href="javascript:void(0)"
+							on-click="_navigateToBrowseAll">
+							[[localize('browseAllContent')]]
+						</d2l-link>
 					</div>
 					<div class="discovery-home-header-my-list"></div>
 				</div>
