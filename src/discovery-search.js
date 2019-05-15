@@ -56,11 +56,20 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 					overflow-y: auto;
 					width: calc(268px - 1rem - 30px);
 				}
+				:host(:dir(rtl)) .discovery-search-sidebar {
+					border-left: 1px solid var(--d2l-color-mica);
+					border-right: none;
+					box-shadow: -3px 0 3px -2px var(--d2l-color-mica);
+					padding: 1rem calc(1rem + 30px) 0 0;
+				}
 
 				.discovery-search-main {
 					flex-grow: 0;
 					margin: 1rem 30px 0 1rem;
 					width: calc(1230px - 268px - 1rem - 30px);
+				}
+				:host(:dir(rtl)) .discovery-search-main {
+					margin: 1rem 1rem 0 30px;
 				}
 
 				.discovery-search-right-filler {
@@ -100,6 +109,9 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 					.discovery-search-main {
 						margin: 0;
 						width: 100%;
+					}
+					:host(:dir(rtl)) .discovery-search-main {
+						margin: 0;
 					}
 				}
 

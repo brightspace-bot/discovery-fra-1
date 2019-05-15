@@ -2,15 +2,11 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import 'd2l-activities/components/d2l-activity-list-item/d2l-activity-list-item.js';
-import 'd2l-dropdown/d2l-dropdown.js';
-import 'd2l-dropdown/d2l-dropdown-menu.js';
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-button/d2l-button-icon.js';
 import 'd2l-inputs/d2l-input-text.js';
 import 'd2l-link/d2l-link.js';
-import 'd2l-menu/d2l-menu.js';
-import 'd2l-menu/d2l-menu-item-link.js';
 import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import 'fastdom/fastdom.js';
@@ -67,18 +63,6 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					overflow: hidden;
 					overflow-wrap: break-word;
 					word-wrap: break-word;
-				}
-
-				.discovery-search-results-dropdown {
-					cursor: pointer;
-				}
-
-				.discovery-search-results-dropdown-icon {
-					margin-left: 0.5rem;
-				}
-
-				.discovery-search-results-dropdown-text {
-					margin-left: 0.25rem;
 				}
 
 				d2l-activity-list-item {
