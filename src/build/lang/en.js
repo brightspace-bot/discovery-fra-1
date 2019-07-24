@@ -68,5 +68,6 @@ window.D2L.Discovery.LangEn = {
 	"coursePageDocumentTitle": "{courseName} - Discover - {instanceName}",
 	"recentlyUpdated": "Recently Updated",
 	"loadMore": "Load More",
-	"alreadyEnrolled": "Already enrolled"
+	"alreadyEnrolled": "Already enrolled",
+	"courseSummaryReadyMessage": "{courseTitle} is now ready"
 };
