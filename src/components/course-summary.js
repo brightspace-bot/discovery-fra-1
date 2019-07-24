@@ -332,7 +332,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					<div id="discovery-course-summary-card" class="discovery-course-summary-card">
 						<div class="discovery-course-summary-breadcrumbs">
 							<d2l-breadcrumbs>
-								<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('discover')]]"></d2l-breadcrumb>
+								<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('discover')]]" aria-label="[[localize('backToDiscover')]]"></d2l-breadcrumb>
 							</d2l-breadcrumbs>
 						</div>
 
