@@ -11,6 +11,7 @@ import 'd2l-button/d2l-button.js';
 import 'd2l-icons/d2l-icon.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-link/d2l-link.js';
+import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import 'fastdom/fastdom.js';
 
@@ -22,6 +23,7 @@ import './loading-skeleton.js';
 class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
 		return html `
+			<style include="d2l-offscreen-shared-styles"></style>
 			<style include="d2l-typography">
 				:host {
 					display: inline;
@@ -296,8 +298,18 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 						display: none;
 					}
 				}
+
+				.discovery-course-summary-offscreen-text {
+					display: inline-block;
+					@apply --d2l-offscreen;
+				}
+
+				:host(:dir(rtl)) .discovery-course-summary-offscreen-text {
+					@apply --d2l-offscreen-rtl;
+				}
 			</style>
 
+			<span class="discovery-course-summary-offscreen-text" aria-live="polite">[[_loadingMessage(dataIsReady)]]</span>
 			<div class="d2l-typography discovery-course-summary-container">
 
 				<!-- Loading Skeleton -->
@@ -679,6 +691,13 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		if (itemToFocus) {
 			itemToFocus.focus();
 		}
+	}
+
+	_loadingMessage(dataIsReady) {
+		if (dataIsReady) {
+			return this.localize('courseSummaryReadyMessage', 'courseTitle', this.courseTitle);
+		}
+		return '';
 	}
 }
 
