@@ -1,6 +1,7 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import 'd2l-button/d2l-button.js';
+import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import './components/activity-card-list.js';
 import './components/discovery-footer.js';
@@ -15,6 +16,7 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 	static get template() {
 
 		return html`
+			<style include="d2l-offscreen-shared-styles"></style>
 			<style include="discovery-styles">
 				:host {
 					display: block;
@@ -49,7 +51,17 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 						margin: 0 18px;
 					}
 				}
+				.discovery-home-offscreen-text {
+					display: inline-block;
+					@apply --d2l-offscreen;
+				}
+
+				:host(:dir(rtl)) .discovery-home-offscreen-text {
+					@apply --d2l-offscreen-rtl;
+				}
 			</style>
+			<span class="discovery-home-offscreen-text" aria-live="polite">[[_loadingMessage]]</span>
+
 			<div class="d2l-typography">
 				<div class="discovery-home-main">
 					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
@@ -97,6 +109,10 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 			_recentlyUpdatedItemsHasMore: {
 				type: Boolean,
 				value: false
+			},
+			_loadingMessage: {
+				type: String,
+				value: ''
 			},
 			token: String
 		};
@@ -223,6 +239,10 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 	_recentlyUpdatedItemsPageTotalObserver(recentlyUpdatedItemsPage, recentlyUpdatedItemsTotal) {
 		this._recentlyUpdatedItemsHasMore =
 			((recentlyUpdatedItemsPage + 1) * this._pageSize) < recentlyUpdatedItemsTotal;
+
+		if (!this._recentlyUpdatedItemsHasMore && recentlyUpdatedItemsTotal !== undefined) {
+			this._loadingMessage = this.localize('recentlyUpdatedAllLoadedMessage');
+		}
 	}
 	_updateToken() {
 		return this._getToken()
