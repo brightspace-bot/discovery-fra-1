@@ -175,7 +175,7 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 		}
 
 		this._recentlyUpdatedItemsPage++;
-		this._updateRecentlyUpdatedItems();
+		this._updateRecentlyUpdatedItems(true);
 	}
 	_navigateToCourse(e) {
 		e.stopPropagation();
@@ -195,7 +195,10 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 		this._recentlyUpdatedItemsTotal = undefined;
 		this._recentlyUpdatedItemsHasMore = false;
 	}
-	_updateRecentlyUpdatedItems() {
+	_updateRecentlyUpdatedItems(keep) {
+		if (!keep) {
+			this._reset();
+		}
 		// Fill with empty slots first - for loading
 		const emptyPageArray = new Array(this._pageSize);
 		const prevRecentlyUpdatedItems = this._recentlyUpdatedItems;
