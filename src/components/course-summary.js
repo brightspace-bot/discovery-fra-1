@@ -431,13 +431,21 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				</div>
 			</div>
 
-			<paper-dialog class="discovery-course-summary-dialog d2l-typography" id="discovery-course-summary-enroll-dialog" always-on-top with-backdrop>
+			<paper-dialog
+				class="discovery-course-summary-dialog d2l-typography"
+				id="discovery-course-summary-enroll-dialog"
+				always-on-top
+				with-backdrop
+				role="alertdialog"
+				aria-labelledby="#discovery-course-summary-dialog-label"
+				aria-describedby="#discovery-course-summary-dialog-describe"
+				aria-modal>
 				<div class="discovery-course-summary-dialog-container">
 					<div class="discovery-course-summary-dialog-header-container">
-						<h3 class="discovery-course-summary-dialog-heading-text">[[_enrollmentDialogHeader]]</h3>
+						<h3 class="discovery-course-summary-dialog-heading-text" id="discovery-course-summary-dialog-label">[[_enrollmentDialogHeader]]</h3>
 					</div>
 					<div class="discovery-course-summary-dialog-content-container">
-						<div class="d2l-body-standard">[[_enrollmentDialogMessage]]</div>
+						<div class="d2l-body-standard" id="discovery-course-summary-dialog-describe">[[_enrollmentDialogMessage]]</div>
 					</div>
 					<d2l-button
 						on-click="_closeDialog"
