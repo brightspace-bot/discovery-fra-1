@@ -60,7 +60,7 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 					@apply --d2l-offscreen-rtl;
 				}
 			</style>
-			<span class="discovery-home-offscreen-text" aria-live="polite">[[_loadingMessage]]</span>
+			<span class="discovery-home-offscreen-text" aria-live="polite">[[_pageLoadingMessage]] [[_allLoadingMessage]]</span>
 
 			<div class="d2l-typography">
 				<div class="discovery-home-main">
@@ -110,7 +110,11 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 				type: Boolean,
 				value: false
 			},
-			_loadingMessage: {
+			_allLoadingMessage: {
+				type: String,
+				value: ''
+			},
+			_pageLoadingMessage: {
 				type: String,
 				value: ''
 			},
@@ -190,6 +194,7 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 			return;
 		}
 
+		this._pageLoadingMessage = '';
 		this._recentlyUpdatedItemsPage++;
 		this._updateRecentlyUpdatedItems(true);
 	}
@@ -233,6 +238,7 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 					if (res.total) {
 						this._recentlyUpdatedItemsTotal = res.total;
 					}
+					this._pageLoadingMessage = this.localize('pageAllLoadedMessage');
 				}
 			});
 	}
@@ -241,7 +247,7 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 			((recentlyUpdatedItemsPage + 1) * this._pageSize) < recentlyUpdatedItemsTotal;
 
 		if (!this._recentlyUpdatedItemsHasMore && recentlyUpdatedItemsTotal !== undefined) {
-			this._loadingMessage = this.localize('recentlyUpdatedAllLoadedMessage');
+			this._allLoadingMessage = this.localize('recentlyUpdatedAllLoadedMessage');
 		}
 	}
 	_updateToken() {
