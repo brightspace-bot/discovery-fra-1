@@ -63,6 +63,12 @@ class ActivityCardList extends mixinBehaviors([IronResizableBehavior], PolymerEl
 			activityCardListContainer.style['grid-column-gap'] = this.columnGap;
 		}
 	}
+	focusOnCard(elementId) {
+		const activityCards = this.shadowRoot.querySelectorAll('.discovery-activity-card-list-item');
+		requestAnimationFrame(() => {
+			activityCards[elementId].focus();
+		});
+	}
 	_generateIE11GridColumnsCss(numColumns, columnSize, columnGap) {
 		var gridTemplateColumns = columnSize;
 		for (var i = 1; i < numColumns; i++) {
