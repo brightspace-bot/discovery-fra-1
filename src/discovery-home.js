@@ -216,8 +216,8 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 		this._recentlyUpdatedItemsTotal = undefined;
 		this._recentlyUpdatedItemsHasMore = false;
 	}
-	_updateRecentlyUpdatedItems(keep) {
-		if (!keep) {
+	_updateRecentlyUpdatedItems(loadMore) {
+		if (!loadMore) {
 			this._reset();
 		}
 		// Fill with empty slots first - for loading
@@ -239,6 +239,9 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 						this._recentlyUpdatedItemsTotal = res.total;
 					}
 					this._pageLoadingMessage = this.localize('pageAllLoadedMessage');
+					if (loadMore && prevRecentlyUpdatedItems) {
+						this.shadowRoot.querySelector('activity-card-list').focusOnCard(prevRecentlyUpdatedItems.length);
+					}
 				}
 			});
 	}
