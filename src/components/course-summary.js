@@ -562,7 +562,10 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	}
 
 	_navigateToHome(e) {
-		e.preventDefault();
+		if (e) {
+			e.preventDefault();
+		}
+
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
 				path: this.routeLocations().home()
@@ -654,12 +657,16 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 	_unenroll() {
 		if (this.actionUnenroll) {
-			this.shadowRoot.querySelector('#discovery-course-summary-dialog-unenroll-confirm').opened = true;
+			return this._fetchEntity(this.actionUnenroll.href, this.actionUnenroll.method)
+				.then(() => {
+					this.shadowRoot.querySelector('#discovery-course-summary-dialog-unenroll-confirm').opened = true;
+				});
 		}
 	}
 
 	_dismissUnenrollment() {
 		this.shadowRoot.querySelector('#discovery-course-summary-dialog-unenroll-confirm').opened = false;
+		this._navigateToHome();
 	}
 
 	retryFetchOrganizationHomepage({ maxRetries, intervalInMs }) {
