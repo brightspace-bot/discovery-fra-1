@@ -657,9 +657,14 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 	_unenroll() {
 		if (this.actionUnenroll) {
-			return this._fetchEntity(this.actionUnenroll.href, this.actionUnenroll.method)
+			const actionUnenroll = this.actionUnenroll;
+			this.actionUnenroll = null;
+			return this._fetchEntity(actionUnenroll.href, actionUnenroll.method)
 				.then(() => {
 					this.shadowRoot.querySelector('#discovery-course-summary-dialog-unenroll-confirm').opened = true;
+				})
+				.catch(() => {
+					this.actionUnenroll = actionUnenroll; // give the user a chance to try again...
 				});
 		}
 	}
