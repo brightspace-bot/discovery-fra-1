@@ -42,6 +42,8 @@ window.D2L.Discovery.LangEn = {
 	"enrollmentMessageSuccessPast": "{title} ended on {date}",
 	"enrollmentMessageFail": "Unable to enroll at this time, please try again later.",
 	"enrollmentMessagePending": "Your enrollment to this course is still pending.",
+	"unenrollConfirmHeader": "Unenrollment Complete",
+	"unenrollConfirmBody": "You've been successfully unenrolled from \"{title}\".",
 	"OK": "OK",
 	"close": "Close",
 	"welcomeToTheCourse": "Welcome to the Course!",

@@ -183,6 +183,7 @@ class DiscoveryCourse extends mixinBehaviors(
 							course-last-updated=[[_courseLastUpdated]]
 							format=[[_format]]
 							action-enroll=[[_actionEnroll]]
+							action-unenroll=[[_actionUnenroll]]
 							organization-homepage=[[_organizationHomepage]]
 							organization-href=[[_organizationHref]]
 							start-date=[[_startDate]]
@@ -211,6 +212,10 @@ class DiscoveryCourse extends mixinBehaviors(
 			routeData: Object,
 
 			_actionEnroll: {
+				type: String,
+				value: ''
+			},
+			_actionUnenroll: {
 				type: String,
 				value: ''
 			},
@@ -276,8 +281,12 @@ class DiscoveryCourse extends mixinBehaviors(
 	_handleCourseEntity(courseEntity) {
 		if (!courseEntity) return Promise.reject();
 
-		if (courseEntity.hasAction('assign') && !courseEntity.hasClass('enroll')) {
+		if (courseEntity.hasAction('assign')) {
 			this._actionEnroll = courseEntity.getAction('assign');
+		}
+
+		if (courseEntity.hasAction('unassign')) {
+			this._actionUnenroll = courseEntity.getAction('unassign');
 		}
 
 		if (courseEntity.properties) {
