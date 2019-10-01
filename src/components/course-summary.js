@@ -409,6 +409,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 										<d2l-dropdown-menu>
 											<d2l-menu>
 												<d2l-menu-item
+													id="discovery-course-summary-unenroll"
 													text="[[localize('unenroll')]]"
 													on-click="_unenroll">
 												</d2l-menu-item>
@@ -478,13 +479,14 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				aria-describedby="#discovery-course-summary-dialog-describe"
 				aria-modal>
 				<div class="discovery-course-summary-dialog-container">
-					<div class="discovery-course-summary-dialog-header-container">
+					<div class="discovery-course-summary-dialog-header-container-unenroll">
 						<h3 class="discovery-course-summary-dialog-heading-text" id="discovery-course-summary-dialog-label">[[localize('unenrollConfirmHeader')]]</h3>
 					</div>
-					<div class="discovery-course-summary-dialog-content-container">
+					<div class="discovery-course-summary-dialog-content-container-unenroll">
 						<div class="d2l-body-standard" id="discovery-course-summary-dialog-describe">[[localize('unenrollConfirmBody', 'title', courseTitle)]]</div>
 					</div>
 					<d2l-button
+						id="discovery-course-summary-dialog-unenroll-dismiss"
 						on-click="_dismissUnenrollment"
 						primary
 						autofocus>
