@@ -3,6 +3,7 @@ import SirenParse from 'siren-parser';
 
 describe('course-summary', () => {
 	const testActionEnroll = '{ "name": "assign", "href": "/enroll/in/course", "method": "POST", "type": "application/json"}';
+	const testActionUnenroll = '{ "name": "unassign", "href": "/enroll/in/course", "method": "DELETE", "type": "application/json"}';
 	const testActionEnrollHrefRegex = /\/enroll\/in\/course$/;
 	const testOrganizationHomepage = '/test/organization/homepage';
 	const testOrganizationHref = '/test/organization/href';
@@ -24,10 +25,12 @@ describe('course-summary', () => {
 			component.setAttribute('action-enroll', '');
 			component.setAttribute('organization-homepage', testOrganizationHomepage);
 			component.setAttribute('organization-href', testOrganizationHref);
+			component.setAttribute('action-unenroll', testActionUnenroll);
 		} else {
 			component.setAttribute('action-enroll', testActionEnroll);
 			component.setAttribute('organization-homepage', '');
 			component.setAttribute('organization-href', testOrganizationHref);
+			component.setAttribute('action-unenroll', '');
 		}
 	}
 
@@ -165,6 +168,11 @@ describe('course-summary', () => {
 			expect(alreadyEnrolledMessage.style.display).to.not.equal('none');
 		});
 
+		it('unenroll menu item exists', () => {
+			const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+			expect(unenrollMenuItem).to.exist;
+		});
+
 		describe('course has started and has not ended', () => {
 			beforeEach((done) => {
 				component.setAttribute('start-date', testPastDateString);
@@ -296,6 +304,40 @@ describe('course-summary', () => {
 			});
 		});
 
+		it('can unenroll from enrolled course', done => {
+			const testTitle = 'Course Title'; // how is this not shared across this entire suite?!
+
+			component.setAttribute('course-title', testTitle);
+			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'DELETE')))
+				.returns(Promise.resolve({
+					ok: true,
+					status: 204
+				}));
+
+			// Workflow finishes after the user is enrolled and navigates to the homepage
+			component.addEventListener('navigate', e => {
+				expect(e.detail.path).to.equal('/d2l/le/discovery/view/home');
+
+				done();
+			});
+
+			const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+			unenrollMenuItem.click();
+
+			afterNextRender(component, () => {
+				// Dialog is opened with success message
+				const dialog = component.$$('#discovery-course-summary-dialog-unenroll-confirm');
+				expect(dialog.opened).to.equal(true);
+				const dialogTitle = component.$$('#discovery-course-summary-dialog-unenroll-confirm-label').innerText;
+				expect(dialogTitle).to.equal('Unenrollment Complete');
+				const dialogMessage = component.$$('#discovery-course-summary-dialog-unenroll-confirm-describe').innerText;
+				expect(dialogMessage).to.equal(`You've been successfully unenrolled from "${testTitle}".`);
+
+				const dismiss = component.$$('#discovery-course-summary-dialog-unenroll-dismiss');
+				dismiss.click();
+			});
+		});
+
 	});
 
 	describe('user is not enrolled', () => {
@@ -313,7 +355,7 @@ describe('course-summary', () => {
 			});
 
 			// Success enrollment stub
-			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)))
+			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'POST')))
 				.returns(Promise.resolve({
 					ok: true,
 					json: () => {
@@ -368,6 +410,11 @@ describe('course-summary', () => {
 		it('already enrolled message does not exist', () => {
 			const alreadyEnrolledMessage = component.$$('.discovery-course-summary-already-enrolled');
 			expect(alreadyEnrolledMessage).to.not.exist;
+		});
+
+		it('enroll course menu item does not exist', () => {
+			const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+			expect(unenrollMenuItem).to.not.exist;
 		});
 
 		describe('course has started and has not ended', () => {

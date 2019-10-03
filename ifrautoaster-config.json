@@ -6,22 +6,16 @@
 		"lang": "en-us"
 	},
 	"appconfig": {
-		"host": "http://127.0.0.1:8081/"
+		"host": "http://localhost:3000/app/index.html"
 	},
 	"auth": {
-		"user": "30273",
-		"tenant": "deadbeef-dead-beef-beef-deaddeadbeef"
+		"user": "30257",
+		"tenant": "d137320d-2de3-45a8-b901-7d52be430181",
+		"remoteIssuer": "https://dev-auth.brightspace.com/core"
 	},
 	"fra": {
 		"options": {
-			"discoveryUrl": "https://Discovery.content-service.brightspace.com",
-			"discoveryFeatureEnabled": true,
-			"manageView": false,
-			"orgUnitId": 123
-		},
-		"valenceHost": "http://localhost:3001",
-		"orgUnit": {
-			"OrgUnitId": "6614"
+			"endpoint": "https://us-east-1.discovery.bff.dev.brightspace.com"
 		}
 	}
 }

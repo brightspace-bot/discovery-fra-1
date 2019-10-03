@@ -11,14 +11,16 @@
     "test": "wct test --skip-plugin sauce --npm",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "test:polymer:sauce": "wct test --skip-plugin local --npm",
-    "build": "gulp build && polymer build && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled",
+    "build": "gulp build && polymer build --name es5-bundled && mv ./build/es5-bundled/* ./build && rmdir ./build/es5-bundled",
+    "build:debug": "gulp build && polymer build --name debug && mv ./build/debug/* ./build && rmdir ./build/debug",
     "start": "npm run build && npm run frau:build-config && npm run frau:resolve",
+    "start:debug": "npm run build:debug && npm run frau:build-config && npm run frau:resolve",
     "ifrautoaster": "ifrautoaster --config ./ifrautoaster-config.json",
     "frau:build-config": "frau-appconfig-builder --hostname $(node scripts/getHostname.js)",
     "frau:resolve": "frau-local-appresolver --hostname $(node scripts/getHostname.js)",
     "frau:publish": "frau-publisher",
     "frau:release": "npm run frau:publish",
-    "install-attest": "npm install attest --registry=https://d2lartifacts.artifactoryonline.com/d2lartifacts/api/npm/attest/ && node scripts/remove_attest_from_project.js"
+    "install-attest": "npm install --no-save attest"
   },
   "dependencies": {
     "@brightspace-ui/core": "^1",

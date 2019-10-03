@@ -85,6 +85,10 @@ const internalFetchMixin = (superClass) => class extends superClass {
 	}
 	__responseToSirenEntity(response) {
 		if (response.ok) {
+			if (response.status === 204) {
+				return undefined; // let no entity be a valid entity...
+			}
+
 			return response
 				.json()
 				.then(function(json) {
