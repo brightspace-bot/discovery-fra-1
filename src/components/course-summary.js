@@ -407,7 +407,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 									</d2l-button>
 									<d2l-dropdown-more>
 										<d2l-dropdown-menu>
-											<d2l-menu>
+											<d2l-menu label="[[localize('unenroll')]]">
 												<d2l-menu-item
 													id="discovery-course-summary-unenroll"
 													text="[[localize('unenroll')]]"
