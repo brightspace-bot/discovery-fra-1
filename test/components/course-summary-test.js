@@ -328,10 +328,10 @@ describe('course-summary', () => {
 				// Dialog is opened with success message
 				const dialog = component.$$('#discovery-course-summary-dialog-unenroll-confirm');
 				expect(dialog.opened).to.equal(true);
-				const dialogTitle = component.$$('.discovery-course-summary-dialog-header-container-unenroll').innerHTML;
-				expect(dialogTitle).to.include('Unenrollment Complete');
-				const dialogMessage = component.$$('.discovery-course-summary-dialog-content-container-unenroll').innerHTML;
-				expect(dialogMessage).to.include(`You've been successfully unenrolled from "${testTitle}"`);
+				const dialogTitle = component.$$('#discovery-course-summary-dialog-unenroll-confirm-label').innerText;
+				expect(dialogTitle).to.equal('Unenrollment Complete');
+				const dialogMessage = component.$$('#discovery-course-summary-dialog-unenroll-confirm-describe').innerText;
+				expect(dialogMessage).to.equal(`You've been successfully unenrolled from "${testTitle}".`);
 
 				const dismiss = component.$$('#discovery-course-summary-dialog-unenroll-dismiss');
 				dismiss.click();

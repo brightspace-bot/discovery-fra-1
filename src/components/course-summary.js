@@ -475,15 +475,15 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				always-on-top
 				with-backdrop
 				role="alertdialog"
-				aria-labelledby="#discovery-course-summary-dialog-label"
-				aria-describedby="#discovery-course-summary-dialog-describe"
+				aria-labelledby="#discovery-course-summary-dialog-unenroll-confirm-label"
+				aria-describedby="#discovery-course-summary-dialog-unenroll-confirm-describe"
 				aria-modal>
 				<div class="discovery-course-summary-dialog-container">
-					<div class="discovery-course-summary-dialog-header-container-unenroll">
-						<h3 class="discovery-course-summary-dialog-heading-text" id="discovery-course-summary-dialog-label">[[localize('unenrollConfirmHeader')]]</h3>
+					<div class="discovery-course-summary-dialog-header-container">
+						<h3 class="discovery-course-summary-dialog-heading-text" id="discovery-course-summary-dialog-unenroll-confirm-label">[[localize('unenrollConfirmHeader')]]</h3>
 					</div>
-					<div class="discovery-course-summary-dialog-content-container-unenroll">
-						<div class="d2l-body-standard" id="discovery-course-summary-dialog-describe">[[localize('unenrollConfirmBody', 'title', courseTitle)]]</div>
+					<div class="discovery-course-summary-dialog-content-container">
+						<div class="d2l-body-standard" id="discovery-course-summary-dialog-unenroll-confirm-describe">[[localize('unenrollConfirmBody', 'title', courseTitle)]]</div>
 					</div>
 					<d2l-button
 						id="discovery-course-summary-dialog-unenroll-dismiss"
