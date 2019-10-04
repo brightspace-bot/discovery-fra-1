@@ -325,6 +325,8 @@ describe('course-summary', () => {
 			unenrollMenuItem.click();
 
 			afterNextRender(component, () => {
+				sinon.assert.calledOnce(fetchStub);
+
 				// Dialog is opened with success message
 				const dialog = component.$$('#discovery-course-summary-dialog-unenroll-confirm');
 				expect(dialog.opened).to.equal(true);
@@ -382,6 +384,9 @@ describe('course-summary', () => {
 
 				// Enroll button is hidden
 				expect(enrollButton.style.display).to.equal('none');
+
+				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+				expect(unenrollMenuItem).to.exist;
 
 				// Click the open course button
 				if (expectHomepage) {
@@ -568,6 +573,46 @@ describe('course-summary', () => {
 				expect(enrollButton).to.exist;
 				expect(enrollButton.style.display).to.not.equal('none');
 				done();
+			});
+		});
+
+		it('can enroll and then immediately unenroll', done => {
+			// Success enrollment stub
+			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'POST')))
+				.returns(Promise.resolve({
+					ok: true,
+					json: () => {
+						return Promise.resolve({
+						});
+					}
+				}));
+			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'DELETE')))
+				.returns(Promise.resolve({
+					ok: true,
+					status: 204
+				}));
+
+			const enrollButton = component.$$('#discovery-course-summary-enroll');
+			expect(enrollButton).to.exist;
+			expect(enrollButton.style.display).to.not.equal('none');
+			enrollButton.click();
+
+			afterNextRender(component, () => {
+				sinon.assert.calledTwice(fetchStub);
+
+				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+				unenrollMenuItem.click();
+
+				afterNextRender(component, () => {
+					sinon.assert.calledThrice(fetchStub);
+
+					const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+					unenrollMenuItem.click();
+
+					afterNextRender(component, () => {
+						done();
+					});
+				});
 			});
 		});
 	});
