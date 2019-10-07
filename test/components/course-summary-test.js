@@ -325,6 +325,8 @@ describe('course-summary', () => {
 			unenrollMenuItem.click();
 
 			afterNextRender(component, () => {
+				sinon.assert.calledOnce(fetchStub);
+
 				// Dialog is opened with success message
 				const dialog = component.$$('#discovery-course-summary-dialog-unenroll-confirm');
 				expect(dialog.opened).to.equal(true);
@@ -382,6 +384,9 @@ describe('course-summary', () => {
 
 				// Enroll button is hidden
 				expect(enrollButton.style.display).to.equal('none');
+
+				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+				expect(unenrollMenuItem).to.exist;
 
 				// Click the open course button
 				if (expectHomepage) {
@@ -568,6 +573,49 @@ describe('course-summary', () => {
 				expect(enrollButton).to.exist;
 				expect(enrollButton.style.display).to.not.equal('none');
 				done();
+			});
+		});
+
+		it('can enroll and then immediately unenroll', done => {
+			const enrollActionMatch = sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'POST'));
+			const unenrollActionMatch = sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'DELETE'));
+
+			fetchStub.withArgs(enrollActionMatch)
+				.returns(Promise.resolve({
+					ok: true,
+					json: () => {
+						return Promise.resolve({
+							actions: [
+								JSON.parse(testActionUnenroll)
+							]
+						});
+					}
+				}));
+			fetchStub.withArgs(unenrollActionMatch)
+				.returns(Promise.resolve({
+					ok: true,
+					status: 204
+				}));
+
+			sinon.assert.notCalled(fetchStub);
+
+			const enrollButton = component.$$('#discovery-course-summary-enroll');
+			expect(enrollButton).to.exist;
+			expect(enrollButton.style.display).to.not.equal('none');
+			enrollButton.click();
+
+			afterNextRender(component, () => {
+				sinon.assert.calledWith(fetchStub, enrollActionMatch);
+				sinon.assert.neverCalledWith(fetchStub, unenrollActionMatch);
+
+				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+				unenrollMenuItem.click();
+
+				afterNextRender(component, () => {
+					sinon.assert.calledWith(fetchStub, unenrollActionMatch);
+
+					done();
+				});
 			});
 		});
 	});

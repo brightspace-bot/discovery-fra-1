@@ -624,6 +624,9 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	_enroll() {
 		if (this.actionEnroll) {
 			return this._fetchEntity(this.actionEnroll.href, this.actionEnroll.method)
+				.then(entity => {
+					this.actionUnenroll = entity.getActionByName('unassign');
+				})
 				.then(() => {
 					this.actionEnroll = null;
 					this._enrollmentDialogHeader = this.localize('enrollmentHeaderSuccess');
