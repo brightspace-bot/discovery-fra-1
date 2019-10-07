@@ -577,20 +577,27 @@ describe('course-summary', () => {
 		});
 
 		it('can enroll and then immediately unenroll', done => {
-			// Success enrollment stub
-			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'POST')))
+			const enrollActionMatch = sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'POST'));
+			const unenrollActionMatch = sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'DELETE'));
+
+			fetchStub.withArgs(enrollActionMatch)
 				.returns(Promise.resolve({
 					ok: true,
 					json: () => {
 						return Promise.resolve({
+							actions: [
+								JSON.parse(testActionUnenroll)
+							]
 						});
 					}
 				}));
-			fetchStub.withArgs(sinon.match.has('url', sinon.match(testActionEnrollHrefRegex)).and(sinon.match.has('method', 'DELETE')))
+			fetchStub.withArgs(unenrollActionMatch)
 				.returns(Promise.resolve({
 					ok: true,
 					status: 204
 				}));
+
+			sinon.assert.notCalled(fetchStub);
 
 			const enrollButton = component.$$('#discovery-course-summary-enroll');
 			expect(enrollButton).to.exist;
@@ -598,20 +605,16 @@ describe('course-summary', () => {
 			enrollButton.click();
 
 			afterNextRender(component, () => {
-				sinon.assert.calledTwice(fetchStub);
+				sinon.assert.calledWith(fetchStub, enrollActionMatch);
+				sinon.assert.neverCalledWith(fetchStub, unenrollActionMatch);
 
 				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
 				unenrollMenuItem.click();
 
 				afterNextRender(component, () => {
-					sinon.assert.calledThrice(fetchStub);
+					sinon.assert.calledWith(fetchStub, unenrollActionMatch);
 
-					const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
-					unenrollMenuItem.click();
-
-					afterNextRender(component, () => {
-						done();
-					});
+					done();
 				});
 			});
 		});
