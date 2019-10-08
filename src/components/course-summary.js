@@ -405,17 +405,19 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 										primary>
 										[[localize('openCourse')]]
 									</d2l-button>
-									<d2l-dropdown-more>
-										<d2l-dropdown-menu>
-											<d2l-menu label="[[localize('enrollmentOptions')]]">
-												<d2l-menu-item
-													id="discovery-course-summary-unenroll"
-													text="[[localize('unenroll')]]"
-													on-click="_unenroll">
-												</d2l-menu-item>
-											</d2l-menu>
-										</d2l-dropdown-menu>
-									</d2l-dropdown-more>
+									<template is="dom-if" if="[[actionUnenroll]]">
+										<d2l-dropdown-more>
+											<d2l-dropdown-menu>
+												<d2l-menu label="[[localize('enrollmentOptions')]]">
+													<d2l-menu-item
+														id="discovery-course-summary-unenroll"
+														text="[[localize('unenroll')]]"
+														on-click="_unenroll">
+													</d2l-menu-item>
+												</d2l-menu>
+											</d2l-dropdown-menu>
+										</d2l-dropdown-more>
+									</template>
 									<span class="discovery-course-summary-already-enrolled d2l-body-compact">[[localize('alreadyEnrolled')]]</span>
 								</div>
 							</template>

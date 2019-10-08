@@ -304,6 +304,20 @@ describe('course-summary', () => {
 			});
 		});
 
+		describe('course lacks enroll and unenroll actions', () => {
+			beforeEach((done) => {
+				component = fixture('course-summary-basic-fixture');
+				component.setAttribute('action-enroll', '');
+				component.setAttribute('action-unenroll', '');
+				afterNextRender(component, done);
+			});
+
+			it('will not allow unenroll', () => {
+				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+				expect(unenrollMenuItem).to.not.exist;
+			});
+		});
+
 		it('can unenroll from enrolled course', done => {
 			const testTitle = 'Course Title'; // how is this not shared across this entire suite?!
 
@@ -385,8 +399,10 @@ describe('course-summary', () => {
 				// Enroll button is hidden
 				expect(enrollButton.style.display).to.equal('none');
 
-				const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
-				expect(unenrollMenuItem).to.exist;
+				if (component.getAttribute('action-unenroll')) {
+					const unenrollMenuItem = component.$$('#discovery-course-summary-unenroll');
+					expect(unenrollMenuItem).to.exist;
+				}
 
 				// Click the open course button
 				if (expectHomepage) {
