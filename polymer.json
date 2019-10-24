@@ -12,25 +12,11 @@
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**/*.js",
     "!node_modules/@webcomponents/webcomponentsjs/gulpfile.js",
-    "node_modules/d2l-*/*.js",
-    "@brightspace-ui/core/**/*"
+    "node_modules/d2l-*/*.js"
   ],
   "builds": [{
-    "name": "es5-bundled",
     "preset": "es5-bundled",
     "addServiceWorker": true
-  },{
-    "name": "debug",
-    "preset": "es5-bundled",
-    "addServiceWorker": true,
-    "js": {
-      "minify": false,
-      "compile": true
-    },
-    "html": {
-      "minify": false
-    },
-    "bundle": false
   }],
   "npm": true,
   "lint": {
