@@ -39,7 +39,6 @@ class DiscoveryCourse extends mixinBehaviors(
 					display: flex;
 					flex-direction: row;
 					flex-wrap: nowrap;
-					overflow: auto;
 				}
 
 				.discovery-course-summary {
