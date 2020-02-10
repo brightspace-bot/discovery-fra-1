@@ -61,7 +61,7 @@ window.D2L.Discovery.LangEn = {
 	"searchResultsOffscreen": "Search Results for \"{searchQuery}\"",
 	"searchResultsReadyMessage": "Page {pageCurrent} of {pageTotal} for \"{searchQuery}\" is now ready",
 	"noResultsHeading": "No results for \"{searchQuery}\"",
-	"noResultsMessage": "Try using a different search term or {link-start}Browse All{link-end} to view all available materials",
+	"noResultsMessage": "Try using a different search term or {linkStart}Browse All{linkEnd} to view all available materials",
 	"searchResultCountForAllResults": "{searchResultRange} of {searchResultsTotal} results",
 	"searchResultsReadyMessageForAllResults": "Page {pageCurrent} of {pageTotal} is now ready",
 	"or": "or",

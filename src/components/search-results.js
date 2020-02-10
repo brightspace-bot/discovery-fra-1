@@ -472,9 +472,9 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		if (noResultsMessageElement && !noResultsMessageElement.innerHTML) {
 			const noResultsMessage = this.localize(
 				'noResultsMessage',
-				'link-start',
+				'linkStart',
 				'<d2l-link href=javascript:void(0) id="discovery-search-results-browse-all">',
-				'link-end',
+				'linkEnd',
 				'</d2l-link>');
 			fastdom.mutate(() => {
 				noResultsMessageElement.innerHTML = noResultsMessage;
