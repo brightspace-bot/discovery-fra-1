@@ -329,17 +329,15 @@ class DiscoveryCourse extends mixinBehaviors(
 			this._updateDocumentTitle();
 			this._courseDescription = description;
 
-			const dateFormat = 'MMM Do, YYYY';
-			moment.locale(this.language);
+			const dateFormat = 'MMMM d, yyyy';
 			if (startDate) {
 				this._startDateIsoFormat = startDate;
-				this._startDate = moment.utc(startDate).format(dateFormat);
+				this._startDate = this.formatDate(new Date(Date.parse(startDate)), {format: dateFormat});
 			}
 			if (endDate) {
 				this._endDateIsoFormat = endDate;
-				this._endDate = moment.utc(endDate).format(dateFormat);
+				this._endDate = this.formatDate(new Date(Date.parse(endDate)), {format: dateFormat});
 			}
-
 			this._processCourseDescriptionItems();
 		}
 
