@@ -268,12 +268,12 @@ class DiscoveryCourse extends mixinBehaviors(
 		this._reset();
 		this.routeData = routeData.detail.value || {};
 		if (this.routeData.courseId) {
-			let courseIdStr = this.routeData.courseId;
-			let matches = courseIdStr.match(/\d+/g);
+			const courseIdStr = this.routeData.courseId;
+			const matches = courseIdStr.match(/\d+/g);
 			if (!matches || matches.length < 1) {
 				this._navigateToNotFound();
 			} else {
-				let courseId = matches.map(Number)[0];
+				const courseId = matches.map(Number)[0];
 				const parameters = { id: courseId };
 				return this._getActionUrl('course', parameters)
 					.then(url => this._fetchEntity(url))
