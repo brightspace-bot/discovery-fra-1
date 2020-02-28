@@ -107,8 +107,18 @@ class DiscoveryApp extends RouteLocationsMixin(IfrauMixin(PolymerElement)) {
 			this._ifrauNavigationGo(e.detail.path);
 		}
 	}
+	_stripQueryParameters(route) {
+		if (!route || !route.path) {
+			return;
+		}
+
+		const url = new URL(decodeURIComponent(route.path) || '', 'http://dummy.com');
+		route.path = url.pathname;
+	}
+
 	_routeChanged(route) {
 		route = route.detail.value || {};
+		this._stripQueryParameters(route);
 		this.route = route;
 		if (route.path === '/d2l/le/discovery/view/') { // navlink home
 			var appLocationIfrau = this.shadowRoot.querySelector('app-location-ifrau');
