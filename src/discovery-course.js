@@ -268,7 +268,12 @@ class DiscoveryCourse extends mixinBehaviors(
 		this._reset();
 		this.routeData = routeData.detail.value || {};
 		if (this.routeData.courseId) {
-			const parameters = { id: this.routeData.courseId };
+			let courseId = decodeURIComponent(this.routeData.courseId);
+			let parts = courseId.split('?');
+			if (parts.length >= 2) {
+				courseId = parts[0];
+			}
+			const parameters = { id: courseId };
 			return this._getActionUrl('course', parameters)
 				.then(url => this._fetchEntity(url))
 				.then(this._handleCourseEntity.bind(this))
