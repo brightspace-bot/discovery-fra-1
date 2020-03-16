@@ -267,6 +267,8 @@ class DiscoveryCourse extends mixinBehaviors(
 	_routeDataChanged(routeData) {
 		this._reset();
 		this.routeData = routeData.detail.value || {};
+		// Todo: this is likely a bug in polymer where query parameters cannot be extracted from the app-route pattern
+		// We can come back to fix it in polymer later https://github.com/PolymerElements/app-route/blob/master/app-route.js#L278
 		if (this.routeData.courseId) {
 			let courseId = decodeURIComponent(this.routeData.courseId);
 			const parts = courseId.split('?');
