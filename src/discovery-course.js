@@ -269,7 +269,7 @@ class DiscoveryCourse extends mixinBehaviors(
 		this.routeData = routeData.detail.value || {};
 		if (this.routeData.courseId) {
 			let courseId = decodeURIComponent(this.routeData.courseId);
-			let parts = courseId.split('?');
+			const parts = courseId.split('?');
 			if (parts.length >= 2) {
 				courseId = parts[0];
 			}
