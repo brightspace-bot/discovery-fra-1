@@ -14,6 +14,7 @@ import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import './loading-overlay.js';
 import './loading-skeleton.js';
+import './d2l-discover-list/d2l-discover-list.js';
 
 class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(PolymerElement))) {
 	static get template() {
@@ -64,9 +65,6 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					word-wrap: break-word;
 				}
 
-				d2l-activity-list-item {
-					border-bottom: 1px solid var(--d2l-color-mica);
-				}
 				.discovery-search-results-page-number-container {
 					margin: 15px;
 					display: flex;
@@ -129,23 +127,16 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				</div>
 
 				<template is="dom-if" if="[[_searchQueryLoading]]">
-					<template is="dom-repeat" items="[[_noResultSkeletonItems]]">
-						<d2l-activity-list-item class="d2l-search-results-skeleton-item" image-placeholder text-placeholder></d2l-activity-list-item>
-					</template>
+					<d2l-discover-list imagePlaceholder textPlaceholder entities$=[[_noResultSkeletonItems]]></d2l-discover-list>
 				</template>
 
 				<template is="dom-if" if="[[!_searchQueryLoading]]" restamp>
 					<template is="dom-if" if="[[_searchResultsExists]]">
 						<div class="discovery-search-results-container">
-							<template is="dom-repeat" items="[[_searchResult]]">
-								<d2l-activity-list-item
-									image-placeholder
-									text-placeholder
-									entity="[[item]]"
-									send-on-trigger-event
-									token="[[token]]">
-								</d2l-activity-list-item>
-							</template>
+							<d2l-discover-list id="discover-search-results-list"
+								entities="[[_searchResult]]"
+								token="[[token]]">
+							</d2l-discover-list>
 						</div>
 						<div class="discovery-search-results-page-number-container">
 							<d2l-button-icon
@@ -206,7 +197,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			_pageCurrent: Number,
 			_pageTotal: Number,
 			_searchResultsTotal: Number,
-			_noResultSkeletonItems: Array,
+			_noResultSkeletonItems: String,
 			_searchResultsTotalReady: {
 				type: Boolean,
 				observer: '_searchResultsTotalReadyObserver'
@@ -249,10 +240,9 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 	ready() {
 		super.ready();
-		this._noResultSkeletonItems = Array(5);
-		this.addEventListener('d2l-activity-trigger', this._navigateToCourse.bind(this));
-		this.addEventListener('d2l-activity-text-loaded', this._removeTextPlaceholders);
-		this.addEventListener('d2l-activity-image-loaded', this._removeImagePlaceholders);
+		this._noResultSkeletonItems = '[null,null,null,null,null]';
+		this.addEventListener('d2l-discover-text-loaded', this._removeTextPlaceholders);
+		this.addEventListener('d2l-discover-image-loaded', this._removeImagePlaceholders);
 	}
 
 	_onHrefChange(href) {
@@ -288,19 +278,6 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this._searchResultsRangeToString = `${startIndex}-${endIndex}`;
 
 		this._searchResult = sirenEntity.getSubEntitiesByRel('https://discovery.brightspace.com');
-	}
-
-	_navigateToCourse(e) {
-		e.stopPropagation();
-		if (e && e.detail && e.detail.orgUnitId) {
-			this.dispatchEvent(new CustomEvent('navigate', {
-				detail: {
-					path: this.routeLocations().course(e.detail.orgUnitId)
-				},
-				bubbles: true,
-				composed: true
-			}));
-		}
 	}
 
 	_toPreviousPage(event) {
@@ -349,6 +326,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			composed: true
 		}));
 		this._showLoadingOverlay = true;
+		const discoverList = this.shadowRoot.querySelector('#discover-search-results-list');
+		discoverList.Reset();
 	}
 
 	_countDigits(number) {
@@ -384,13 +363,6 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			if (this._searchResultsTotal === 0) {
 				this.loadingMessage = this.localize('noResultsHeading', 'searchQuery', this.searchQuery);
 			}
-		} else {
-			const skeletonItems = this.shadowRoot.querySelectorAll('.d2l-search-results-skeleton-item');
-			skeletonItems.forEach((skeletonItem) => {
-				afterNextRender(skeletonItem, () => {
-					skeletonItem.notifyResize();
-				});
-			});
 		}
 	}
 	_processBeforeLoading() {
@@ -411,42 +383,24 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this.emptySearchQuery = !this.searchQuery;
 	}
 	_removeImagePlaceholders() {
-		this._numberOfImageLoadedEvents++;
-		if (this._numberOfImageLoadedEvents >= this._searchResult.length) {
-			const resultElements = this.shadowRoot.querySelectorAll('.discovery-search-results-container d2l-activity-list-item');
-			fastdom.mutate(() => {
-				resultElements.forEach((resultElement) => {
-					resultElement.removeAttribute('image-placeholder');
-				});
-				this._allImageLoaded = true;
-			});
-		}
+		this._allImageLoaded = true;
 	}
 	_removeTextPlaceholders() {
-		this._numberOfTextLoadedEvents++;
-		if (this._numberOfTextLoadedEvents >= this._searchResult.length) {
-			const resultElements = this.shadowRoot.querySelectorAll('.discovery-search-results-container d2l-activity-list-item');
-			fastdom.mutate(() => {
-				resultElements.forEach((resultElement) => {
-					resultElement.removeAttribute('text-placeholder');
-				});
-				this._allTextLoaded = true;
-
-				if (this.emptySearchQuery) {
-					this.loadingMessage = this.localize(
-						'searchResultsReadyMessageForAllResults',
-						'pageCurrent', this._pageCurrent,
-						'pageTotal', this._pageTotal);
-				} else {
-					this.loadingMessage = this.localize(
-						'searchResultsReadyMessage',
-						'pageCurrent', this._pageCurrent,
-						'pageTotal', this._pageTotal,
-						'searchQuery', this.searchQuery);
-				}
-			});
+		this._allTextLoaded = true;
+		if (this.emptySearchQuery) {
+			this.loadingMessage = this.localize(
+				'searchResultsReadyMessageForAllResults',
+				'pageCurrent', this._pageCurrent,
+				'pageTotal', this._pageTotal);
+		} else {
+			this.loadingMessage = this.localize(
+				'searchResultsReadyMessage',
+				'pageCurrent', this._pageCurrent,
+				'pageTotal', this._pageTotal,
+				'searchQuery', this.searchQuery);
 		}
 	}
+
 	_allTextAndImagesLoadedObserver(_allTextLoaded, _allImageLoaded) {
 		if (_allTextLoaded && _allImageLoaded) {
 			this._showLoadingOverlay  = false;
