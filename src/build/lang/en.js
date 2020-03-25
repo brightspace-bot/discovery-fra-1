@@ -41,7 +41,7 @@ window.D2L.Discovery.LangEn = {
 	"enrollmentMessageSuccessFuture": "{title} will become available in the My Courses widget on {date}",
 	"enrollmentMessageSuccessPast": "{title} ended on {date}",
 	"enrollmentMessageFail": "Unable to enroll at this time, please try again later.",
-	"enrollmentMessagePending": "Your enrollment to this course is still pending.",
+	"enrollmentMessagePending": "Your enrollment to this course is pending, check back soon to access this course.",
 	"enrollmentHeaderUnenrolled": "No Current Access",
 	"enrollmentMessageUnenrolled": "You have been un-enrolled by an Administrator, contact your Administrator in order to enroll again.",
 	"enrollmentOptions": "Enrollment Options",
