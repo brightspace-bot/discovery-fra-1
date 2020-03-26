@@ -182,6 +182,7 @@ class DiscoveryCourse extends mixinBehaviors(
 							course-last-updated=[[_courseLastUpdated]]
 							format=[[_format]]
 							action-enroll=[[_actionEnroll]]
+							self-enrolled-date=[[_selfEnrolledDate]]
 							action-unenroll=[[_actionUnenroll]]
 							organization-homepage=[[_organizationHomepage]]
 							organization-href=[[_organizationHref]]
@@ -239,6 +240,7 @@ class DiscoveryCourse extends mixinBehaviors(
 				type: Boolean,
 				value: false
 			},
+			_selfEnrolledDate: String,
 			visible: {
 				type: Boolean,
 				observer: '_visible'
@@ -296,6 +298,7 @@ class DiscoveryCourse extends mixinBehaviors(
 		}
 
 		if (courseEntity.properties) {
+			this._selfEnrolledDate = courseEntity.properties.selfAssignedDate;
 			//TODO: These properties still need to be added
 			// 	// data for the course summary
 			// 	this._courseCategory = '';
