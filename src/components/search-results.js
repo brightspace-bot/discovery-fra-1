@@ -128,19 +128,19 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 								<d2l-sort-by-dropdown-option
 									selected="[[_isSelected('relevant')]]"
 									value="relevant"
-									text="[[getSortText('relevant')]]"/>
+									text="[[getSortText('relevant')]]"></d2l-sort-by-dropdown-option>
 								<d2l-sort-by-dropdown-option
 									selected="[[_isSelected('updated')]]"
 									value="updated"
-									text="[[getSortText('updated')]]"/>
+									text="[[getSortText('updated')]]"></d2l-sort-by-dropdown-option>
 								<d2l-sort-by-dropdown-option
 									selected="[[_isSelected('added')]]"
 									value="added"
-									text="[[getSortText('added')]]"/>
+									text="[[getSortText('added')]]"></d2l-sort-by-dropdown-option>
 								<d2l-sort-by-dropdown-option
 									selected="[[_isSelected('enrolled')]]"
 									value="enrolled"
-									text="[[getSortText('enrolled')]]"/>
+									text="[[getSortText('enrolled')]]"></d2l-sort-by-dropdown-option>
 							</d2l-sort-by-dropdown>
 						</template>
 					</template>
@@ -402,7 +402,10 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this._resetNonSearchResultProperties();
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
-				path: this.routeLocations().search(this.searchQuery, { page: pageNumber })
+				path: this.routeLocations().search(this.searchQuery, {
+					sort: this.sortParameter,
+					page: pageNumber
+				})
 			},
 			bubbles: true,
 			composed: true
@@ -527,7 +530,9 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	_navigateToBrowseAll() {
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
-				path: this.routeLocations().search('')
+				path: this.routeLocations().search('', {
+					sort: this.sortParameter
+				})
 			},
 			bubbles: true,
 			composed: true

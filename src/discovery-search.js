@@ -139,7 +139,12 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 					</div>
 					<div class="d2l-typography discovery-search-main">
 						<div class="discovery-search-nav-container">
-							<search-header id="discovery-search-search-header" query="[[searchQuerySanitized]]" page="[[_pageCurrent]]"></search-header>
+							<search-header
+								id="discovery-search-search-header"
+								query="[[searchQuerySanitized]]"
+								page="[[_pageCurrent]]"
+								sort-parameter="[[_sortParameter]]">
+							</search-header>
 						</div>
 						<div class="discovery-search-results">
 							<search-results
