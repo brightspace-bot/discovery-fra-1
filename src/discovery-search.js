@@ -144,7 +144,8 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 						<div class="discovery-search-results">
 							<search-results
 								href="[[_searchActionHref]]"
-								search-query="[[searchQuerySanitized]]">
+								search-query="[[searchQuerySanitized]]"
+								sort-parameter="[[_sortParameter]]">
 							</search-results>
 						</div>
 						<discovery-footer></discovery-footer>
@@ -178,6 +179,10 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			_searchQuery: {
 				type: String,
 				value: '',
+			},
+			_sortPrameter: {
+				type: String,
+				value: 'updated'
 			},
 			searchQuerySanitized: {
 				type: String,
@@ -252,11 +257,17 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 			this._pageCurrent = Math.max(queryParams.get('page') - 1, 0);
 		}
 
+		const prevSort = this._sortParameter;
+		if (queryParams && queryParams.has && queryParams.has('sort')) {
+			this._sortParameter = queryParams.get('sort');
+		}
+
 		this.queryParams = queryParams;
 
 		const pageChanged = prevCurrentPage !== this._pageCurrent;
 		const queryChanged = prevSearchQuery !== this.searchQuerySanitized;
-		if (pageChanged || queryChanged) {
+		const sortChanged = prevSort !== this._sortParameter;
+		if (pageChanged || queryChanged || sortChanged) {
 			this._getDecodedQuery(this.searchQuerySanitized, this._pageCurrent);
 		}
 
@@ -278,7 +289,8 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 
 		const parameters = {
 			q: searchQuery,
-			page: page
+			page: page,
+			sort: this._sortParameter
 		};
 
 		if (!searchQuery) {

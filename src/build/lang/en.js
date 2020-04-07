@@ -79,8 +79,7 @@ window.D2L.Discovery.LangEn = {
 	"courseSummaryReadyMessage": "{courseTitle} is now ready",
 	"sorting.sortBy": "Sort by",
 	"sorting.mostRelevant": "Most Relevant",
-	"sorting.all": "All",
 	"sorting.updated": "Newly Updated",
 	"sorting.added": "Newly Added",
-	"sorting.enrolled": "Already enrolled"
+	"sorting.enrolled": "Already Enrolled"
 };

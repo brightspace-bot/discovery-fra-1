@@ -149,9 +149,9 @@ describe('search-results', () => {
 			}]
 		});
 		fetchStub = sandbox.stub(window.d2lfetch, 'fetch');
-		SetupFetchStub(/\/search\/no-results&sort=relevant$/, searchResultEntityNoResults);
-		SetupFetchStub(/\/search\/results&sort=relevant$/, searchResultEntityWithResults);
-		SetupFetchStub(/\/search\/all-results&sort=relevant$/, searchResultEntityWithAllResults);
+		SetupFetchStub(/\/search\/no-results$/, searchResultEntityNoResults);
+		SetupFetchStub(/\/search\/results$/, searchResultEntityWithResults);
+		SetupFetchStub(/\/search\/all-results$/, searchResultEntityWithAllResults);
 		SetupFetchStub(/\/organization\/1$/, {});
 	});
 
