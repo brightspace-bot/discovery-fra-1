@@ -180,9 +180,9 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 				type: String,
 				value: '',
 			},
-			_sortPrameter: {
+			_sortParameter: {
 				type: String,
-				value: 'updated'
+				value: 'relevant'
 			},
 			searchQuerySanitized: {
 				type: String,

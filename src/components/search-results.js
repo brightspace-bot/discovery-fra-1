@@ -125,10 +125,22 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 								</div>
 							</template>
 							<d2l-sort-by-dropdown id="sortDropdown" label="Sort by options" align="end">
-								<d2l-sort-by-dropdown-option selected="[[_isSelected('relevant')]]" value="relevant" text="[[getSortText('relevant')]]"></d2l-sort-by-dropdown-option>
-								<d2l-sort-by-dropdown-option selected="[[_isSelected('updated')]]" value="updated" text="[[getSortText('updated')]]"></d2l-sort-by-dropdown-option>
-								<d2l-sort-by-dropdown-option selected="[[_isSelected('added')]]" value="added" text="[[getSortText('added')]]"></d2l-sort-by-dropdown-option>
-								<d2l-sort-by-dropdown-option selected="[[_isSelected('enrolled')]]" value="enrolled" text="[[getSortText('enrolled')]]"></d2l-sort-by-dropdown-option>
+								<d2l-sort-by-dropdown-option
+									selected="[[_isSelected('relevant')]]"
+									value="relevant"
+									text="[[getSortText('relevant')]]"/>
+								<d2l-sort-by-dropdown-option
+									selected="[[_isSelected('updated')]]"
+									value="updated"
+									text="[[getSortText('updated')]]"/>
+								<d2l-sort-by-dropdown-option
+									selected="[[_isSelected('added')]]"
+									value="added"
+									text="[[getSortText('added')]]"/>
+								<d2l-sort-by-dropdown-option
+									selected="[[_isSelected('enrolled')]]"
+									value="enrolled"
+									text="[[getSortText('enrolled')]]"/>
 							</d2l-sort-by-dropdown>
 						</template>
 					</template>
