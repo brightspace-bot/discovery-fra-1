@@ -272,6 +272,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		return item === this.sortParameter;
 	}
 	_onSortChanged(sortEvent) {
+		// If same sort is selected, nothing is changed
+		if (this.sortParameter === sortEvent.detail.value) {
+			return;
+		}
+
 		this._searchQueryLoading = true;
 		this._processBeforeLoading();
 		this.setUpNoResultsMessage();
