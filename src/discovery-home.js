@@ -1,22 +1,17 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import 'd2l-button/d2l-button.js';
-import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
-import './components/activity-card-list.js';
 import './components/discovery-footer.js';
 import './components/home-header.js';
+import './components/home-list-section.js';
 import './styles/discovery-styles.js';
 
-import { FetchMixin } from './mixins/fetch-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
-import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 
-class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(PolymerElement))) {
+class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 	static get template() {
 
 		return html`
-			<style include="d2l-offscreen-shared-styles"></style>
 			<style include="discovery-styles">
 				:host {
 					display: block;
@@ -31,16 +26,6 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 					margin: 0 30px;
 				}
 
-				.discovery-home-recently-updated-container {
-					display: flex;
-					flex-direction: column;
-				}
-
-				.discovery-home-load-more-button {
-					margin-top: 0.5rem;
-					width: 100%;
-				}
-
 				@media only screen and (max-width: 929px) {
 					.discovery-home-main {
 						margin: 0 24px;
@@ -51,34 +36,13 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 						margin: 0 18px;
 					}
 				}
-				.discovery-home-offscreen-text {
-					display: inline-block;
-					@apply --d2l-offscreen;
-				}
-
-				:host(:dir(rtl)) .discovery-home-offscreen-text {
-					@apply --d2l-offscreen-rtl;
-				}
 			</style>
-			<span class="discovery-home-offscreen-text" aria-live="polite">[[_pageLoadingMessage]] [[_allLoadingMessage]]</span>
 
 			<div class="d2l-typography">
 				<div class="discovery-home-main">
 					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
-					<div class="discovery-home-recently-updated-container">
-						<activity-card-list
-							header="[[localize('recentlyUpdated')]]"
-							activities="[[_recentlyUpdatedItems]]"
-							token="[[token]]">
-						</activity-card-list>
-						<d2l-button
-							class="discovery-home-load-more-button"
-							href="javascript:void(0)"
-							on-click="_loadMoreRecentlyUpdated"
-							hidden$="[[!_recentlyUpdatedItemsHasMore]]">
-							[[localize('loadMore')]]
-						</d2l-button>
-					</div>
+					<home-list-section sort="added" section-name="[[localize('new')]]"></home-list-section >
+					<home-list-section sort="updated" section-name="[[localize('recentlyUpdated')]]"></home-list-section >
 					<discovery-footer></discovery-footer>
 				</div>
 			</div>
@@ -89,175 +53,23 @@ class DiscoveryHome extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polymer
 			visible: {
 				type: Boolean,
 				observer: '_visible'
-			},
-			_pageSize: {
-				type: Number,
-				value: 12
-			},
-			_recentlyUpdatedItems: {
-				type: Array,
-				value: function() { return []; }
-			},
-			_recentlyUpdatedItemsPage: {
-				type: Number,
-				value: 0
-			},
-			_recentlyUpdatedItemsTotal: {
-				type: Number,
-				value: undefined
-			},
-			_recentlyUpdatedItemsHasMore: {
-				type: Boolean,
-				value: false
-			},
-			_allLoadingMessage: {
-				type: String,
-				value: ''
-			},
-			_pageLoadingMessage: {
-				type: String,
-				value: ''
-			},
-			token: String
-		};
-	}
-	static get observers() {
-		return [
-			'_recentlyUpdatedItemsPageTotalObserver(_recentlyUpdatedItemsPage, _recentlyUpdatedItemsTotal)'
-		];
-	}
-	ready() {
-		super.ready();
-		this.addEventListener('d2l-activity-card-clicked', this._navigateToCourse.bind(this));
-	}
-	_visible(visible) {
-		if (visible) {
-			const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
-			document.title = this.localize('homepageDocumentTitle', 'instanceName', instanceName ? instanceName : '');
-
-			const homeHeader = this.shadowRoot.querySelector('#discovery-home-home-header');
-			if (homeHeader) {
-				homeHeader.clear();
-				homeHeader.focusOnInput();
 			}
-
-			this._updateRecentlyUpdatedItems();
-		} else {
-			this._reset();
-		}
-	}
-	static get _searchAction() {
-		return 'search-activities';
-	}
-	_getRecentlyUpdatedCourses() {
-		const parameters = {
-			page: this._recentlyUpdatedItemsPage,
-			pageSize: this._pageSize
 		};
-
-		return this._getActionUrl(this._searchAction, parameters)
-			.then(url => {
-				return this._fetchEntity(url)
-					.then(this._handleSearchResponse.bind(this))
-					.catch(() => {
-						this.dispatchEvent(new CustomEvent('navigate', {
-							detail: {
-								path: this.routeLocations().notFound()
-							},
-							bubbles: true,
-							composed: true
-						}));
-					});
-			})
-			.catch(() => {
-				this.dispatchEvent(new CustomEvent('navigate', {
-					detail: {
-						path: this.routeLocations().notFound()
-					},
-					bubbles: true,
-					composed: true
-				}));
-			});
 	}
-	_handleSearchResponse(sirenEntity) {
-		if (!sirenEntity || !sirenEntity.properties) {
+
+	_visible(visible) {
+		if (!visible) {
 			return;
 		}
 
-		return {
-			total: sirenEntity.properties.pagingInfo.total,
-			entities: sirenEntity.getSubEntitiesByRel('https://discovery.brightspace.com')
-		};
-	}
-	_loadMoreRecentlyUpdated() {
-		if (!this._recentlyUpdatedItems || !this._recentlyUpdatedItems.length) {
-			return;
-		}
+		const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
+		document.title = this.localize('homepageDocumentTitle', 'instanceName', instanceName ? instanceName : '');
 
-		this._pageLoadingMessage = '';
-		this._recentlyUpdatedItemsPage++;
-		this._updateRecentlyUpdatedItems(true);
-	}
-	_navigateToCourse(e) {
-		e.stopPropagation();
-		if (e && e.detail && e.detail.orgUnitId) {
-			this.dispatchEvent(new CustomEvent('navigate', {
-				detail: {
-					path: this.routeLocations().course(e.detail.orgUnitId)
-				},
-				bubbles: true,
-				composed: true
-			}));
+		const homeHeader = this.shadowRoot.querySelector('#discovery-home-home-header');
+		if (homeHeader) {
+			homeHeader.clear();
+			homeHeader.focusOnInput();
 		}
-	}
-	_reset() {
-		this._recentlyUpdatedItems = [];
-		this._recentlyUpdatedItemsPage = 0;
-		this._recentlyUpdatedItemsTotal = undefined;
-		this._recentlyUpdatedItemsHasMore = false;
-	}
-	_updateRecentlyUpdatedItems(loadMore) {
-		if (!loadMore) {
-			this._reset();
-		}
-		// Fill with empty slots first - for loading
-		const emptyPageArray = new Array(this._pageSize);
-		const prevRecentlyUpdatedItems = this._recentlyUpdatedItems;
-		const concatenatedResult = this._recentlyUpdatedItems.concat(emptyPageArray);
-		this._recentlyUpdatedItems = concatenatedResult;
-
-		// Get new items
-		this._updateToken();
-		this._getRecentlyUpdatedCourses()
-			.then((res) => {
-				if (res) {
-					if (res.entities) {
-						const concatenatedResult = prevRecentlyUpdatedItems.concat(res.entities);
-						this._recentlyUpdatedItems = concatenatedResult;
-					}
-					if (res.total) {
-						this._recentlyUpdatedItemsTotal = res.total;
-					}
-					this._pageLoadingMessage = this.localize('pageAllLoadedMessage');
-					if (loadMore && prevRecentlyUpdatedItems) {
-						this.shadowRoot.querySelector('activity-card-list').focusOnCard(prevRecentlyUpdatedItems.length);
-					}
-				}
-			});
-	}
-	_recentlyUpdatedItemsPageTotalObserver(recentlyUpdatedItemsPage, recentlyUpdatedItemsTotal) {
-		this._recentlyUpdatedItemsHasMore =
-			((recentlyUpdatedItemsPage + 1) * this._pageSize) < recentlyUpdatedItemsTotal;
-
-		if (!this._recentlyUpdatedItemsHasMore && recentlyUpdatedItemsTotal !== undefined) {
-			this._allLoadingMessage = this.localize('recentlyUpdatedAllLoadedMessage');
-		}
-	}
-	_updateToken() {
-		return this._getToken()
-			.then((token) => {
-				this.token = token;
-			});
 	}
 }
 
