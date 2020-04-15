@@ -6,7 +6,7 @@ window.D2L.Discovery = window.D2L.Discovery || {};
 * @polymerBehavior D2L.Discovery.LangEs
 */
 window.D2L.Discovery.LangEs = {
-	"404message": "Lo sentimos. Obtuvo un 404.",
+	"404message": "Lo sentimos, obtuvo un 404.",
 	"OK": "Aceptar",
 	"accessMaterials": "Acceder a materiales",
 	"addToMyList": "Agregar a mi lista",
@@ -21,6 +21,7 @@ window.D2L.Discovery.LangEs = {
 	"courseDescription": "Descripción del curso",
 	"courseInfo": "Información del curso",
 	"coursePageDocumentTitle": "{courseName} - Descubrir: {instanceName}",
+	"courseSummaryReadyMessage": "{courseTitle} ya está listo",
 	"discover": "Descubrir",
 	"discoverHomeMessage": "Esta es la página de inicio de Descubrir.",
 	"discovery": "Descubrimiento",
@@ -37,6 +38,7 @@ window.D2L.Discovery.LangEs = {
 	"enrollmentMessageSuccess": "{title} pronto estará disponible en el widget Mis cursos.",
 	"enrollmentMessageSuccessFuture": "{title} estará disponible en el componente Mis cursos el {date}",
 	"enrollmentMessageSuccessPast": "{title} finalizó el {date}",
+	"enrollmentOptions": "Opciones de inscripción",
 	"firstPublished": "Primera publicación",
 	"homepageDocumentTitle": "Descubrir: {instanceName}",
 	"lastUpdatedDate": "Última actualización {date}",
@@ -44,15 +46,17 @@ window.D2L.Discovery.LangEs = {
 	"navigateHome": "Regresar a la página de inicio.",
 	"noCourseDescription": "Sin descripción del curso",
 	"noResultsHeading": "No hay resultados para \"{searchQuery}\"",
-	"noResultsMessage": "Intente utilizar un término de búsqueda distinto o {linkStart}Examinar todo{linkEnd} para ver todos los materiales disponibles",
+	"noResultsMessage": "Intente utilizar un término de búsqueda distinto o use {linkStart}Examinar todo{linkEnd} para ver todos los materiales disponibles",
 	"onMyList": "En mi lista",
 	"openCourse": "Abrir curso",
 	"or": "o",
+	"pageAllLoadedMessage": "Se cargó la página de cursos.",
 	"pageNext": "A la siguiente página",
 	"pagePrevious": "A la página anterior",
 	"pageSelection": "En la página {pageCurrent} de {pageTotal}. Ingrese un número de página para ir a esa página",
 	"pageSelectionInvalid": "El valor debe estar comprendido entre 1 y {pageTotal}",
 	"recentlyUpdated": "Actualizado recientemente",
+	"recentlyUpdatedAllLoadedMessage": "Se cargaron todos los cursos actualizados recientemente",
 	"resultsFor": "{amount} resultados para \"{searchQuery}\"",
 	"search": "Buscar",
 	"search.placeholder": "Buscar…",
@@ -67,6 +71,8 @@ window.D2L.Discovery.LangEs = {
 	"startDateIsInTheFuture": "Este curso estará disponible el {date}.",
 	"startLearning": "Iniciar aprendizaje",
 	"unenroll": "Anular inscripción",
+	"unenrollConfirmBody": "Su inscripción a “{title}” se anuló correctamente.",
+	"unenrollConfirmHeader": "Anulación de inscripción completa",
 	"viewMyList": "Ver mi lista",
 	"welcomeToTheCourse": "¡Bienvenido al curso!"
 };
