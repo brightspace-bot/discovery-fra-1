@@ -41,6 +41,7 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polym
 					<div class="activity-card-list-header">
 						<h2 class="d2l-heading-2">[[sectionName]]</h2>
 						<d2l-link
+							aria-label="[[linkLabel]]"
 							class="activity-card-list-header-view-all-link"
 							href="javascript:void(0)"
 							on-click="_navigateToViewAll">
@@ -59,6 +60,7 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polym
 		return {
 			sort: String,
 			sectionName: String,
+			linkLabel: String,
 			_pageSize: {
 				type: Number,
 				value: 4

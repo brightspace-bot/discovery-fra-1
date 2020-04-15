@@ -41,8 +41,8 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 			<div class="d2l-typography">
 				<div class="discovery-home-main">
 					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
-					<home-list-section sort="added" section-name="[[localize('new')]]"></home-list-section >
-					<home-list-section sort="updated" section-name="[[localize('recentlyUpdated')]]"></home-list-section >
+					<home-list-section sort="added" section-name="[[localize('new')]]" link-label="[[localize('viewAllNewLabel')]]"></home-list-section >
+					<home-list-section sort="updated" section-name="[[localize('newlyUpdated')]]" link-label="[[localize('viewAllNewlyUpdatedLabel')]]"></home-list-section >
 					<discovery-footer></discovery-footer>
 				</div>
 			</div>
