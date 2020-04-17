@@ -1,19 +1,44 @@
 'use strict';
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import './activity-card-list.js';
 import '../styles/discovery-styles.js';
-import 'd2l-typography/d2l-typography.js';
 
 import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
-import { LocalizeMixin } from '../mixins/localize-mixin.js';
 
-class HomeListSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(PolymerElement))) {
-	static get template() {
+class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
 
+	render() {
 		return html`
-			<style include="d2l-typography"></style>
-			<style include="discovery-styles">
+			<style include="discovery-styles"></style>
+			<div class="d2l-typography">
+				<div class="discovery-home-list-section-container" ?hidden="${!this._hasCourses(this._sortedCourses)}">
+					<div class="activity-card-list-header">
+						<h2 class="d2l-heading-2">${this.sectionName}</h2>
+						<d2l-link
+							aria-label="${this.linkLabel}"
+							class="activity-card-list-header-view-all-link"
+							href="javascript:void(0)"
+							@click="${this._navigateToViewAll}">
+							${this.linkName}
+						</d2l-link>
+					</div>
+					<activity-card-list
+						.activities="${this._sortedCourses}"
+						token="${this.token}">
+					</activity-card-list>
+				</div>
+			</div>
+		`;
+	}
+
+	static get styles() {
+		return [
+			heading2Styles,
+			bodyCompactStyles,
+			bodyStandardStyles,
+			css`
 				.discovery-home-list-section-container {
 					display: flex;
 					flex-direction: column;
@@ -34,57 +59,51 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polym
 						font-size: 0.7rem;
 					}
 				}
-			</style>
-
-			<div class="d2l-typography">
-				<div class="discovery-home-list-section-container" hidden$="[[!_showSection]]">
-					<div class="activity-card-list-header">
-						<h2 class="d2l-heading-2">[[sectionName]]</h2>
-						<d2l-link
-							aria-label="[[linkLabel]]"
-							class="activity-card-list-header-view-all-link"
-							href="javascript:void(0)"
-							on-click="_navigateToViewAll">
-							[[localize('viewAll')]]
-						</d2l-link>
-					</div>
-					<activity-card-list
-						activities="[[_sortedCourses]]"
-						token="[[token]]">
-					</activity-card-list>
-				</div>
-			</div>
-		`;
+			`
+		];
 	}
+
 	static get properties() {
 		return {
-			sort: String,
-			sectionName: String,
-			linkLabel: String,
+			sort: {
+				type: String
+			},
+			sectionName: {
+				type: String
+			},
+			linkLabel: {
+				type: String
+			},
+			linkName: {
+				type: String
+			},
+			token: {
+				type: String
+			},
 			_pageSize: {
-				type: Number,
-				value: 4
+				type: Number
 			},
 			_sortedCourses: {
 				type: Array,
-				value: function() { return []; }
-			},
-			_showSection: {
-				type: Boolean,
-				computed: '_hasCourses(_sortedCourses)'
-			},
-			token: String
+			}
 		};
 	}
 
-	ready() {
-		super.ready();
+	constructor() {
+		super();
+		this._pageSize = 4;
+		this._sortedCourses = [];
+	}
+
+	connectedCallback() {
+		super.connectedCallback();
 		this.addEventListener('d2l-activity-card-clicked', this._navigateToCourse.bind(this));
 		this._updateCourses();
 	}
 
-	static get _searchAction() {
-		return 'search-activities';
+	disconnectedCallback() {
+		document.removeEventListener('d2l-activity-card-clicked', this._navigateToCourse.bind(this));
+		super.disconnectedCallback();
 	}
 
 	_reset() {
@@ -96,13 +115,14 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polym
 	}
 
 	_getSortedCourses() {
+		const searchAction = 'search-activities';
 		const parameters = {
 			page: 0,
 			pageSize: this._pageSize,
 			sort: this.sort
 		};
 
-		return this._getActionUrl(this._searchAction, parameters)
+		return this._getActionUrl(searchAction, parameters)
 			.then(url => {
 				return this._fetchEntity(url)
 					.then(this._handleSearchResponse.bind(this))
@@ -170,4 +190,4 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polym
 	}
 }
 
-window.customElements.define('home-list-section', HomeListSection);
+customElements.define('home-list-section', HomeListSection);
