@@ -296,7 +296,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		const sortValueTexts = {
 			relevant: this.localize('sorting.mostRelevant'),
 			updated: this.localize('sorting.updated'),
-			added: this.localize('sorting.added'),
+			added: this.localize('sorting.new'),
 			enrolled: this.localize('sorting.enrolled')
 		};
 		return sortValueTexts[value];

@@ -4,10 +4,11 @@ import { heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightsp
 import './activity-card-list.js';
 import '../styles/discovery-styles.js';
 
-import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
+import { OrganizationCollectionEntity } from 'siren-sdk/src/organizations/OrganizationCollectionEntity.js';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
 
-class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
+class HomeListSection extends EntityMixinLit(RouteLocationsMixin(LitElement)) {
 
 	render() {
 		return html`
@@ -77,10 +78,13 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
 			linkName: {
 				type: String
 			},
+			href: {
+				type: String
+			},
 			token: {
 				type: String
 			},
-			_pageSize: {
+			pageSize: {
 				type: Number
 			},
 			_sortedCourses: {
@@ -91,14 +95,16 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
 
 	constructor() {
 		super();
-		this._pageSize = 4;
 		this._sortedCourses = [];
+		this._setEntityType(OrganizationCollectionEntity);
 	}
 
 	connectedCallback() {
 		super.connectedCallback();
 		this.addEventListener('d2l-activity-card-clicked', this._navigateToCourse.bind(this));
-		this._updateCourses();
+
+		// Fill with empty slots first - for loading
+		this._sortedCourses = new Array(this.pageSize);
 	}
 
 	disconnectedCallback() {
@@ -106,43 +112,15 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
 		super.disconnectedCallback();
 	}
 
-	_reset() {
-		this._sortedCourses = [];
+	set _entity(entity) {
+		if (this._entityHasChanged(entity)) {
+			super._entity = entity;
+			this._sortedCourses = entity.activities();
+		}
 	}
 
 	_hasCourses(_sortedCourses) {
 		return Array.isArray(_sortedCourses) && _sortedCourses.length > 0;
-	}
-
-	_getSortedCourses() {
-		const searchAction = 'search-activities';
-		const parameters = {
-			page: 0,
-			pageSize: this._pageSize,
-			sort: this.sort
-		};
-
-		return this._getActionUrl(searchAction, parameters)
-			.then(url => {
-				return this._fetchEntity(url)
-					.then(this._handleSearchResponse.bind(this))
-					.catch(() => {
-						this._reset();
-					});
-			})
-			.catch(() => {
-				this._reset();
-			});
-	}
-
-	_handleSearchResponse(sirenEntity) {
-		if (!sirenEntity || !sirenEntity.properties) {
-			return;
-		}
-
-		return {
-			entities: sirenEntity.getSubEntitiesByRel('https://discovery.brightspace.com')
-		};
 	}
 
 	_navigateToCourse(e) {
@@ -158,20 +136,6 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
 		}
 	}
 
-	_updateCourses() {
-		// Fill with empty slots first - for loading
-		this._sortedCourses = new Array(this._pageSize);
-
-		// Get new items
-		this._updateToken();
-		this._getSortedCourses()
-			.then((res) => {
-				if (res && res.entities) {
-					this._sortedCourses = res.entities;
-				}
-			});
-	}
-
 	_navigateToViewAll() {
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
@@ -180,13 +144,6 @@ class HomeListSection extends RouteLocationsMixin(FetchMixin(LitElement)) {
 			bubbles: true,
 			composed: true
 		}));
-	}
-
-	_updateToken() {
-		return this._getToken()
-			.then((token) => {
-				this.token = token;
-			});
 	}
 }
 

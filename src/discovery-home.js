@@ -6,9 +6,10 @@ import './components/home-header.js';
 import './components/home-list-section.js';
 import './styles/discovery-styles.js';
 
+import { FetchMixin } from './mixins/fetch-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
 
-class DiscoveryHome extends LocalizeMixin(PolymerElement) {
+class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 	static get template() {
 
 		return html`
@@ -42,15 +43,21 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 				<div class="discovery-home-main">
 					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
 					<home-list-section
+						href="[[_addedHref]]"
+						token="[[token]]"
 						sort="added"
 						section-name="[[localize('new')]]"
 						link-label="[[localize('viewAllNewLabel')]]"
-						link-name="[[localize('viewAll')]]"></home-list-section >
+						link-name="[[localize('viewAll')]]"
+						page-size="[[_pageSize]]"></home-list-section>
 					<home-list-section
+						href="[[_updatedHref]]"
+						token="[[token]]"
 						sort="updated"
 						section-name="[[localize('updated')]]"
 						link-label="[[localize('viewAllUpdatedLabel')]]"
-						link-name="[[localize('viewAll')]]"></home-list-section >
+						link-name="[[localize('viewAll')]]"
+						page-size="[[_pageSize]]"></home-list-section>
 					<discovery-footer></discovery-footer>
 				</div>
 			</div>
@@ -61,7 +68,14 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 			visible: {
 				type: Boolean,
 				observer: '_visible'
-			}
+			},
+			token: String,
+			_pageSize: {
+				type: Number,
+				value: 4
+			},
+			_addedHref: String,
+			_updatedHref: String
 		};
 	}
 
@@ -70,6 +84,8 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 			return;
 		}
 
+		this._updateToken();
+		this._setUpUrls();
 		const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
 		document.title = this.localize('homepageDocumentTitle', 'instanceName', instanceName ? instanceName : '');
 
@@ -78,6 +94,32 @@ class DiscoveryHome extends LocalizeMixin(PolymerElement) {
 			homeHeader.clear();
 			homeHeader.focusOnInput();
 		}
+	}
+
+	_setUpUrls() {
+		this._getSortUrl('added').then(url => {
+			this._addedHref = url;
+		});
+		this._getSortUrl('updated').then(url => {
+			this._updatedHref = url;
+		});
+	}
+
+	_getSortUrl(sort) {
+		const searchAction = 'search-activities';
+		const parameters = {
+			page: 0,
+			pageSize: this._pageSize,
+			sort: sort
+		};
+		return this._getActionUrl(searchAction, parameters);
+	}
+
+	_updateToken() {
+		return this._getToken()
+			.then((token) => {
+				this.token = token;
+			});
 	}
 }
 
