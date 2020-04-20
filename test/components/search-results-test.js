@@ -289,7 +289,7 @@ describe('search-results', () => {
 			afterNextRender(component, () => {
 				const sortDropdown = component.shadowRoot.querySelector('#sortDropdown');
 				expect(sortDropdown).is.not.undefined;
-				expect(sortDropdown._text).to.equal('Newly Updated');
+				expect(sortDropdown._text).to.equal('Updated');
 				expect(sortDropdown.value).to.equal('updated');
 				done();
 			});
@@ -301,7 +301,7 @@ describe('search-results', () => {
 			afterNextRender(component, () => {
 				const sortDropdown = component.shadowRoot.querySelector('#sortDropdown');
 				expect(sortDropdown).is.not.undefined;
-				expect(sortDropdown._text).to.equal('Newly Added');
+				expect(sortDropdown._text).to.equal('New');
 				expect(sortDropdown.value).to.equal('added');
 				done();
 			});
