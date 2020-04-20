@@ -27,7 +27,6 @@ class ActivityCardList extends mixinBehaviors([IronResizableBehavior], PolymerEl
 			</style>
 
 			<div class="d2l-typography">
-				<h2 class="d2l-heading-2">[[header]]</h2>
 				<div id="discovery-activity-card-list-container" class="discovery-activity-card-list-container">
 					<template is="dom-repeat" items="[[activities]]">
 						<d2l-activity-card

@@ -167,7 +167,9 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					const query = e.detail.value;
 					this.dispatchEvent(new CustomEvent('navigate', {
 						detail: {
-							path: this.routeLocations().search(query ? query.trim() : '')
+							path: this.routeLocations().search(query ? query.trim() : '', {
+								sort: 'relevant'
+							})
 						},
 						bubbles: true,
 						composed: true,
