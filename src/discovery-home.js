@@ -4,6 +4,7 @@ import 'd2l-typography/d2l-typography.js';
 import './components/discovery-footer.js';
 import './components/home-header.js';
 import './components/home-list-section.js';
+import './components/home-all-section.js';
 import './styles/discovery-styles.js';
 
 import { FetchMixin } from './mixins/fetch-mixin.js';
@@ -39,27 +40,26 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 				}
 			</style>
 
-			<div class="d2l-typography">
-				<div class="discovery-home-main">
-					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
-					<home-list-section
-						href="[[_addedHref]]"
-						token="[[token]]"
-						sort="added"
-						section-name="[[localize('new')]]"
-						link-label="[[localize('viewAllNewLabel')]]"
-						link-name="[[localize('viewAll')]]"
-						page-size="[[_pageSize]]"></home-list-section>
-					<home-list-section
-						href="[[_updatedHref]]"
-						token="[[token]]"
-						sort="updated"
-						section-name="[[localize('updated')]]"
-						link-label="[[localize('viewAllUpdatedLabel')]]"
-						link-name="[[localize('viewAll')]]"
-						page-size="[[_pageSize]]"></home-list-section>
-					<discovery-footer></discovery-footer>
-				</div>
+			<div class="discovery-home-main">
+				<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
+				<home-list-section
+					href="[[_addedHref]]"
+					token="[[token]]"
+					sort="added"
+					section-name="[[localize('new')]]"
+					link-label="[[localize('viewAllNewLabel')]]"
+					link-name="[[localize('viewAll')]]"
+					page-size="[[_pageSize]]"></home-list-section>
+				<home-list-section
+					href="[[_updatedHref]]"
+					token="[[token]]"
+					sort="updated"
+					section-name="[[localize('updated')]]"
+					link-label="[[localize('viewAllUpdatedLabel')]]"
+					link-name="[[localize('viewAll')]]"
+					page-size="[[_pageSize]]"></home-list-section>
+				<home-all-section></home-all-section>
+				<discovery-footer></discovery-footer>
 			</div>
 		`;
 	}
