@@ -109,7 +109,6 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 	}
 
 	_hasCourses(_recentlyUpdatedItems) {
-		console.log(_recentlyUpdatedItems);
 		return Array.isArray(_recentlyUpdatedItems) && _recentlyUpdatedItems.length > 0;
 	}
 
@@ -135,23 +134,11 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 				return this._fetchEntity(url)
 					.then(this._handleSearchResponse.bind(this))
 					.catch(() => {
-						this.dispatchEvent(new CustomEvent('navigate', {
-							detail: {
-								path: this.routeLocations().notFound()
-							},
-							bubbles: true,
-							composed: true
-						}));
+						this._reset();
 					});
 			})
 			.catch(() => {
-				this.dispatchEvent(new CustomEvent('navigate', {
-					detail: {
-						path: this.routeLocations().notFound()
-					},
-					bubbles: true,
-					composed: true
-				}));
+				this._reset();
 			});
 	}
 
@@ -206,13 +193,19 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 		this._recentlyUpdatedItems = concatenatedResult;
 
 		// Get new items
-		this._updateToken();
 		this._getRecentlyUpdatedCourses()
 			.then((res) => {
 				if (res) {
 					if (res.entities) {
 						const concatenatedResult = prevRecentlyUpdatedItems.concat(res.entities);
 						this._recentlyUpdatedItems = concatenatedResult;
+						this.dispatchEvent(new CustomEvent('d2l-discover-home-all-section-courses', {
+							detail: {
+								value: this._recentlyUpdatedItems.length
+							},
+							bubbles: true,
+							composed: true
+						}));
 					}
 					if (res.total) {
 						this._recentlyUpdatedItemsTotal = res.total;
@@ -227,13 +220,6 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 	_recentlyUpdatedItemsPageTotalObserver(recentlyUpdatedItemsPage, recentlyUpdatedItemsTotal) {
 		this._recentlyUpdatedItemsHasMore =
 			((recentlyUpdatedItemsPage + 1) * this._pageSize) < recentlyUpdatedItemsTotal;
-	}
-
-	_updateToken() {
-		return this._getToken()
-			.then((token) => {
-				this.token = token;
-			});
 	}
 }
 
