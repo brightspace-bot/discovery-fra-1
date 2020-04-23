@@ -16,7 +16,7 @@ class HomeListSection extends EntityMixinLit(RouteLocationsMixin(LitElement)) {
 			<div class="d2l-typography">
 				<div class="discovery-home-list-section-container" ?hidden="${!this._hasCourses(this._sortedCourses)}">
 					<div class="activity-card-list-header">
-						<h2 class="d2l-heading-2">${this.sectionName}</h2>
+						<h2 class="d2l-heading-2" aria-label="${this.sectionName}">${this.sectionName}</h2>
 						<d2l-link
 							aria-label="${this.linkLabel}"
 							class="activity-card-list-header-view-all-link"

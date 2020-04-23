@@ -41,9 +41,9 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 			<div class="d2l-typography">
 				<div class="discovery-home-recently-updated-container" hidden$="[[!_hasCourses(_recentlyUpdatedItems)]]">
 					<div class="activity-card-list-header">
-						<h2 class="d2l-heading-2">[[localize('all')]]</h2>
+						<h2 class="d2l-heading-2" aria-label$="[[localize('all')]]">[[localize('all')]]</h2>
 						<d2l-link
-							aria-label="[[localize('viewAllLabel')]]"
+							aria-label$="[[localize('viewAllLabel')]]"
 							class="activity-card-list-header-view-all-link"
 							href="javascript:void(0)"
 							on-click="_navigateToViewAll">
