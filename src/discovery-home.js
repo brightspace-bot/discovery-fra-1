@@ -4,6 +4,7 @@ import 'd2l-typography/d2l-typography.js';
 import './components/discovery-footer.js';
 import './components/home-header.js';
 import './components/home-list-section.js';
+import './components/home-all-section.js';
 import './styles/discovery-styles.js';
 
 import { FetchMixin } from './mixins/fetch-mixin.js';
@@ -26,7 +27,9 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 				.discovery-home-main {
 					margin: 0 30px;
 				}
-
+				.discovery-no-courses-message {
+					@apply --d2l-body-compact-text;
+				}
 				@media only screen and (max-width: 929px) {
 					.discovery-home-main {
 						margin: 0 24px;
@@ -39,30 +42,31 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 				}
 			</style>
 
-			<div class="d2l-typography">
-				<div class="discovery-home-main">
-					<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
-					<home-list-section
-						href="[[_addedHref]]"
-						token="[[token]]"
-						sort="added"
-						section-name="[[localize('new')]]"
-						link-label="[[localize('viewAllNewLabel')]]"
-						link-name="[[localize('viewAll')]]"
-						page-size="[[_pageSize]]"></home-list-section>
-					<home-list-section
-						href="[[_updatedHref]]"
-						token="[[token]]"
-						sort="updated"
-						section-name="[[localize('updated')]]"
-						link-label="[[localize('viewAllUpdatedLabel')]]"
-						link-name="[[localize('viewAll')]]"
-						page-size="[[_pageSize]]"></home-list-section>
-					<discovery-footer></discovery-footer>
-				</div>
+			<div class="discovery-home-main">
+				<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
+				<div class="discovery-no-courses-message" hidden$="[[_hasCourses]]">[[localize('noActivities')]]</div>
+				<home-list-section
+					href="[[_addedHref]]"
+					token="[[token]]"
+					sort="added"
+					section-name="[[localize('new')]]"
+					link-label="[[localize('viewAllNewLabel')]]"
+					link-name="[[localize('viewAll')]]"
+					page-size="[[_pageSize]]"></home-list-section>
+				<home-list-section
+					href="[[_updatedHref]]"
+					token="[[token]]"
+					sort="updated"
+					section-name="[[localize('updated')]]"
+					link-label="[[localize('viewAllUpdatedLabel')]]"
+					link-name="[[localize('viewAll')]]"
+					page-size="[[_pageSize]]"></home-list-section>
+				<home-all-section token="[[token]]"></home-all-section>
+				<discovery-footer></discovery-footer>
 			</div>
 		`;
 	}
+
 	static get properties() {
 		return {
 			visible: {
@@ -75,8 +79,27 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 				value: 4
 			},
 			_addedHref: String,
-			_updatedHref: String
+			_updatedHref: String,
+			_hasCourses: {
+				type: Boolean,
+				value: true
+			}
 		};
+	}
+
+	ready() {
+		super.ready();
+		this.addEventListener('d2l-discover-home-all-section-courses', this._checkCourses.bind(this));
+	}
+
+	_checkCourses(e) {
+		if (e && e.detail) {
+			if (e.detail.value > 0) {
+				this._hasCourses = true;
+			} else {
+				this._hasCourses = false;
+			}
+		}
 	}
 
 	_visible(visible) {
