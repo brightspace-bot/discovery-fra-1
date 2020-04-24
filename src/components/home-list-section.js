@@ -115,7 +115,11 @@ class HomeListSection extends EntityMixinLit(RouteLocationsMixin(LitElement)) {
 	set _entity(entity) {
 		if (this._entityHasChanged(entity)) {
 			super._entity = entity;
-			this._sortedCourses = entity.activities();
+			if (entity && entity.activities()) {
+				this._sortedCourses = entity.activities();
+			} else {
+				this._sortedCourses = [];
+			}
 		}
 	}
 
