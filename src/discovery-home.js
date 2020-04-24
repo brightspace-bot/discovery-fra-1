@@ -74,6 +74,7 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 				observer: '_visible'
 			},
 			token: String,
+			promotedCoursesEnabled: Boolean,
 			_pageSize: {
 				type: Number,
 				value: 4
