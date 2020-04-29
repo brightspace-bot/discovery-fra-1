@@ -43,7 +43,9 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 			</style>
 
 			<div class="discovery-home-main">
-				<div class="discovery-home-home-header"><home-header id="discovery-home-home-header" query=""></home-header></div>
+				<div class="discovery-home-home-header">
+					<home-header id="discovery-home-home-header" query="" show-settings-button="[[promotedCoursesEnabled]]"></home-header>
+				</div>
 				<div class="discovery-no-courses-message" hidden$="[[_hasCourses]]">[[localize('noActivities')]]</div>
 				<home-list-section
 					href="[[_addedHref]]"

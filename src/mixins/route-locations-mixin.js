@@ -29,6 +29,7 @@ const internalRouteLocationsMixin = (superClass) =>
 				course: (courseId) => `${discoveryBasePath}/course/${encodeURIComponent(courseId)}`,
 				manage: (courseId) => `${discoveryBasePath}/manage/${encodeURIComponent(courseId)}`,
 				search: (query, queryParams = {}) => this.search(query, queryParams),
+				settings: () => `${discoveryBasePath}/settings`,
 				myList: () => this.search('', {
 					'onMyList': true
 				}),

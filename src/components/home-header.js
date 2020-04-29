@@ -31,12 +31,6 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					cursor: pointer;
 				}
 
-				.discovery-home-header-my-list {
-					flex-shrink: 0;
-					height: 35px;
-					width: 77px;
-				}
-
 				.discovery-home-header-search-container {
 					align-items: center;
 					display: flex;
@@ -50,16 +44,6 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					flex-grow: 1;
 				}
 
-				.discovery-home-header-or {
-					flex-shrink: 0;
-					padding-left: 0.9rem;
-					@apply --d2l-body-compact-text;
-				}
-				:host(:dir(rtl)) .discovery-home-header-or {
-					padding-left: 0;
-					padding-right: 0.9rem;
-				}
-
 				.discovery-home-header-browse-all-link {
 					flex-shrink: 0;
 					padding-left: 0.6rem;
@@ -68,6 +52,11 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 				:host(:dir(rtl)) .discovery-home-header-browse-all-link {
 					padding-left: 0;
 					padding-right: 0.6rem;
+				}
+
+				.discovery-home-header-settings-button {
+					align-self: center;
+					margin-left: auto;
 				}
 
 				@media only screen and (max-width: 767px) {
@@ -84,9 +73,10 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 						padding: 0 0 0 12%;
 					}
 
-					.discovery-home-header-my-list {
-						height: 0;
-						width: 0;
+					.discovery-home-header-settings-button {
+						align-self: start;
+						margin-left: 0;
+						margin-top: 6px;
 					}
 				}
 
@@ -102,10 +92,6 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 						flex-direction: column;
 						padding: 0;
 						width: 100%;
-					}
-
-					.discovery-home-header-or {
-						display: none;
 					}
 
 					.discovery-home-header-browse-all-link {
@@ -135,7 +121,6 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 							value="[[query]]"
 							placeholder="[[localize('search.placeholder')]]">
 						</d2l-input-search>
-						<span class="discovery-home-header-or">[[localize('or')]]</span>
 						<d2l-link
 							class="discovery-home-header-browse-all-link"
 							href="javascript:void(0)"
@@ -143,7 +128,13 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 							[[localize('browseAllContent')]]
 						</d2l-link>
 					</div>
-					<div class="discovery-home-header-my-list"></div>
+					<d2l-button
+						class="discovery-home-header-settings-button"
+						aria-label$="[[localize('settingsLabel')]]"
+						on-click="_navigateToSettings"
+						hidden$="[[!showSettingsButton]]">
+						[[localize('settings')]]
+					</d2l-button>
 				</div>
 			</div>
 		`;
@@ -155,7 +146,8 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 	static get properties() {
 		return {
 			query: String,
-			searchInput: Object
+			searchInput: Object,
+			showSettingsButton: Boolean
 		};
 	}
 	ready() {
@@ -199,6 +191,15 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
 				path: this.routeLocations().search('', { sort: 'relevant' })
+			},
+			bubbles: true,
+			composed: true
+		}));
+	}
+	_navigateToSettings() {
+		this.dispatchEvent(new CustomEvent('navigate', {
+			detail: {
+				path: this.routeLocations().settings()
 			},
 			bubbles: true,
 			composed: true
