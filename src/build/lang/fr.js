@@ -80,7 +80,7 @@ window.D2L.Discovery.LangFr = {
 	"startDateIsInTheFuture": "Ce cours sera disponible à compter du {date}.",
 	"startLearning": "Débuter l'apprentissage",
 	"unenroll": "Se désinscrire",
-	"unenrollConfirmBody": "Vous avez été désinscrit(e) de « {Title} ».",
+	"unenrollConfirmBody": "Vous avez été désinscrit(e) de « {title} ».",
 	"unenrollConfirmHeader": "Désinscription effectuée",
 	"updated": "Mis à jour",
 	"viewAll": "View All",
