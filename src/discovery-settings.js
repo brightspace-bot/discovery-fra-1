@@ -73,8 +73,12 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 		super.disconnectedCallback();
 	}
 
-	updated() {
-		setTimeout(this._checkPermission.bind(this), 500);
+	updated(changedProperties) {
+		changedProperties.forEach((_, propName) => {
+			if (propName === 'promotedCoursesEnabled' || propName === 'visible' ) {
+				this._checkPermission();
+			}
+		});
 	}
 
 	_checkPermission() {
