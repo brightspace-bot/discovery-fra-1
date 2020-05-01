@@ -75,7 +75,7 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 
 	updated(changedProperties) {
 		changedProperties.forEach((_, propName) => {
-			if (propName === 'promotedCoursesEnabled' || propName === 'visible' ) {
+			if (propName === 'promotedCoursesEnabled' || propName === 'visible') {
 				this._checkPermission();
 			}
 		});
