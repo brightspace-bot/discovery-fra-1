@@ -7,6 +7,7 @@ import './discovery-404.js';
 import './discovery-course.js';
 import './discovery-home.js';
 import './discovery-search.js';
+import './discovery-settings.js';
 
 import { IfrauMixin } from './mixins/ifrau-mixin.js';
 import { FeatureMixin } from './mixins/feature-mixin.js';
@@ -50,6 +51,7 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 				<discovery-home name="home" promoted-courses-enabled="[[_promotedCoursesEnabled]]"></discovery-home>
 				<discovery-course name="course" route="[[route]]"></discovery-course>
 				<discovery-search name="search" route="[[route]]"></discovery-search>
+				<discovery-settings name="settings" promoted-courses-enabled="[[_promotedCoursesEnabled]]"></discovery-settings>
 				<discovery-404 name="404"></discovery-404>
 			</iron-pages>
 		`;
@@ -127,7 +129,7 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 		routeData = routeData.detail.value || {};
 		this.routeData = routeData;
 		const page = routeData.page || null;
-		if (page && ['home', 'course', 'search'].indexOf(page) !== -1) {
+		if (page && ['home', 'course', 'search', 'settings'].indexOf(page) !== -1) {
 			this.page = page;
 		} else if (page) {
 			this.page = '404';

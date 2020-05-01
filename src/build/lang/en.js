@@ -88,5 +88,7 @@ window.D2L.Discovery.LangEn = {
 	"sorting.mostRelevant": "Most Relevant",
 	"sorting.updated": "Updated",
 	"sorting.new": "New",
-	"sorting.enrolled": "Already Enrolled"
+	"sorting.enrolled": "Already Enrolled",
+	"settings": "Settings",
+	"settingsLabel": "Click to view settings page"
 };
