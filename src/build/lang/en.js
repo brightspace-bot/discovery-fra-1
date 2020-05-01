@@ -90,7 +90,5 @@ window.D2L.Discovery.LangEn = {
 	"sorting.new": "New",
 	"sorting.enrolled": "Already Enrolled",
 	"settings": "Settings",
-	"settingsLabel": "Click to view settings page",
-	"save": "Save",
-	"cancel": "Cancel"
+	"settingsLabel": "Click to view settings page"
 };

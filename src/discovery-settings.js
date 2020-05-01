@@ -108,11 +108,9 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 	}
 
 	_handleSave() {
-		console.log('Save');
 	}
 
 	_handleCancel() {
-		console.log('Cancel');
 	}
 }
 
