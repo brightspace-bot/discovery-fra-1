@@ -7,7 +7,7 @@ export async function getLocalizeResources(langs) {
 	for (const language of langs.reverse()) {
 		if (['en', 'ar', 'de', 'es', 'fr', 'ja', 'ko', 'nl', 'pt', 'sv', 'tr', 'zh', 'zh-tw'].includes(language)) {
 			supportedLanguage = language;
-			const filePath = `./lit-lang/${language}.js`;
+			const filePath = `./lang/${language}.js`;
 			imports.push(import(resolveUrl(filePath, baseUrl)));
 		}
 	}

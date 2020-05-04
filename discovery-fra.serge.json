@@ -19,13 +19,13 @@
     ]
   },
   {
-    "name": "discover-list",
+    "name": "discover",
     "parser_plugin": {
         "plugin": "parse_js"
     },
     "source_match": "en\\.js$",
-    "source_dir": "src/components/d2l-discover-list/lang",
-    "output_file_path": "src/components/d2l-discover-list/lang/%LANG%.json",
+    "source_dir": "src/lang",
+    "output_file_path": "src/lang/%LANG%.js",
     "output_lang_rewrite": [
       "ar-sa ar",
       "de-de de",
