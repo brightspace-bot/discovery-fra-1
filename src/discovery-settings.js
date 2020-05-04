@@ -80,8 +80,8 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 	}
 
 	disconnectedCallback() {
-		this.addEventListener('discover-page-save', this._handleSave.bind(this));
-		this.addEventListener('discover-page-cancel', this._handleCancel.bind(this));
+		this.removeEventListener('discover-page-save', this._handleSave.bind(this));
+		this.removeEventListener('discover-page-cancel', this._handleCancel.bind(this));
 		super.disconnectedCallback();
 	}
 
