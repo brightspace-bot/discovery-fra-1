@@ -1,8 +1,8 @@
 'use strict';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import './components/discovery-footer.js';
 import './components/home-header.js';
+import './components/save-close-buttons.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 
 class DiscoverySettings extends RouteLocationsMixin(LitElement) {
@@ -10,10 +10,12 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 		return html`
 			<style include="discovery-styles"></style>
 			<div class="discovery-settings-main">
-				<div class="discovery-settings-home-header">
+				<div class="discovery-settings-header">
 					<home-header query="" .showSettingsButton="${this.promotedCoursesEnabled}"></home-header>
 				</div>
-				<discovery-footer></discovery-footer>
+				<div class="discovery-settings-content"></div>
+				<div class="discovery-settings-page-divider"></div>
+				<save-close-buttons></save-close-buttons>
 			</div>
 		`;
 	}
@@ -29,11 +31,17 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 					margin: 0 auto;
 					max-width: 1230px;
 				}
-				.discovery-settings-home-header {
+				.discovery-settings-header {
 					margin-bottom: 1rem;
 				}
 				.discovery-settings-main {
 					margin: 0 30px;
+				}
+				.discovery-settings-content {
+					min-height: 400px;
+				}
+				.discovery-settings-page-divider {
+					border-top: 1px solid rgba(124,134,149,0.18);
 				}
 				@media only screen and (max-width: 929px) {
 					.discovery-settings-main {
@@ -67,9 +75,13 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 
 	connectedCallback() {
 		super.connectedCallback();
+		this.addEventListener('discover-page-save', this._handleSave.bind(this));
+		this.addEventListener('discover-page-cancel', this._handleCancel.bind(this));
 	}
 
 	disconnectedCallback() {
+		this.removeEventListener('discover-page-save', this._handleSave.bind(this));
+		this.removeEventListener('discover-page-cancel', this._handleCancel.bind(this));
 		super.disconnectedCallback();
 	}
 
@@ -93,6 +105,12 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 			bubbles: true,
 			composed: true
 		}));
+	}
+
+	_handleSave() {
+	}
+
+	_handleCancel() {
 	}
 }
 

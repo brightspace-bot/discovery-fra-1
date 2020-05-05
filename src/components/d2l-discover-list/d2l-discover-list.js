@@ -16,10 +16,9 @@ import { Rels } from 'd2l-hypermedia-constants';
 import { heading1Styles, heading2Styles, heading4Styles, bodyCompactStyles, bodyStandardStyles, labelStyles} from '@brightspace-ui/core/components/typography/styles.js';
 import { DiscoverListItemResponsiveConstants } from './DiscoverListItemResponsiveConstants.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
-import { getLocalizeResources } from './localization.js';
+import { getLocalizeResources } from '../../localization.js';
 import { OrganizationEntity } from 'siren-sdk/src/organizations/OrganizationEntity.js';
 
-const baseUrl = import.meta.url;
 class D2lDiscoverList extends LocalizeMixin(DiscoverListItemResponsiveConstants(LitElement)) {
 	constructor() {
 		super();
@@ -49,7 +48,7 @@ class D2lDiscoverList extends LocalizeMixin(DiscoverListItemResponsiveConstants(
 	}
 
 	static async getLocalizeResources(langs) {
-		return getLocalizeResources(langs, baseUrl);
+		return getLocalizeResources(langs);
 	}
 
 	updated(changedProperties) {

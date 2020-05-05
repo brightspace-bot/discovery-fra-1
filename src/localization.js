@@ -1,13 +1,14 @@
 import { resolveUrl } from '@polymer/polymer/lib/utils/resolve-url.js';
 
-export async function getLocalizeResources(langs, importMetaUrl) {
+const baseUrl = import.meta.url;
+export async function getLocalizeResources(langs) {
 	const imports = [];
 	let supportedLanguage;
 	for (const language of langs.reverse()) {
 		if (['en', 'ar', 'de', 'es', 'fr', 'ja', 'ko', 'nl', 'pt', 'sv', 'tr', 'zh', 'zh-tw'].includes(language)) {
 			supportedLanguage = language;
 			const filePath = `./lang/${language}.js`;
-			imports.push(import(resolveUrl(filePath, importMetaUrl)));
+			imports.push(import(resolveUrl(filePath, baseUrl)));
 		}
 	}
 
