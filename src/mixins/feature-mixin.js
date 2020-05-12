@@ -8,15 +8,15 @@ const internalFeatureMixin = (superClass) => class extends superClass {
 	}
 
 	_isPromotedCoursesEnabled() {
-		const options = this._getOptions()
+		const options = this._getOptions();
 		return (options && options.promotedCourses && String(options.promotedCourses) === 'true') || false;
 	}
 
 	_canManageDiscover() {
 		if (!this._isPromotedCoursesEnabled()) {
-			return false
+			return false;
 		}
-		const options = this._getOptions()
+		const options = this._getOptions();
 		return (options && options.canManageDiscover && String(options.canManageDiscover) === 'true') || false;
 	}
 

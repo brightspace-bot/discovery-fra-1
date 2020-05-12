@@ -48,7 +48,8 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 				attr-for-selected="name"
 				selected-attribute="visible"
 				role="main">
-				<discovery-home name="home"
+				<discovery-home
+					name="home"
 					promoted-courses-enabled="[[_promotedCoursesEnabled]]"
 					can-manage-discover="[[_manageDiscover]]"></discovery-home>
 				<discovery-course name="course" route="[[route]]"></discovery-course>
