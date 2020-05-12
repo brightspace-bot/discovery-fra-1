@@ -14,7 +14,9 @@
         "options": {
           "endpoint": "https://us-east-1.discovery.bff.dev.brightspace.com",
           "webServerName": "localhost:9090",
-          "userId": "169"
+          "userId": "169",
+          "promotedCourses": "true",
+          "canManageDiscover": "true"
         }
       }
     }

@@ -44,7 +44,7 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 
 			<div class="discovery-home-main">
 				<div class="discovery-home-home-header">
-					<home-header id="discovery-home-home-header" query="" show-settings-button="[[promotedCoursesEnabled]]"></home-header>
+					<home-header id="discovery-home-home-header" query="" show-settings-button="[[canManageDiscover]]"></home-header>
 				</div>
 				<div class="discovery-no-courses-message" hidden$="[[_hasCourses]]">[[localize('noActivities')]]</div>
 				<home-list-section
@@ -77,6 +77,7 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 			},
 			token: String,
 			promotedCoursesEnabled: Boolean,
+			canManageDiscover: Boolean,
 			_pageSize: {
 				type: Number,
 				value: 4

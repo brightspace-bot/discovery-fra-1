@@ -8,9 +8,20 @@ const internalFeatureMixin = (superClass) => class extends superClass {
 	}
 
 	_isPromotedCoursesEnabled() {
-		const options = window.D2L && window.D2L.frau && window.D2L.frau.options;
-		const isEnabled = options && options.promotedCourses && String(options.promotedCourses) === 'true';
-		return isEnabled || false;
+		const options = this._getOptions()
+		return (options && options.promotedCourses && String(options.promotedCourses) === 'true') || false;
+	}
+
+	_canManageDiscover() {
+		if (!this._isPromotedCoursesEnabled()) {
+			return false
+		}
+		const options = this._getOptions()
+		return (options && options.canManageDiscover && String(options.canManageDiscover) === 'true') || false;
+	}
+
+	_getOptions() {
+		return window.D2L && window.D2L.frau && window.D2L.frau.options;
 	}
 };
 
