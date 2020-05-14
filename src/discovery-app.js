@@ -48,10 +48,13 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 				attr-for-selected="name"
 				selected-attribute="visible"
 				role="main">
-				<discovery-home name="home" promoted-courses-enabled="[[_promotedCoursesEnabled]]"></discovery-home>
+				<discovery-home
+					name="home"
+					promoted-courses-enabled="[[_promotedCoursesEnabled]]"
+					can-manage-discover="[[_manageDiscover]]"></discovery-home>
 				<discovery-course name="course" route="[[route]]"></discovery-course>
 				<discovery-search name="search" route="[[route]]"></discovery-search>
-				<discovery-settings name="settings" promoted-courses-enabled="[[_promotedCoursesEnabled]]"></discovery-settings>
+				<discovery-settings name="settings" can-manage-discover="[[_manageDiscover]]"></discovery-settings>
 				<discovery-404 name="404"></discovery-404>
 			</iron-pages>
 		`;
@@ -73,6 +76,10 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 			_promotedCoursesEnabled: {
 				type: Boolean,
 				computed: '_isPromotedCoursesEnabled()'
+			},
+			_manageDiscover: {
+				type: Boolean,
+				computed: '_canManageDiscover()'
 			}
 		};
 	}

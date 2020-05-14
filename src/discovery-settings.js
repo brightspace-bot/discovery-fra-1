@@ -11,7 +11,7 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 			<style include="discovery-styles"></style>
 			<div class="discovery-settings-main">
 				<div class="discovery-settings-header">
-					<home-header query="" .showSettingsButton="${this.promotedCoursesEnabled}"></home-header>
+					<home-header query="" .showSettingsButton="${this.canManageDiscover}"></home-header>
 				</div>
 				<div class="discovery-settings-content"></div>
 				<div class="discovery-settings-page-divider"></div>
@@ -59,7 +59,7 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 
 	constructor() {
 		super();
-		this.promotedCoursesEnabled = false;
+		this.canManageDiscover = false;
 	}
 
 	static get properties() {
@@ -67,7 +67,7 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 			visible: {
 				type: Boolean
 			},
-			promotedCoursesEnabled: {
+			canManageDiscover: {
 				type: Boolean
 			}
 		};
@@ -87,14 +87,14 @@ class DiscoverySettings extends RouteLocationsMixin(LitElement) {
 
 	updated(changedProperties) {
 		changedProperties.forEach((_, propName) => {
-			if (propName === 'promotedCoursesEnabled' || propName === 'visible') {
+			if (propName === 'canManageDiscover' || propName === 'visible') {
 				this._checkPermission();
 			}
 		});
 	}
 
 	_checkPermission() {
-		if (!this.visible || this.promotedCoursesEnabled) {
+		if (!this.visible || this.canManageDiscover) {
 			return;
 		}
 
