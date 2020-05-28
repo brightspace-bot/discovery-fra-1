@@ -1,3 +1,5 @@
 export default {
-	'clickToViewActivity' : 'Clique para exibir a atividade'
+	'clickToViewActivity': 'Clique aqui para visualizar a atividade',
+	'save': 'Salvar',
+	'cancel': 'Cancelar'
 };
