@@ -72,7 +72,7 @@
     "eslint-plugin-html": "^4.0.5",
     "frau-appconfig-builder": "^1.0.0",
     "frau-local-appresolver": "^1.0.0",
-    "frau-publisher": "^2.7.1",
+    "frau-publisher": "^2.7.11",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.0.1",
     "gulp-ejs": "^3.1.3",
@@ -103,10 +103,6 @@
       "files": "./build/**",
       "moduleType": "app",
       "targetDirectory": "discovery",
-      "creds": {
-        "key": "AKIAIX4OHXOJHJAHALOQ",
-        "secretVar": "FRAU_PUBLISHER_SECRET"
-      },
       "devTagVar": "DEV_VER",
       "versionVar": "PACKAGE_VER"
     }
