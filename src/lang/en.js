@@ -7,8 +7,10 @@ export default {
 	'noActivitiesFound': 'There were no activities found using your search term.',
 	'loadMore': 'Load More',
 	'featureContent': 'Feature Content',
+	'removeFromFeatured': 'Click to remove {course} from the featured activities section.',
 	'save': 'Save',
 	'search': 'Search',
 	'searchPlaceholder': 'Search...',
-	'selected': '{count} selected.'
+	'selected': '{count} selected.',
+	'settingsFeaturedSection' : 'Featured Section'
 };
