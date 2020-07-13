@@ -5,6 +5,7 @@ import './components/discovery-footer.js';
 import './components/home-header.js';
 import './components/home-list-section.js';
 import './components/home-all-section.js';
+import './components/featured-list-section.js';
 import './styles/discovery-styles.js';
 
 import { FetchMixin } from './mixins/fetch-mixin.js';
@@ -47,6 +48,11 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 					<home-header id="discovery-home-home-header" query="" show-settings-button="[[canManageDiscover]]"></home-header>
 				</div>
 				<div class="discovery-no-courses-message" hidden$="[[_hasCourses]]">[[localize('noActivities')]]</div>
+				<template is="dom-if" if="[[promotedCoursesEnabled]]">
+					<featured-list-section
+						href="[[_promotedCoursesHref]]"
+						token="[[token]]"></featured-list-section>
+				</template>
 				<home-list-section
 					href="[[_addedHref]]"
 					token="[[token]]"
@@ -84,6 +90,15 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 			},
 			_addedHref: String,
 			_updatedHref: String,
+			_promotedCoursesHref: String,
+			_hasCoursesFromAllSection: {
+				type: Boolean,
+				value: true
+			},
+			_hasPromotedCourses: {
+				type: Boolean,
+				value: false
+			},
 			_hasCourses: {
 				type: Boolean,
 				value: true
@@ -93,15 +108,30 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 
 	ready() {
 		super.ready();
-		this.addEventListener('d2l-discover-home-all-section-courses', this._checkCourses.bind(this));
+		this.addEventListener('d2l-discover-home-all-section-courses', this._checkCoursesFromAllSection.bind(this));
+		this.addEventListener('d2l-discover-home-featured-section-courses', this._checkPromotedCourses.bind(this));
 	}
 
-	_checkCourses(e) {
+	_checkCoursesFromAllSection(e) {
 		if (e && e.detail) {
 			if (e.detail.value > 0) {
+				this._hasCoursesFromAllSection = true;
 				this._hasCourses = true;
 			} else {
-				this._hasCourses = false;
+				this._hasCoursesFromAllSection = false;
+				this._hasCourses = this._hasPromotedCourses;
+			}
+		}
+	}
+
+	_checkPromotedCourses(e) {
+		if (e && e.detail) {
+			if (e.detail.value > 0) {
+				this._hasPromotedCourses = true;
+				this._hasCourses = true;
+			} else {
+				this._hasPromotedCourses = false;
+				this._hasCourses = this._hasCoursesFromAllSection;
 			}
 		}
 	}
@@ -129,6 +159,9 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 		});
 		this._getSortUrl('updated').then(url => {
 			this._updatedHref = url;
+		});
+		this._getActionUrl('get-promoted-courses').then(url => {
+			this._promotedCoursesHref = url;
 		});
 	}
 
