@@ -6,6 +6,7 @@ export default {
 	'clickToViewActivity': 'Click to view activity',
 	'noActivitiesFound': 'There were no activities found using your search term.',
 	'loadMore': 'Load More',
+	'featured': 'Featured',
 	'featureContent': 'Feature Content',
 	'removeFromFeatured': 'Click to remove {course} from the featured activities section.',
 	'save': 'Save',
