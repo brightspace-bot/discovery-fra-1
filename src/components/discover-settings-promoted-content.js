@@ -16,8 +16,9 @@ import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { entityFactory, dispose } from 'siren-sdk/src/es6/EntityFactory';
 import { OrganizationCollectionEntity } from 'siren-sdk/src/organizations/OrganizationCollectionEntity';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
+import { PromotedMixin } from '../mixins/promoted-mixin.js';
 
-class DiscoverSettingsPromotedContent extends RouteLocationsMixin(FetchMixin(LocalizeMixin(LitElement))) {
+class DiscoverSettingsPromotedContent extends PromotedMixin(RouteLocationsMixin(FetchMixin(LocalizeMixin(LitElement)))) {
 
 	static async getLocalizeResources(langs) {
 		return getLocalizeResources(langs);
@@ -123,6 +124,29 @@ class DiscoverSettingsPromotedContent extends RouteLocationsMixin(FetchMixin(Loc
 				margin-bottom: .5rem;
 			}
 		`];
+	}
+
+	async save() {
+		if (this._promotedItemsLoading === true || this._candidateItemsLoading === true) {
+			return;
+		}
+
+		const orgUrlArray = [];
+		this._currentSelection.forEach(activity => {
+			orgUrlArray.push(activity);
+		});
+
+		return await this.savePromotedActivities(orgUrlArray);
+	}
+
+	cancel() {
+		if (this._promotedItemsLoading === true || this._candidateItemsLoading === true) {
+			return;
+		}
+
+		this._promotedItemsLoading = true;
+		this._currentSelection = new Set();
+		this._loadPromotedCourses();
 	}
 
 	render() {
@@ -271,22 +295,14 @@ class DiscoverSettingsPromotedContent extends RouteLocationsMixin(FetchMixin(Loc
 	}
 
 	_loadPromotedCourses() {
-		this._getActionUrl('get-promoted-courses').then(url => {
-
-			entityFactory(OrganizationCollectionEntity, url, this.token, (entity) => {
-				if (entity === null) {
-					return;
-				}
-				const activities = entity.activities();
-
-				activities.forEach(entity => {
-					const organizationUrl = entity.hasLink(Rels.organization) && entity.getLinkByRel(Rels.organization).href;
-					this._currentSelection.add(organizationUrl);
-					this._selectionCount = this._currentSelection.size;
-				});
-				this._updateFeaturedList();
-				this._promotedItemsLoading = false;
+		this.fetchPromotedActivities().then (activities => {
+			activities.forEach(entity => {
+				const organizationUrl = entity.hasLink(Rels.organization) && entity.getLinkByRel(Rels.organization).href;
+				this._currentSelection.add(organizationUrl);
+				this._selectionCount = this._currentSelection.size;
 			});
+			this._updateFeaturedList();
+			this._promotedItemsLoading = false;
 		});
 	}
 
