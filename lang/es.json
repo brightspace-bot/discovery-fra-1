@@ -42,6 +42,7 @@
    "navigateHome" : "Regresar a la página de inicio.",
    "new" : "Nuevo",
    "noActivities" : "No hay actividades disponibles o ya está inscrito en todas ellas. Inténtelo de nuevo más tarde.",
+   "noActivitiesExceptPrmoted" : "No hay actividades nuevas ni actualizadas disponibles o ya está inscrito en todas ellas. Inténtelo de nuevo más tarde.",
    "noCourseDescription" : "Sin descripción del curso",
    "noResultsHeading" : "No hay resultados para \"{searchQuery}\"",
    "noResultsMessage" : "Intente utilizar un término de búsqueda distinto o use {linkStart}Examinar todo{linkEnd} para ver todos los materiales disponibles",

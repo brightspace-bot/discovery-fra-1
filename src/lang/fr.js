@@ -1,5 +1,21 @@
 export default {
+	'add': 'Ajouter',
+	'browseDiscoverLibrary': 'Parcourir la bibliothèque de Découvrir',
+	'cancel': 'Annuler',
+	'clearSelected': 'Effacer la sélection',
 	'clickToViewActivity': 'Cliquer pour afficher l\'activité',
+	'loadMore': 'En voir plus',
+	'noActivitiesFound': 'Aucune activité n’a été trouvée au moyen de vos termes de recherche.',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': 'Proposé',
+	'featureContent': 'Contenu proposé',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': 'Enregistrer',
-	'cancel': 'Annuler'
+	'saveCompleted' : 'Les modifications ont été enregistrées.',
+	'saveCancelled' : 'Les modifications ont été annulées.',
+	'search': 'Rechercher',
+	'searchPlaceholder': 'Recherche…',
+	'selected': '{count} sélectionné(s).',
+	'selectedFromMaximum': '{count} ∕ {maximum} sélectionné(s).',
+	'settingsFeaturedSection' : 'Section des propositions'
 };

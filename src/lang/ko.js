@@ -1,5 +1,21 @@
 export default {
+	'add': '추가',
+	'browseDiscoverLibrary': '감지 라이브러리 찾아보기',
+	'cancel': '취소',
+	'clearSelected': '선택 지우기',
 	'clickToViewActivity': '클릭하여 활동 보기',
+	'loadMore': '더 많이 로드',
+	'noActivitiesFound': '검색어로 찾은 활동이 없습니다.',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': '추천됨',
+	'featureContent': '추천 콘텐츠',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': '저장',
-	'cancel': '취소'
+	'saveCompleted' : '변경 사항이 저장되었습니다.',
+	'saveCancelled' : '변경 사항이 취소되었습니다.',
+	'search': '검색',
+	'searchPlaceholder': '검색...',
+	'selected': '{count}개 선택됨',
+	'selectedFromMaximum': '{count} ∕ {maximum}개의 항목이 선택되었습니다.',
+	'settingsFeaturedSection' : '추천 섹션'
 };

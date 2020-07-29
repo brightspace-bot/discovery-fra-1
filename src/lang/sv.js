@@ -1,5 +1,21 @@
 export default {
+	'add': 'Lägg till',
+	'browseDiscoverLibrary': 'Bläddra i upptäcksbiblioteket',
+	'cancel': 'Avbryt',
+	'clearSelected': 'Rensa val',
 	'clickToViewActivity': 'Klicka för att visa aktivitet',
+	'loadMore': 'Ladda mer',
+	'noActivitiesFound': 'Det gick inte att hitta några aktiviteter med det sökord du angav.',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': 'Valt',
+	'featureContent': 'Välj innehåll',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': 'Spara',
-	'cancel': 'Avbryt'
+	'saveCompleted' : 'Ändringarna har sparats.',
+	'saveCancelled' : 'Ändringarna har avbrutits.',
+	'search': 'Sökning',
+	'searchPlaceholder': 'Sök ...',
+	'selected': '{count} har valts.',
+	'selectedFromMaximum': '{count}∕{maximum} har valts.',
+	'settingsFeaturedSection' : 'Valt avsnitt'
 };

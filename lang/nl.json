@@ -42,6 +42,7 @@
    "navigateHome" : "Ga terug naar de startpagina.",
    "new" : "Nieuw",
    "noActivities" : "Er zijn geen activiteiten beschikbaar of u hebt u al voor alle activiteiten ingeschreven. Probeer het later opnieuw.",
+   "noActivitiesExceptPrmoted" : "Er zijn geen nieuwe of bijgewerkte activiteiten beschikbaar of u hebt u al voor alle activiteiten ingeschreven. Probeer het later opnieuw.",
    "noCourseDescription" : "Geen cursusbeschrijving",
    "noResultsHeading" : "Geen resultaten voor '{searchQuery}'",
    "noResultsMessage" : "Probeer een andere zoekterm of {linkStart}Blader door alle inhoud{linkEnd} om alle beschikbare materialen te bekijken",

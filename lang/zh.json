@@ -42,6 +42,7 @@
    "navigateHome" : "返回主页。",
    "new" : "新建",
    "noActivities" : "没有可用的活动或者您已注册所有活动。请稍后重试。",
+   "noActivitiesExceptPrmoted" : "没有新的或更新的可用活动或者您已注册所有活动。请稍后重试。",
    "noCourseDescription" : "无课程描述",
    "noResultsHeading" : "未找到“{searchQuery}”的结果",
    "noResultsMessage" : "尝试使用其他搜索词或{linkStart}浏览所有{linkEnd}以查看所有可用材料",
