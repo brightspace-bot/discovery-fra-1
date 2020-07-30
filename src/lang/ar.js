@@ -1,5 +1,21 @@
 export default {
+	'add': 'إضافة',
+	'browseDiscoverLibrary': 'استعراض مكتبة أداة الاكتشاف',
+	'cancel': 'إلغاء',
+	'clearSelected': 'مسح التحديد',
 	'clickToViewActivity': 'النقر لعرض النشاط',
+	'loadMore': 'تحميل المزيد',
+	'noActivitiesFound': 'لم يتم العثور على أي أنشطة باستخدام مصطلح البحث.',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': 'عرض خاص',
+	'featureContent': 'محتوى الميزة',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': 'حفظ',
-	'cancel': 'إلغاء'
+	'saveCompleted' : 'تم حفظ التغييرات.',
+	'saveCancelled' : 'تم إلغاء التغييرات.',
+	'search': 'بحث',
+	'searchPlaceholder': 'البحث...',
+	'selected': 'تم تحديد {count}.',
+	'selectedFromMaximum': 'تم تحديد {count} ∕ {maximum}.',
+	'settingsFeaturedSection' : 'قسم مميّز'
 };

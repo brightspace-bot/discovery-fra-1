@@ -1,5 +1,21 @@
 export default {
+	'add': '追加',
+	'browseDiscoverLibrary': 'Discovery ライブラリの参照',
+	'cancel': 'キャンセル',
+	'clearSelected': '選択のクリア',
 	'clickToViewActivity': 'クリックしてアクティビティを表示',
+	'loadMore': 'さらに読み込む',
+	'noActivitiesFound': '検索語句に一致するアクティビティがありませんでした。',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': '注目',
+	'featureContent': '注目のコンテンツ',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': '保存',
-	'cancel': 'キャンセル'
+	'saveCompleted' : '変更が保存されました。',
+	'saveCancelled' : '変更はキャンセルされました。',
+	'search': '検索',
+	'searchPlaceholder': '検索...',
+	'selected': '{count} 件を選択済み。',
+	'selectedFromMaximum': '{Count}/{maximum} 件を選択済み。',
+	'settingsFeaturedSection' : '注目のセクション'
 };

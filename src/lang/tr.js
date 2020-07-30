@@ -1,5 +1,21 @@
 export default {
+	'add': 'Ekle',
+	'browseDiscoverLibrary': 'Keşfet Kütüphanesine Göz At',
+	'cancel': 'İptal',
+	'clearSelected': 'Seçimi Temizle',
 	'clickToViewActivity': 'Etkinliği görüntülemek için tıklayın',
+	'loadMore': 'Daha Fazla Yükle',
+	'noActivitiesFound': 'Arama teriminizi kullanan etkinlik bulunamadı.',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': 'Öne Çıkarıldı',
+	'featureContent': 'İçeriği Öne Çıkar',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': 'Kaydet',
-	'cancel': 'İptal'
+	'saveCompleted' : 'Değişiklikler kaydedildi.',
+	'saveCancelled' : 'Değişiklikler iptal edildi.',
+	'search': 'Ara',
+	'searchPlaceholder': 'Ara...',
+	'selected': '{count} öge seçildi.',
+	'selectedFromMaximum': '{count} ∕ {maximum} öğe seçildi.',
+	'settingsFeaturedSection' : 'Öne Çıkarılan Bölüm'
 };

@@ -1,5 +1,21 @@
 export default {
+	'add': 'Tilføj',
+	'browseDiscoverLibrary': 'Gennemse Registrer bibliotek',
+	'cancel': 'Annuller',
+	'clearSelected': 'Ryd valg',
 	'clickToViewActivity': 'Klik for at få vist aktivitet',
+	'loadMore': 'Indlæs flere',
+	'noActivitiesFound': 'Der blev ikke fundet nogen aktiviteter for dit søgeord.',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': 'Fremhævet',
+	'featureContent': 'Fremhæv indhold',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': 'Gem',
-	'cancel': 'Annuller'
+	'saveCompleted' : 'Ændringerne er blevet gemt.',
+	'saveCancelled' : 'Ændringerne er blevet annulleret.',
+	'search': 'Søg',
+	'searchPlaceholder': 'Søg ...',
+	'selected': '{count} valgt.',
+	'selectedFromMaximum': '{count} ∕ {maximum} valgt.',
+	'settingsFeaturedSection' : 'Fremhævet sektion'
 };

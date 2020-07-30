@@ -1,5 +1,21 @@
 export default {
+	'add': '添加',
+	'browseDiscoverLibrary': '浏览发现库',
+	'cancel': '取消',
+	'clearSelected': '清除选择',
 	'clickToViewActivity': '点击查看活动',
+	'loadMore': '加载更多',
+	'noActivitiesFound': '使用您的搜索术语未找到任何活动。',
+	'noFeaturedActivities' : 'There is currently no featured content.',
+	'featured': '特色',
+	'featureContent': '功能目录',
+	'removeFromFeatured': 'Click to remove {course} from the featured content section.',
 	'save': '保存',
-	'cancel': '取消'
+	'saveCompleted' : '更改已保存。',
+	'saveCancelled' : '更改已取消。',
+	'search': '搜索',
+	'searchPlaceholder': '搜索...',
+	'selected': '{count} 个已选择。',
+	'selectedFromMaximum': '已选 {count} 个（共 {maximum} 个）。',
+	'settingsFeaturedSection' : '特色部分'
 };
