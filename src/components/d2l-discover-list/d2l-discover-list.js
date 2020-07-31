@@ -146,7 +146,8 @@ class D2lDiscoverList extends LocalizeMixin(DiscoverListItemResponsiveConstants(
 
 		window.fastdom.mutate(() => {
 			if (currentLineNumber <= this._descriptionLineCount) {
-				return html ``;
+				div.classList.remove('d2l-discover-list-item-description-hidden');
+				return div;
 			}
 			/**
 			 * Let l be the number of lines
