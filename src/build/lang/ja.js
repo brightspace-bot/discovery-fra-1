@@ -49,6 +49,7 @@ window.D2L.Discovery.LangJa = {
 	"navigateHome": "ホームに戻ります。",
 	"new": "新規",
 	"noActivities": "使用可能なアクティビティがないか、すべてのアクティビティにすでに登録済みです。後でもう一度試してください。",
+	"noActivitiesExceptPrmoted": "使用可能な新規または更新済みのアクティビティがないか、すべてのアクティビティにすでに登録済みです。後でもう一度試してください。",
 	"noCourseDescription": "コースの説明がありません",
 	"noResultsHeading": "「{searchQuery}」の検索結果はありません",
 	"noResultsMessage": "別の語句で検索するか、{linkStart}すべてを参照{linkEnd}して使用可能なすべての資料を表示してください",

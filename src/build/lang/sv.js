@@ -49,6 +49,7 @@ window.D2L.Discovery.LangSv = {
 	"navigateHome": "Tillbaka till startsidan.",
 	"new": "Ny",
 	"noActivities": "Det finns inga tillgängliga aktiviteter eller så är du redan registrerad i alla. Försök igen senare.",
+	"noActivitiesExceptPrmoted": "Det finns inga nya eller uppdaterade aktiviteter tillgängliga eller så är du redan registrerad i alla. Försök igen senare.",
 	"noCourseDescription": "Ingen kursbeskrivning",
 	"noResultsHeading": "Inga resultat för \"{searchQuery}\"",
 	"noResultsMessage": "Prova med ett annat sökord eller {linkStart}Bläddra bland alla{linkEnd} för att visa alla tillgängliga material",

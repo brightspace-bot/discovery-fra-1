@@ -49,6 +49,7 @@ window.D2L.Discovery.LangPt = {
 	"navigateHome": "Volte ao início.",
 	"new": "Novas",
 	"noActivities": "Não há atividades disponíveis, ou você já se inscreveu em todas elas. Tente novamente mais tarde.",
+	"noActivitiesExceptPrmoted": "Não há atividades novas ou atualizadas disponíveis ou você já se inscreveu em todas elas. Tente novamente mais tarde.",
 	"noCourseDescription": "Não há descrição do curso",
 	"noResultsHeading": "Nenhum resultado para \"{searchQuery}\"",
 	"noResultsMessage": "Use um termo de pesquisa diferente, ou clique em {linkStart}Procurar Tudo{linkEnd} para visualizar todos os materiais disponíveis",

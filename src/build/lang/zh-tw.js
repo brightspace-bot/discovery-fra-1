@@ -49,6 +49,7 @@ window.D2L.Discovery.LangZhtw = {
 	"navigateHome": "返回首頁。",
 	"new": "新式",
 	"noActivities": "沒有可用的活動或您已經註冊所有的活動。請稍後再試。",
+	"noActivitiesExceptPrmoted": "沒有全新或更新的活動可用，或您已經註冊所有的活動。請稍後再試。",
 	"noCourseDescription": "沒有課程說明",
 	"noResultsHeading": "沒有任何結果符合「{searchQuery}」",
 	"noResultsMessage": "請嘗試使用不同的搜尋詞彙，或是{linkStart}瀏覽全部{linkEnd}以檢視所有可用的資料",
