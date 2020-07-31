@@ -49,6 +49,7 @@ window.D2L.Discovery.LangDadk = {
 	"navigateHome": "Gå tilbage til startsiden.",
 	"new": "Ny",
 	"noActivities": "Der er ingen aktiviteter tilgængelige, eller du er allerede tilmeldt dem alle. Prøv igen senere.",
+	"noActivitiesExceptPrmoted": "Der er ingen nye eller opdaterede aktiviteter tilgængelige, eller du er allerede tilmeldt dem alle. Prøv igen senere.",
 	"noCourseDescription": "Ingen kursusbeskrivelse",
 	"noResultsHeading": "Ingen resultater for \"{searchQuery}\"",
 	"noResultsMessage": "Prøv at bruge et andet søgeord eller {linkStart}Gennemse alle{linkEnd} for at få vist alt tilgængeligt materiale",

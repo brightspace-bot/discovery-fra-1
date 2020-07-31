@@ -49,6 +49,7 @@ window.D2L.Discovery.LangAr = {
 	"navigateHome": "عُد إلى الصفحة الرئيسية.",
 	"new": "جديد",
 	"noActivities": "لا تتوفر أي أنشطة، أو سبق أن تم تسجيلك في الأنشطة كلها. حاول مرة أخرى في وقت لاحق.",
+	"noActivitiesExceptPrmoted": "لا تتوفر أي أنشطة جديدة أو محدّثة، أو سبق أن تم تسجيلك في الأنشطة كلها. حاول مرة أخرى في وقت لاحق.",
 	"noCourseDescription": "ما من وصف للمقرر التعليمي",
 	"noResultsHeading": "ما من نتائج لـ \"{searchQuery}\"",
 	"noResultsMessage": "حاول استخدام مصطلح بحث مختلف أو {linkStart}استعراض الكل{linkEnd} لعرض كل المواد المتوفرة",

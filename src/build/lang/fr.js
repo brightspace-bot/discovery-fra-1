@@ -49,6 +49,7 @@ window.D2L.Discovery.LangFr = {
 	"navigateHome": "Revenir à la page d'accueil.",
 	"new": "Nouvelle",
 	"noActivities": "Aucune activité disponible ou vous êtes déjà inscrit(e) dans chacune d'elles. Réessayez plus tard.",
+	"noActivitiesExceptPrmoted": "Aucune activité nouvelle ou mise à jour n’est disponible, ou vous êtes déjà inscrit(e) à toutes les activités. Réessayez plus tard.",
 	"noCourseDescription": "Aucune description du cours",
 	"noResultsHeading": "Aucun résultat pour « {searchQuery} »",
 	"noResultsMessage": "Essayer un terme de recherche différent ou {linkStart}parcourez tout{linkEnd} pour voir tout le matériel disponible",

@@ -49,6 +49,7 @@ window.D2L.Discovery.LangTr = {
 	"navigateHome": "Ana sayfaya geri dönün.",
 	"new": "Yeni",
 	"noActivities": "Mevcut etkinlik yok veya tümü için kayıt yapmış bulunuyorsunuz. Daha sonra tekrar deneyin.",
+	"noActivitiesExceptPrmoted": "Mevcut yeni veya güncellenmiş etkinlik yok veya tümü için kayıt yapmış bulunuyorsunuz. Daha sonra tekrar deneyin.",
 	"noCourseDescription": "Ders açıklaması yok",
 	"noResultsHeading": "\"{searchQuery}\" araması için sonuç bulunmadı",
 	"noResultsMessage": "Farklı bir arama terimi kullanmayı deneyin veya mevcut tüm materyalleri görüntülemek için {linkStart}Tümüne Gözat{linkEnd} öğesine tıklayın",
