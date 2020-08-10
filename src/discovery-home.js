@@ -9,9 +9,11 @@ import './components/featured-list-section.js';
 import './styles/discovery-styles.js';
 
 import { FetchMixin } from './mixins/fetch-mixin.js';
+import { DiscoverSettingsMixin } from './mixins/discover-settings-mixin.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
+import { FeatureMixin } from './mixins/feature-mixin.js';
 
-class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
+class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(LocalizeMixin(PolymerElement)))) {
 	static get template() {
 
 		return html`
@@ -52,7 +54,9 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 				<template is="dom-if" if="[[promotedCoursesEnabled]]">
 					<featured-list-section
 						href="[[_promotedCoursesHref]]"
-						token="[[token]]"></featured-list-section>
+						token="[[token]]"
+						showOrganizationCode$="[[showOrganizationCode]]"
+						showSemesterName$="[[showSemesterName]]"></featured-list-section>
 				</template>
 				<div class="discovery-no-courses-message" hidden$="[[_hasCoursesFromAllSection]]">[[_noActivitiesMsg]]</div>
 				<home-list-section
@@ -62,7 +66,9 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 					section-name="[[localize('new')]]"
 					link-label="[[localize('viewAllNewLabel')]]"
 					link-name="[[localize('viewAll')]]"
-					page-size="[[_pageSize]]"></home-list-section>
+					page-size="[[_pageSize]]"
+					showOrganizationCode$="[[showOrganizationCode]]"
+					showSemesterName$="[[showSemesterName]]"></home-list-section>
 				<home-list-section
 					href="[[_updatedHref]]"
 					token="[[token]]"
@@ -70,8 +76,13 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 					section-name="[[localize('updated')]]"
 					link-label="[[localize('viewAllUpdatedLabel')]]"
 					link-name="[[localize('viewAll')]]"
-					page-size="[[_pageSize]]"></home-list-section>
-				<home-all-section token="[[token]]"></home-all-section>
+					page-size="[[_pageSize]]"
+					showOrganizationCode$="[[showOrganizationCode]]"
+					showSemesterName$="[[showSemesterName]]"></home-list-section>
+				<home-all-section
+					token="[[token]]"
+					show-organization-code$="[[showOrganizationCode]]"
+					show-semester-name$="[[showSemesterName]]"></home-all-section>
 				<discovery-footer></discovery-footer>
 			</div>
 		`;
@@ -100,6 +111,12 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 			_hasPromotedCourses: {
 				type: Boolean,
 				value: false
+			},
+			showOrganizationCode: {
+				type: Boolean
+			},
+			showSemesterName: {
+				type: Boolean,
 			},
 			_noActivitiesMsg: String
 		};
@@ -150,7 +167,7 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 		}
 
 		this._updateToken();
-		this._setUpUrls();
+		this._initializeSettings();
 		const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
 		document.title = this.localize('homepageDocumentTitle', 'instanceName', instanceName ? instanceName : '');
 
@@ -159,6 +176,21 @@ class DiscoveryHome extends FetchMixin(LocalizeMixin(PolymerElement)) {
 			homeHeader.clear();
 			homeHeader.focusOnInput();
 		}
+	}
+
+	_initializeSettings() {
+		this.showOrganizationCode = true;
+		this.showSemesterName = true;
+
+		if (this._isDiscoverCustomizationsEnabled()) {
+			this.fetchDiscoverSettings().then(properties => {
+				if (properties) {
+					this.showOrganizationCode = properties.showCourseCode;
+					this.showSemesterName = properties.showSemester;
+				}
+			});
+		}
+		this._setUpUrls();
 	}
 
 	_setUpUrls() {

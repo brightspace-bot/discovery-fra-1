@@ -2,6 +2,7 @@ import './fetch-mixin';
 
 const getPromotedAction = 'get-promoted-courses';
 const setDiscoverSettings = 'set-discover-settings';
+const getDiscoverSettings = 'get-discover-settings';
 const discoverRel =  'https://discovery.brightspace.com';
 
 //Mixin for handling promoted fetching and saving.
@@ -17,6 +18,12 @@ export const DiscoverSettingsMixin = FetchMixin => class extends FetchMixin {
 			return activities;
 		}
 		return null;
+	}
+
+	async fetchDiscoverSettings() {
+		const url = await this._getActionUrl(getDiscoverSettings);
+		const discoverSettingsEntity = await this._fetchEntity(url);
+		return discoverSettingsEntity && discoverSettingsEntity.properties;
 	}
 
 	//Takes an array of org URLs and writes them as the new set of promoted courses.
