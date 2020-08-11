@@ -126,19 +126,6 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		`];
 	}
 
-	async save() {
-		if (this._promotedItemsLoading === true || this._candidateItemsLoading === true) {
-			return;
-		}
-
-		const orgUrlArray = [];
-		this._currentSelection.forEach(activity => {
-			orgUrlArray.push(activity);
-		});
-
-		return await this.saveDiscoverSettings(orgUrlArray);
-	}
-
 	cancel() {
 		if (this._promotedItemsLoading === true || this._candidateItemsLoading === true) {
 			return;
@@ -252,9 +239,24 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		`;
 	}
 
+	_sendSelection(currentSelection) {
+		const selections = [];
+		currentSelection.forEach(s => {
+			selections.push(s);
+		});
+		this.dispatchEvent(new CustomEvent('discover-settings-promoted-content-selection', {
+			detail: {
+				selection: selections,
+			},
+			bubbles: true,
+			composed: true,
+		}));
+	}
+
 	_clearAllSelected() {
 		this._currentSelection = new Set();
 		this._selectionCount = 0;
+		this._sendSelection(this._currentSelection);
 	}
 	_openPromotedDialogClicked() {
 		this._promotedDialogOpen = true;
@@ -292,6 +294,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			this._currentSelection.delete(e.detail.key);
 		}
 		this._selectionCount = this._currentSelection.size;
+		this._sendSelection(this._currentSelection);
 	}
 
 	_loadPromotedCourses() {
@@ -303,6 +306,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			this._selectionCount = this._currentSelection.size;
 			this._updateFeaturedList();
 			this._promotedItemsLoading = false;
+			this._sendSelection(this._currentSelection);
 		});
 	}
 
@@ -434,6 +438,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 
 		this._currentSelection = newSelection;
 		this._selectionCount = this._currentSelection.size;
+		this._sendSelection(this._currentSelection);
 	}
 
 	//Removes an item from the promoted list via its 'x' button.
@@ -441,6 +446,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		this._currentSelection.delete(organizationUrl);
 		this._selectionCount = this._currentSelection.size;
 		this._updateFeaturedList();
+		this._sendSelection(this._currentSelection);
 	}
 
 	_getSortUrl(query) {

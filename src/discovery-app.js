@@ -54,7 +54,11 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 					can-manage-discover="[[_manageDiscover]]"></discovery-home>
 				<discovery-course name="course" route="[[route]]"></discovery-course>
 				<discovery-search name="search" route="[[route]]"></discovery-search>
-				<discovery-settings name="settings" can-manage-discover="[[_manageDiscover]]"></discovery-settings>
+				<discovery-settings
+					name="settings"
+					can-manage-discover="[[_manageDiscover]]"
+					discover-customizations-enabled = "[[_discoverCustomizationsEnabled]]">
+				</discovery-settings>
 				<discovery-404 name="404"></discovery-404>
 			</iron-pages>
 		`;
