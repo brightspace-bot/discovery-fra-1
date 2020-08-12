@@ -181,7 +181,6 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		this.addEventListener('discover-page-save', this._handleSave.bind(this));
 		this.addEventListener('discover-page-cancel', this._handleCancel.bind(this));
 		this.addEventListener('discover-settings-promoted-content-selection', this._updateSelection.bind(this));
-		this._initializeSettings();
 	}
 
 	disconnectedCallback() {
@@ -195,6 +194,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		changedProperties.forEach((_, propName) => {
 			if (propName === 'canManageDiscover' || propName === 'visible') {
 				this._checkPermission();
+				this._initializeSettings();
 			}
 		});
 	}
@@ -253,6 +253,8 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		}
 
 		await this.saveDiscoverSettings(this._selectedPromotedCourses, this._showCourseCode, this._showSemester);
+		this._savedShowCourseCode = this._showCourseCode;
+		this._savedShowSemester = this._showSemester;
 		this.shadowRoot.querySelector('d2l-alert-toast').innerHTML = this.localize('saveCompleted');
 		this.shadowRoot.querySelector('d2l-alert-toast').open = true;
 	}
@@ -265,6 +267,12 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 
 	_reset() {
 		this.shadowRoot.querySelector('discover-settings-promoted-content').cancel();
+		const showCourseCodeSwitch = this.shadowRoot.querySelector('#showCourseCodeSwitch');
+		showCourseCodeSwitch.on = this._savedShowCourseCode;
+		const showSemesterSwitch = this.shadowRoot.querySelector('#showSemesterSwitch');
+		showSemesterSwitch.on = this._savedShowSemester;
+		this._showCourseCode = this._savedShowCourseCode;
+		this._showSemester = this._savedShowSemester;
 	}
 }
 
