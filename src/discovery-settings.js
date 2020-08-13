@@ -39,9 +39,9 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 	_renderCustomizeDiscoverSection() {
 		return html`
 			${this.discoverCustomizationsEnabled ? html`
-				<div class="discover-customization-header">
+				<div class="discover-customization-section">
 					<h2 class="discover-customization-title">${this.localize('customizeDiscover')}</h2>
-					<div class="discover-customization-settings">
+					<div class="discover-customization-settings" ?hidden="${this._hideCustomizationSettings}">
 						<d2l-switch-visibility
 							id="showCourseCodeSwitch"
 							text=${this.localize('showCourseCode')}
@@ -81,7 +81,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 				.discovery-settings-page-divider {
 					border-top: 1px solid rgba(124,134,149,0.18);
 				}
-				.discover-customization-header {
+				.discover-customization-section {
 					padding-top: 1rem;
 				}
 				.discover-customization-settings {
@@ -134,6 +134,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		this.discoverCustomizationsEnabled = false;
 		this._showCourseCode = true;
 		this._showSemester = true;
+		this._hideCustomizationSettings = true;
 		this._updateToken();
 	}
 
@@ -163,12 +164,14 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 			_promotedHref: {
 				type: String
 			},
-
 			_relevantHref: {
 				type: String
 			},
 			_selectedPromotedCourses: {
 				type: Array
+			},
+			_hideCustomizationSettings: {
+				type: Boolean
 			},
 			token: {
 				type: String
@@ -180,13 +183,13 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		super.connectedCallback();
 		this.addEventListener('discover-page-save', this._handleSave.bind(this));
 		this.addEventListener('discover-page-cancel', this._handleCancel.bind(this));
-		this.addEventListener('discover-settings-promoted-content-selection', this._updateSelection.bind(this));
+		this.addEventListener('discover-settings-promoted-content-selection', this._updateFeaturedSelection.bind(this));
 	}
 
 	disconnectedCallback() {
 		this.removeEventListener('discover-page-save', this._handleSave.bind(this));
 		this.removeEventListener('discover-page-cancel', this._handleCancel.bind(this));
-		this.removeEventListener('discover-settings-promoted-content-selection', this._updateSelection.bind(this));
+		this.removeEventListener('discover-settings-promoted-content-selection', this._updateFeaturedSelection.bind(this));
 		super.disconnectedCallback();
 	}
 
@@ -199,7 +202,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		});
 	}
 
-	_updateSelection(e) {
+	_updateFeaturedSelection(e) {
 		this._selectedPromotedCourses = e.detail.selection;
 	}
 
@@ -221,6 +224,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 					this._savedShowSemester = properties.showSemester;
 					this._showCourseCode = properties.showCourseCode;
 					this._showSemester = properties.showSemester;
+					this._hideCustomizationSettings = false;
 				}
 			});
 		}
