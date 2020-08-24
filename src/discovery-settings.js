@@ -1,13 +1,13 @@
 'use strict';
-import './components/home-header.js';
 import './components/save-close-buttons.js';
 import './components/discover-settings-promoted-content.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import '@brightspace-ui/core/components/alert/alert-toast.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox.js';
+import './components/discover-settings-breadcrumbs-lit.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { heading1Styles, heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 import { FetchMixin } from './mixins/fetch-mixin.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
@@ -22,7 +22,8 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 			<style include="discovery-styles"></style>
 			<div class="discovery-settings-main">
 				<div class="discovery-settings-header">
-					<home-header query="" reset-page="settings" .showSettingsButton="${this.canManageDiscover}"></home-header>
+					<discover-settings-breadcrumbs-lit></discover-settings-breadcrumbs-lit>
+					<h1 class="d2l-heading-1 discovery-settings-h1">${this.localize('discoverSettings')}</h1>
 				</div>
 				<div class="discovery-settings-content">
 					<discover-settings-promoted-content token="${this.token}"></discover-settings-promoted-content>
@@ -58,6 +59,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 
 	static get styles() {
 		return [
+			heading1Styles,
 			heading2Styles,
 			bodyCompactStyles,
 			bodyStandardStyles,
@@ -69,6 +71,10 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 				}
 				.discovery-settings-header {
 					margin-bottom: 1rem;
+					margin-top: .75rem;
+				}
+				.discovery-settings-h1 {
+					margin-top: .5rem;
 				}
 				.discovery-settings-main {
 					margin: 0 30px;
