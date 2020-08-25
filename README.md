@@ -35,6 +35,7 @@ You should be able to view the fra at http://localhost:9090/d2l/le/discovery/vie
 While hosting, it should rebuild after editing the source or lang files, so disable browser caching and refresh your browser after build completion to view changes.
 
 Note: if you want to run this in cmd or powershell, you need to have cmd be able to run linux commands, you can install Cash node module to have a limited set of linux commands.
+`npm install cash-global -g` or you can install an individual command globally `npm install cash-{command}`
 
 ### Production
 
