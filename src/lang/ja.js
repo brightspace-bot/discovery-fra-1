@@ -18,7 +18,7 @@ export default {
 	'search': '検索',
 	'searchPlaceholder': '検索...',
 	'selected': '{count} 件を選択済み。',
-	'selectedFromMaximum': '{Count}/{maximum} 件を選択済み。',
+	'selectedFromMaximum': '{count}/{maximum} 件を選択済み。',
 	'settingsFeaturedSection': '注目のセクション',
 	'customizeDiscover': '検出のカスタマイズ',
 	'showCourseCode': 'コースコードの表示',
