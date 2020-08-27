@@ -258,7 +258,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			detail: {
 				path: this.routeLocations().search(this.searchQuery, {
 					sort: this.sortParameter
-				})
+				}),
+				resetPages: ['search']
 			},
 			bubbles: true,
 			composed: true
@@ -285,7 +286,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			.catch(() => {
 				this.dispatchEvent(new CustomEvent('navigate', {
 					detail: {
-						path: this.routeLocations().notFound()
+						path: this.routeLocations().notFound(),
+						resetPages: ['search']
 					},
 					bubbles: true,
 					composed: true
@@ -332,7 +334,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		if (e && e.detail && e.detail.orgUnitId) {
 			this.dispatchEvent(new CustomEvent('navigate', {
 				detail: {
-					path: this.routeLocations().course(e.detail.orgUnitId)
+					path: this.routeLocations().course(e.detail.orgUnitId),
+					resetPages: ['search']
 				},
 				bubbles: true,
 				composed: true
@@ -358,7 +361,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				path: this.routeLocations().search(this.searchQuery, {
 					sort: this.sortParameter,
 					page: pageNumber
-				})
+				}),
+				resetPages: ['search']
 			},
 			bubbles: true,
 			composed: true
@@ -485,7 +489,8 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			detail: {
 				path: this.routeLocations().search('', {
 					sort: this.sortParameter
-				})
+				}),
+				resetPages: ['search']
 			},
 			bubbles: true,
 			composed: true
