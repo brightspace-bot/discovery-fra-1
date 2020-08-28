@@ -103,9 +103,7 @@ const buildPolymerDev = gulp.series(
 );
 
 const buildDev = gulp.parallel(
-	gulp.series(
-		buildPolymerDev,
-	),
+	buildPolymerDev,
 	gulp.series(
 		buildFrauConfig,
 		startFrauHost
@@ -114,10 +112,17 @@ const buildDev = gulp.parallel(
 	watching
 );
 
-const buildDevCustomConfig = gulp.parallel(
+const buildDevNoWatch = gulp.parallel(
+	buildPolymerDev,
 	gulp.series(
-		buildPolymerDev,
+		buildFrauConfig,
+		startFrauHost
 	),
+	startToaster
+);
+
+const buildDevCustomConfig = gulp.parallel(
+	buildPolymerDev,
 	gulp.series(
 		buildFrauConfig,
 		startFrauHost
@@ -126,10 +131,21 @@ const buildDevCustomConfig = gulp.parallel(
 	watching
 );
 
+const buildDevCustomConfigNoWatch = gulp.parallel(
+	buildPolymerDev,
+	gulp.series(
+		buildFrauConfig,
+		startFrauHost
+	),
+	startToasterCustom
+);
+
 const clean = gulp.parallel(
 	cleanBuildDir
 );
 
 exports['cleanBuild'] = clean;
 exports['buildDev'] = buildDev;
+exports['buildDevNoWatch'] = buildDevNoWatch;
 exports['buildDevCustom'] = buildDevCustomConfig;
+exports['buildDevCustomNoWatch'] = buildDevCustomConfigNoWatch;

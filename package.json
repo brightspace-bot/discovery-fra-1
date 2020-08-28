@@ -22,7 +22,9 @@
     "frau:release": "npm run frau:publish",
     "install-attest": "npm install --no-save attest",
     "buildDev": "npx gulp buildDev",
-    "buildDev:custom": "npx gulp buildDevCustom"
+    "buildDev:noWatch": "npx gulp buildDevNoWatch",
+    "buildDev:custom": "npx gulp buildDevCustom",
+    "buildDev:customNoWatch": "npx gulp buildDevCustomNoWatch"
   },
   "dependencies": {
     "@brightspace-ui/core": "^1.71.0",
