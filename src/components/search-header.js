@@ -163,6 +163,9 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 	queryObserver(query) {
 		this.query = query || '';
 	}
+	reset() {
+		this.searchInput.value = this.query;
+	}
 }
 
 window.customElements.define('search-header', SearchHeader);

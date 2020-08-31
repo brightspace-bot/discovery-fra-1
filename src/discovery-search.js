@@ -386,6 +386,8 @@ class DiscoverySearch extends mixinBehaviors([IronResizableBehavior], IfrauMixin
 		this.searchQuerySanitized = null;
 		this._pageCurrent = undefined;
 		this._searchActionHref = undefined;
+		const searchHeader = this.shadowRoot.querySelector('#discovery-search-search-header');
+		searchHeader.reset();
 	}
 	_searchQuerySanitizedComputed(_searchQuery) {
 		if (_searchQuery === null || _searchQuery === undefined) {
