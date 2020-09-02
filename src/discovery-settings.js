@@ -321,7 +321,7 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 	}
 
 	async _handleSave() {
-		this._save();
+		await this._save();
 		this.shadowRoot.querySelector('discover-settings-toast').save();
 	}
 
