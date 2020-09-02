@@ -5,7 +5,9 @@ import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import '@brightspace-ui/core/components/alert/alert-toast.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox.js';
+import '@brightspace-ui/core/components/dialog/dialog.js';
 import './components/discover-settings-breadcrumbs-lit.js';
+import './components/discover-settings-toast.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { heading1Styles, heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
@@ -28,12 +30,18 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 				<div class="discovery-settings-content">
 					<discover-settings-promoted-content token="${this.token}"></discover-settings-promoted-content>
 					${customizeDiscoverSection}
+					<d2l-dialog title-text="${this.localize('saveChanges')}">
+						<div><b>${this.localize('saveChangesBoldBody')}</b></div>
+						<div>${this.localize('saveChangesBody')}</div>
+						<d2l-button slot="footer" primary data-dialog-action="save">${this.localize('save')}</d2l-button>
+						<d2l-button slot="footer" data-dialog-action="notSave">${this.localize('doNotSave')}</d2l-button>
+						<d2l-button slot="footer" data-dialog-action>${this.localize('cancel')}</d2l-button>
+					</d2l-dialog>
 				</div>
 				<div class="discovery-settings-page-divider"></div>
 				<save-close-buttons></save-close-buttons>
 			</div>
-
-			<d2l-alert-toast type="success"></d2l-alert-toast>
+			<discover-settings-toast></discover-settings-toast>
 		`;
 	}
 
@@ -188,12 +196,16 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		this.addEventListener('discover-page-save', this._handleSave.bind(this));
 		this.addEventListener('discover-page-cancel', this._handleCancel.bind(this));
 		this.addEventListener('discover-settings-promoted-content-selection', this._updateFeaturedSelection.bind(this));
+		this.addEventListener('navigate', this._handleNavigate.bind(this));
+		window.addEventListener('beforeunload', this._handleBeforeUnload.bind(this));
 	}
 
 	disconnectedCallback() {
 		this.removeEventListener('discover-page-save', this._handleSave.bind(this));
 		this.removeEventListener('discover-page-cancel', this._handleCancel.bind(this));
 		this.removeEventListener('discover-settings-promoted-content-selection', this._updateFeaturedSelection.bind(this));
+		this.removeEventListener('navigate', this._handleNavigate.bind(this));
+		window.removeEventListener('beforeunload', this._handleBeforeUnload.bind(this));
 		super.disconnectedCallback();
 	}
 
@@ -204,6 +216,48 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 				this._initializeSettings();
 			}
 		});
+	}
+
+	_hasChanges() {
+		if (this._showCourseCode !== this._savedShowCourseCode) {
+			return true;
+		}
+		if (this._showSemester !== this._savedShowSemester) {
+			return true;
+		}
+		return this.shadowRoot.querySelector('discover-settings-promoted-content').hasChanges();
+	}
+
+	async _handleNavigate(e) {
+		const detail = e.detail;
+		if (this._hasChanges() && !detail.fromDialog) {
+			detail.fromDialog = true;
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			const action = await this.shadowRoot.querySelector('d2l-dialog').open();
+			if (action === 'save') {
+				await this._save();
+				this.dispatchEvent(new CustomEvent('navigate', {
+					detail: detail,
+					bubbles: true,
+					composed: true
+				}));
+			} else if (action === 'notSave') {
+				this.dispatchEvent(new CustomEvent('navigate', {
+					detail: detail,
+					bubbles: true,
+					composed: true
+				}));
+			}
+		}
+	}
+
+	_handleBeforeUnload(e) {
+		if (this._hasChanges()) {
+			e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+			// Chrome requires returnValue to be set
+			e.returnValue = '';
+		}
 	}
 
 	_updateFeaturedSelection(e) {
@@ -255,22 +309,25 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 			});
 	}
 
-	async _handleSave() {
+	async _save() {
 		if (this._selectedPromotedCourses === undefined) {
 			return;
 		}
 
 		await this.saveDiscoverSettings(this._selectedPromotedCourses, this._showCourseCode, this._showSemester);
+		this.shadowRoot.querySelector('discover-settings-promoted-content').save();
 		this._savedShowCourseCode = this._showCourseCode;
 		this._savedShowSemester = this._showSemester;
-		this.shadowRoot.querySelector('d2l-alert-toast').innerHTML = this.localize('saveCompleted');
-		this.shadowRoot.querySelector('d2l-alert-toast').open = true;
+	}
+
+	async _handleSave() {
+		this._save();
+		this.shadowRoot.querySelector('discover-settings-toast').save();
 	}
 
 	_handleCancel() {
 		this._reset();
-		this.shadowRoot.querySelector('d2l-alert-toast').innerHTML = this.localize('saveCancelled');
-		this.shadowRoot.querySelector('d2l-alert-toast').open = true;
+		this.shadowRoot.querySelector('discover-settings-toast').cancel();
 	}
 
 	_reset() {
