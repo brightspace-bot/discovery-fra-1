@@ -255,7 +255,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 
 		const arr = [...this._currentSelection];
 		for (let i = 0; i < this._savedPromotedActivities.length; i++) {
-			if (arr[i] != this._savedPromotedActivities[i]) {
+			if (arr[i] !== this._savedPromotedActivities[i]) {
 				return true;
 			}
 		}
