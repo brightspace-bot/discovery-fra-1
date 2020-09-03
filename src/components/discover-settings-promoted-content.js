@@ -36,6 +36,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		this._lastLoadedListItem = null;
 		this._promotedActivities = [];
 		this._candidateActivities = [];
+		this._savedPromotedActivities = [];
 
 		this._loadPromotedCourses();
 		this._getSortUrl().then((url) => {
@@ -63,7 +64,8 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			_currentSelection: { type: Object}, //Hash of checked/unchecked organizationURLs. All true items are selected.
 
 			_selectionCount: { type: Number}, //Count of currently checked candidate entities
-			_lastLoadedListItem: {type: Object} //Tracks the last loaded activity, to focus its new sibling after loading more.
+			_lastLoadedListItem: {type: Object}, //Tracks the last loaded activity, to focus its new sibling after loading more.
+			_savedPromotedActivities: { type: Array}, //initial load of promoted courses
 		};
 	}
 
@@ -135,7 +137,12 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 
 		this._promotedItemsLoading = true;
 		this._currentSelection = new Set();
+		this._savedPromotedActivities = [];
 		this._loadPromotedCourses();
+	}
+
+	save() {
+		this._savedPromotedActivities = this._copySelection(this._currentSelection);
 	}
 
 	render() {
@@ -241,6 +248,20 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		`;
 	}
 
+	hasChanges() {
+		if (this._savedPromotedActivities.length !== this._currentSelection.size) {
+			return true;
+		}
+
+		const arr = [...this._currentSelection];
+		for (let i = 0; i < this._savedPromotedActivities.length; i++) {
+			if (arr[i] !== this._savedPromotedActivities[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	_sendSelection(currentSelection) {
 		const selections = [];
 		currentSelection.forEach(s => {
@@ -304,6 +325,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			activities.forEach(entity => {
 				const organizationUrl = entity.hasLink(Rels.organization) && entity.getLinkByRel(Rels.organization).href;
 				this._currentSelection.add(organizationUrl);
+				this._savedPromotedActivities.push(organizationUrl);
 			});
 			this._selectionCount = this._currentSelection.size;
 			this._updateFeaturedList();
@@ -397,9 +419,9 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 
 	//Returns a deep copy of the passed object property collection.
 	_copySelection(selectionObject) {
-		const selection = new Set();
+		const selection = [];
 		selectionObject.forEach((activity) => {
-			selection.add(activity);
+			selection.push(activity);
 		});
 		return selection;
 	}
