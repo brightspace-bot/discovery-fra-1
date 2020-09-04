@@ -168,6 +168,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 
 		this._updateToken();
 		this._initializeSettings();
+		this.shadowRoot.querySelector('featured-list-section').loadFeaturedActivities();
 		const instanceName = window.D2L && window.D2L.frau && window.D2L.frau.options && window.D2L.frau.options.instanceName;
 		document.title = this.localize('homepageDocumentTitle', 'instanceName', instanceName ? instanceName : '');
 

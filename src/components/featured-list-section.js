@@ -7,6 +7,7 @@ import '../styles/discovery-styles.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { OrganizationCollectionEntity } from 'siren-sdk/src/organizations/OrganizationCollectionEntity.js';
 import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
+import { entityFactory, updateEntity, dispose } from 'siren-sdk/src/es6/EntityFactory';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 import { getLocalizeResources } from '../localization.js';
 
@@ -77,13 +78,16 @@ class FeaturedListSection extends EntityMixinLit(RouteLocationsMixin(LocalizeMix
 				type: Number
 			},
 			_promotedCourses: {
-				type: Array,
+				type: Array
+			},
+			_entity: {
+				type: Object
 			},
 			showOrganizationCode: {
 				type: Boolean
 			},
 			showSemesterName: {
-				type: Boolean,
+				type: Boolean
 			}
 		};
 	}
@@ -92,7 +96,6 @@ class FeaturedListSection extends EntityMixinLit(RouteLocationsMixin(LocalizeMix
 		super();
 		this._promotedCourses = [];
 		this._pageSize = 4;
-		this._setEntityType(OrganizationCollectionEntity);
 	}
 
 	connectedCallback() {
@@ -101,6 +104,7 @@ class FeaturedListSection extends EntityMixinLit(RouteLocationsMixin(LocalizeMix
 
 		// Fill with empty slots first - for loading
 		this._promotedCourses = new Array(this._pageSize);
+		this.loadFeaturedActivities();
 	}
 
 	disconnectedCallback() {
@@ -108,10 +112,27 @@ class FeaturedListSection extends EntityMixinLit(RouteLocationsMixin(LocalizeMix
 		super.disconnectedCallback();
 	}
 
-	set _entity(entity) {
-		if (this._entityHasChanged(entity)) {
-			super._entity = entity;
+	updated(changedProperties) {
+		changedProperties.forEach((oldValue, propName) => {
+			if (propName === 'href' || propName === 'token') {
+				this.loadFeaturedActivities();
+			}
+		});
+	}
+
+	loadFeaturedActivities() {
+		if (!this.href || !this.token) {
+			return;
+		}
+
+		dispose(this._entity);
+		updateEntity(this.href, this.token);
+
+		entityFactory(OrganizationCollectionEntity, this.href, this.token, (entity, error) => {
+			console.log('entity', entity, error);
 			if (entity && entity.activities()) {
+				this._entity = entity;
+				console.log('activities', entity.activities());
 				this._promotedCourses = entity.activities();
 				this.dispatchEvent(new CustomEvent('d2l-discover-home-featured-section-courses', {
 					detail: {
@@ -123,7 +144,7 @@ class FeaturedListSection extends EntityMixinLit(RouteLocationsMixin(LocalizeMix
 			} else {
 				this._promotedCourses = [];
 			}
-		}
+		});
 	}
 
 	_hasCourses(_promotedCourses) {
