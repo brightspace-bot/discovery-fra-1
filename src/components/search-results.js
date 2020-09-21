@@ -41,7 +41,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					align-items: baseline;
 					display: flex;
 					flex-direction: row;
-					flex-wrap: wrap;
+					flex-wrap: nowrap;
 					justify-content: space-between;
 					margin-bottom: 0.5rem;
 				}
@@ -97,6 +97,12 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				}
 				:host(:dir(rtl)) .discovery-search-results-offscreen-text {
 					@apply --d2l-offscreen-rtl
+				}
+
+				@media screen and (max-width: 512px) {
+					.discovery-search-results-header {
+						flex-wrap: wrap;
+					}
 				}
 			</style>
 			<span class="discovery-search-results-offscreen-text" aria-live="polite">[[loadingMessage]]</span>
@@ -467,7 +473,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			} else {
 				noResultsHeader = this.localize('noResultsHeading', 'searchQuery', `<b>${this.searchQuery}</b>`);
 			}
-			
+
 			fastdom.mutate(() => {
 				noResultsHeaderElement.innerHTML = noResultsHeader;
 			});
