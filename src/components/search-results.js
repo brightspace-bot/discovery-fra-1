@@ -464,11 +464,10 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	setUpNoResultsMessage() {
 		const noResultsHeaderElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-heading');
 		const noResultsMessageElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-message');
-		
 		if (noResultsHeaderElement) {
 			var noResultsHeader;
-			if (this.emptySearchQuery){
-				const noResultsSortType = "noContent" + (this.sortParameter.charAt(0).toUpperCase()) + this.sortParameter.slice(1);
+			if (this.emptySearchQuery) {
+				const noResultsSortType = 'noContent' + (this.sortParameter.charAt(0).toUpperCase()) + this.sortParameter.slice(1);
 				noResultsHeader = this.localize(noResultsSortType);
 			} else {
 				noResultsHeader = this.localize('noResultsHeading', 'searchQuery', `<b>${this.searchQuery}</b>`);
@@ -481,7 +480,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 		if (noResultsMessageElement && !noResultsMessageElement.innerHTML) {
 			var noResultsMessage;
-			if (this.emptySearchQuery){
+			if (this.emptySearchQuery) {
 				noResultsMessage = this.localize('noContentMessage');
 			} else {
 				noResultsMessage = this.localize(
