@@ -167,6 +167,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			</div>
 		`;
 	}
+
 	static get properties() {
 		return {
 			href: {
@@ -457,21 +458,34 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	setUpNoResultsMessage() {
 		const noResultsHeaderElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-heading');
 		const noResultsMessageElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-message');
-
+		
 		if (noResultsHeaderElement) {
+			var noResultsHeader;
+			if (this.emptySearchQuery){
+				const noResultsSortType = "noContent" + (this.sortParameter.charAt(0).toUpperCase()) + this.sortParameter.slice(1);
+				noResultsHeader = this.localize(noResultsSortType);
+			} else {
+				noResultsHeader = this.localize('noResultsHeading', 'searchQuery', `<b>${this.searchQuery}</b>`);
+			}
+			
 			fastdom.mutate(() => {
-				const noResultsHeader = this.localize('noResultsHeading', 'searchQuery', `<b>${this.searchQuery}</b>`);
 				noResultsHeaderElement.innerHTML = noResultsHeader;
 			});
 		}
 
 		if (noResultsMessageElement && !noResultsMessageElement.innerHTML) {
-			const noResultsMessage = this.localize(
-				'noResultsMessage',
-				'linkStart',
-				'<d2l-link href=javascript:void(0) id="discovery-search-results-browse-all">',
-				'linkEnd',
-				'</d2l-link>');
+			var noResultsMessage;
+			if (this.emptySearchQuery){
+				noResultsMessage = this.localize('noContentMessage');
+			} else {
+				noResultsMessage = this.localize(
+					'noResultsMessage',
+					'linkStart',
+					'<d2l-link href=javascript:void(0) id="discovery-search-results-browse-all">',
+					'linkEnd',
+					'</d2l-link>');
+			}
+
 			fastdom.mutate(() => {
 				noResultsMessageElement.innerHTML = noResultsMessage;
 
