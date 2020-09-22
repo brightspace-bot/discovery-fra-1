@@ -234,7 +234,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 	}
 
 	_showNewSection() {
-		if (this._isDiscoverToggleSectionEnabled() === false || this.showNewSection){
+		if (this._isDiscoverToggleSectionEnabled() === false || this.showNewSection) {
 			return true;
 		} else {
 			return false;
@@ -242,7 +242,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 	}
 
 	_showUpdatedSection() {
-		if (this._isDiscoverToggleSectionEnabled() === false || this.showUpdatedSection){
+		if (this._isDiscoverToggleSectionEnabled() === false || this.showUpdatedSection) {
 			return true;
 		} else {
 			return false;
