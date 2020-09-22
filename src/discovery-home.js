@@ -58,26 +58,30 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 						showSemesterName$="[[showSemesterName]]"></featured-list-section>
 				</template>
 				<div class="discovery-no-courses-message" hidden$="[[_hasCoursesFromAllSection]]">[[_noActivitiesMsg]]</div>
-				<home-list-section
-					href="[[_addedHref]]"
-					token="[[token]]"
-					sort="added"
-					section-name="[[localize('new')]]"
-					link-label="[[localize('viewAllNewLabel')]]"
-					link-name="[[localize('viewAll')]]"
-					page-size="[[_pageSize]]"
-					showOrganizationCode$="[[showOrganizationCode]]"
-					showSemesterName$="[[showSemesterName]]"></home-list-section>
-				<home-list-section
-					href="[[_updatedHref]]"
-					token="[[token]]"
-					sort="updated"
-					section-name="[[localize('updated')]]"
-					link-label="[[localize('viewAllUpdatedLabel')]]"
-					link-name="[[localize('viewAll')]]"
-					page-size="[[_pageSize]]"
-					showOrganizationCode$="[[showOrganizationCode]]"
-					showSemesterName$="[[showSemesterName]]"></home-list-section>
+				<template is="dom-if" if="[[_showNewSection()]]">
+					<home-list-section
+						href="[[_addedHref]]"
+						token="[[token]]"
+						sort="added"
+						section-name="[[localize('new')]]"
+						link-label="[[localize('viewAllNewLabel')]]"
+						link-name="[[localize('viewAll')]]"
+						page-size="[[_pageSize]]"
+						showOrganizationCode$="[[showOrganizationCode]]"
+						showSemesterName$="[[showSemesterName]]"></home-list-section>
+				</template>
+				<template is="dom-if" if="[[_showUpdatedSection()]]">
+					<home-list-section
+						href="[[_updatedHref]]"
+						token="[[token]]"
+						sort="updated"
+						section-name="[[localize('updated')]]"
+						link-label="[[localize('viewAllUpdatedLabel')]]"
+						link-name="[[localize('viewAll')]]"
+						page-size="[[_pageSize]]"
+						showOrganizationCode$="[[showOrganizationCode]]"
+						showSemesterName$="[[showSemesterName]]"></home-list-section>
+				</template>
 				<home-all-section
 					token="[[token]]"
 					show-organization-code$="[[showOrganizationCode]]"
@@ -117,7 +121,15 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 			showSemesterName: {
 				type: Boolean,
 			},
-			_noActivitiesMsg: String
+			_noActivitiesMsg: String,
+			showUpdatedSection: {
+				type: Boolean,
+				value: false
+			},
+			showNewSection: {
+				type: Boolean,
+				value: false
+			}
 		};
 	}
 
@@ -219,6 +231,22 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 			.then((token) => {
 				this.token = token;
 			});
+	}
+
+	_showNewSection(){
+		if (this._isDiscoverToggleSectionEnabled() == false || this.showNewSection){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	_showUpdatedSection(){
+		if (this._isDiscoverToggleSectionEnabled() == false || this.showUpdatedSection){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
 
