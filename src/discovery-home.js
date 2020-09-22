@@ -233,18 +233,18 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 			});
 	}
 
-	_showNewSection(){
-		if (this._isDiscoverToggleSectionEnabled() == false || this.showNewSection){
+	_showNewSection() {
+		if (this._isDiscoverToggleSectionEnabled() === false || this.showNewSection){
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-	_showUpdatedSection(){
-		if (this._isDiscoverToggleSectionEnabled() == false || this.showUpdatedSection){
+	_showUpdatedSection() {
+		if (this._isDiscoverToggleSectionEnabled() === false || this.showUpdatedSection){
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
