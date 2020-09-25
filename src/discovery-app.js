@@ -111,7 +111,7 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 	}
 	_navigate(e) {
 		if (e && e.detail) {
-			if (e.detail.resetPages) {
+			if (e.detail.resetPages && (!e.detail.same || e.detail.same === false)) {
 				e.detail.resetPages.forEach((page) => {
 					this._resetPage(page);
 				});

@@ -466,7 +466,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		const noResultsMessageElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-message');
 		if (noResultsHeaderElement) {
 			var noResultsHeader;
-			if (this.emptySearchQuery) {
+			if (!this.searchQuery) {
 				const noResultsSortType = 'noContent' + (this.sortParameter.charAt(0).toUpperCase()) + this.sortParameter.slice(1);
 				noResultsHeader = this.localize(noResultsSortType);
 			} else {
@@ -478,9 +478,9 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			});
 		}
 
-		if (noResultsMessageElement && !noResultsMessageElement.innerHTML) {
+		if (noResultsMessageElement) {
 			var noResultsMessage;
-			if (this.emptySearchQuery) {
+			if (!this.searchQuery) {
 				noResultsMessage = this.localize('noContentMessage');
 			} else {
 				noResultsMessage = this.localize(

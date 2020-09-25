@@ -122,7 +122,8 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 								path: this.routeLocations().search(query ? query.trim() : '', {
 									sort: this.sortParameter
 								}),
-								resetPages: ['search']
+								resetPages: ['search'],
+								same: query.trim() === this.query
 							},
 							bubbles: true,
 							composed: true,
