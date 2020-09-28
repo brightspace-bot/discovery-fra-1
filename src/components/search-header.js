@@ -115,15 +115,14 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 		if (this.searchInput) {
 			this.searchInput.addEventListener('d2l-input-search-searched', (e) => {
 				if (e && e.detail) {
-					const query = e.detail.value;
+					const query = e.detail.value.trim();
 					if (query !== this.query || this.page !== 0) {
 						this.dispatchEvent(new CustomEvent('navigate', {
 							detail: {
-								path: this.routeLocations().search(query ? query.trim() : '', {
+								path: this.routeLocations().search(query, {
 									sort: this.sortParameter
 								}),
-								resetPages: ['search'],
-								same: query.trim() === this.query
+								resetPages: ['search']
 							},
 							bubbles: true,
 							composed: true,
