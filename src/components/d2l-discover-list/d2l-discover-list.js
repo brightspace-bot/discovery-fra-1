@@ -1,9 +1,8 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import 'd2l-icons/d2l-icon.js';
-import 'd2l-icons/tier1-icons.js';
+import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-course-image/d2l-course-image.js';
-import 'd2l-button/d2l-button.js';
-import 'd2l-colors/d2l-colors.js';
+import '@brightspace-ui/core/components/button/button.js';
+import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
 import '@brightspace-ui/core/components/list/list-item-content.js';
