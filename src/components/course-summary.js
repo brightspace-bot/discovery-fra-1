@@ -13,7 +13,7 @@ import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/menu/menu.js';
 import '@brightspace-ui/core/components/menu/menu-item.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-import '@brightspace-ui/core/components/link/link.js';
+// import '@brightspace-ui/core/components/link/link.js'; //Not sure if needed
 import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import 'fastdom/fastdom.js';

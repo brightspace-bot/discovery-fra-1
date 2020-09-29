@@ -1,6 +1,6 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import 'd2l-typography/d2l-typography.js';
+//import 'd2l-typography/d2l-typography.js'; //Not sure if needed
 import './components/discovery-footer.js';
 import './components/home-header.js';
 import './components/home-list-section.js';
