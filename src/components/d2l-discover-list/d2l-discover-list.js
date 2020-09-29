@@ -1,7 +1,5 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-// import 'd2l-course-image/d2l-course-image.js'; //Not sure if needed
-// import '@brightspace-ui/core/components/button/button.js'; //Not sure if needed
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/list/list.js';
 import '@brightspace-ui/core/components/list/list-item.js';
