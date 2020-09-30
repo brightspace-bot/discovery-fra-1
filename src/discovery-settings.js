@@ -231,6 +231,11 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 	}
 
 	async _handleNavigate(e) {
+		//Ensure that navigation will always happen if the user doesn't have permission to view Settings.
+		if (!this.canManageDiscover) {
+			return;
+		}
+
 		const detail = e.detail;
 		if (this._hasChanges() && !detail.fromDialog) {
 			detail.fromDialog = true;
