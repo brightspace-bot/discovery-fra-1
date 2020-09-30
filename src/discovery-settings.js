@@ -260,6 +260,11 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 	}
 
 	_handleBeforeUnload(e) {
+		//Ensure that navigation will always happen if the user doesn't have permission to view Settings.
+		if (!this.canManageDiscover) {
+			return;
+		}
+
 		if (this._hasChanges()) {
 			e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
 			// Chrome requires returnValue to be set
