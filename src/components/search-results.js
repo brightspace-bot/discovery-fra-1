@@ -41,7 +41,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					align-items: baseline;
 					display: flex;
 					flex-direction: row;
-					flex-wrap: wrap;
+					flex-wrap: nowrap;
 					justify-content: space-between;
 					margin-bottom: 0.5rem;
 				}
@@ -97,6 +97,12 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				}
 				:host(:dir(rtl)) .discovery-search-results-offscreen-text {
 					@apply --d2l-offscreen-rtl
+				}
+
+				@media screen and (max-width: 512px) {
+					.discovery-search-results-header {
+						flex-wrap: wrap;
+					}
 				}
 			</style>
 			<span class="discovery-search-results-offscreen-text" aria-live="polite">[[loadingMessage]]</span>
@@ -167,6 +173,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			</div>
 		`;
 	}
+
 	static get properties() {
 		return {
 			href: {
@@ -457,21 +464,33 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	setUpNoResultsMessage() {
 		const noResultsHeaderElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-heading');
 		const noResultsMessageElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-message');
-
 		if (noResultsHeaderElement) {
+			var noResultsHeader;
+			if (!this.searchQuery) {
+				const noResultsSortType = 'noContent' + (this.sortParameter.charAt(0).toUpperCase()) + this.sortParameter.slice(1);
+				noResultsHeader = this.localize(noResultsSortType);
+			} else {
+				noResultsHeader = this.localize('noResultsHeading', 'searchQuery', `<b>${this.searchQuery}</b>`);
+			}
+
 			fastdom.mutate(() => {
-				const noResultsHeader = this.localize('noResultsHeading', 'searchQuery', `<b>${this.searchQuery}</b>`);
 				noResultsHeaderElement.innerHTML = noResultsHeader;
 			});
 		}
 
-		if (noResultsMessageElement && !noResultsMessageElement.innerHTML) {
-			const noResultsMessage = this.localize(
-				'noResultsMessage',
-				'linkStart',
-				'<d2l-link href=javascript:void(0) id="discovery-search-results-browse-all">',
-				'linkEnd',
-				'</d2l-link>');
+		if (noResultsMessageElement) {
+			var noResultsMessage;
+			if (!this.searchQuery) {
+				noResultsMessage = this.localize('noContentMessage');
+			} else {
+				noResultsMessage = this.localize(
+					'noResultsMessage',
+					'linkStart',
+					'<d2l-link href=javascript:void(0) id="discovery-search-results-browse-all">',
+					'linkEnd',
+					'</d2l-link>');
+			}
+
 			fastdom.mutate(() => {
 				noResultsMessageElement.innerHTML = noResultsMessage;
 

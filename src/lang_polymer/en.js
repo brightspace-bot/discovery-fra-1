@@ -43,6 +43,11 @@ export default {
 	new: "New", // The name of the homepage section for new activities.
 	noActivities: "There are no activities available or you're already enrolled in all of them. Try again later.", // When there are no activities to display on the homepage, this message will display.
 	noActivitiesExceptPrmoted: "There are no new or updated activities available or you're already enrolled in all of them. Try again later.", // When only promoted activities are displayed on the homepage, this will display underneath.
+	noContentAdded: "There are no newly-added courses.", // Displays as a header when sorting by newly added while having no courses be new (within whatever the specified timeframe is).
+	noContentEnrolled: "You are not currently enrolled in any courses.", // Displays as a header when sorting by enrolled while not having any courses enrolled.
+	noContentMessage: "Please use a different sorting method.", // Displays in a search result when no content is loaded and nothing was searched.
+	noContentRelevant: "No results for Most Relevant.", // Displays as a header when sorting by relevant while there being no courses to enroll in that haven't already been enrolled in.
+	noContentUpdated: "There are no newly-updated courses.", // Displays as a header when sorting by newly updated while having no courses be recently updated (within whatever the specified timeframe is).
 	noCourseDescription: "No course description", // Displays in a course's summary if it does not have a description.
 	noResultsHeading: "No results for \"{searchQuery}\"", // Displays as a header when a search query has no results
 	noResultsMessage: "Try using a different search term or {linkStart}Browse All{linkEnd} to view all available materials", // When a search query has no results, suggests different search term or filter.
