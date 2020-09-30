@@ -58,7 +58,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 						showSemesterName$="[[showSemesterName]]"></featured-list-section>
 				</template>
 				<div class="discovery-no-courses-message" hidden$="[[_hasCoursesFromAllSection]]">[[_noActivitiesMsg]]</div>
-				<template is="dom-if" if="[[_showNewSection()]]">
+				<template is="dom-if" if="[[showNewSection]]">
 					<home-list-section
 						href="[[_addedHref]]"
 						token="[[token]]"
@@ -70,7 +70,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 						showOrganizationCode$="[[showOrganizationCode]]"
 						showSemesterName$="[[showSemesterName]]"></home-list-section>
 				</template>
-				<template is="dom-if" if="[[_showUpdatedSection()]]">
+				<template is="dom-if" if="[[showUpdatedSection]]">
 					<home-list-section
 						href="[[_updatedHref]]"
 						token="[[token]]"
@@ -123,12 +123,10 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 			},
 			_noActivitiesMsg: String,
 			showUpdatedSection: {
-				type: Boolean,
-				value: false
+				type: Boolean
 			},
 			showNewSection: {
-				type: Boolean,
-				value: false
+				type: Boolean
 			}
 		};
 	}
@@ -192,6 +190,8 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 	_initializeSettings() {
 		this.showOrganizationCode = true;
 		this.showSemesterName = true;
+		this.showNewSection = true;
+		this.showUpdatedSection = true;
 
 		if (this._isDiscoverCustomizationsEnabled()) {
 			this.fetchDiscoverSettings().then(properties => {
@@ -201,6 +201,16 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 				}
 			});
 		}
+
+		if (this._isDiscoverToggleSectionsEnabled()) {
+			this.fetchDiscoverSettings().then(properties => {
+				if (properties) {
+					this.showNewSection = properties.showNewSection;
+					this.showUpdatedSection = properties.showUpdatedSection;
+				}
+			});
+		}
+
 		this._setUpUrls();
 	}
 
@@ -231,22 +241,6 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 			.then((token) => {
 				this.token = token;
 			});
-	}
-
-	_showNewSection() {
-		if (this._isDiscoverToggleSectionEnabled() === false || this.showNewSection) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	_showUpdatedSection() {
-		if (this._isDiscoverToggleSectionEnabled() === false || this.showUpdatedSection) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }
 
