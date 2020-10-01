@@ -216,7 +216,6 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 		else {
 			this.settingsNotLoaded = false;
 		}
-		
 		this._setUpUrls();
 	}
 
