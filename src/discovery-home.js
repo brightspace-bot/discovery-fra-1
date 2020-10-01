@@ -60,6 +60,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 				<div class="discovery-no-courses-message" hidden$="[[_hasCoursesFromAllSection]]">[[_noActivitiesMsg]]</div>
 				<template is="dom-if" if="[[showNewSection]]">
 					<home-list-section
+						hidden$="[[settingsNotLoaded]]"
 						href="[[_addedHref]]"
 						token="[[token]]"
 						sort="added"
@@ -72,6 +73,7 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 				</template>
 				<template is="dom-if" if="[[showUpdatedSection]]">
 					<home-list-section
+						hidden$="[[settingsNotLoaded]]"
 						href="[[_updatedHref]]"
 						token="[[token]]"
 						sort="updated"
@@ -127,6 +129,10 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 			},
 			showNewSection: {
 				type: Boolean
+			},
+			settingsNotLoaded: {
+				type: Boolean,
+				value: true
 			}
 		};
 	}
@@ -198,19 +204,19 @@ class DiscoveryHome extends FeatureMixin(DiscoverSettingsMixin(FetchMixin(Locali
 				if (properties) {
 					this.showOrganizationCode = properties.showCourseCode;
 					this.showSemesterName = properties.showSemester;
+
+					if (this._isDiscoverToggleSectionsEnabled()) {
+						this.showNewSection = properties.showNewSection;
+						this.showUpdatedSection = properties.showUpdatedSection;
+					}
 				}
+				this.settingsNotLoaded = false;
 			});
 		}
-
-		if (this._isDiscoverToggleSectionsEnabled()) {
-			this.fetchDiscoverSettings().then(properties => {
-				if (properties) {
-					this.showNewSection = properties.showNewSection;
-					this.showUpdatedSection = properties.showUpdatedSection;
-				}
-			});
+		else {
+			this.settingsNotLoaded = false;
 		}
-
+		
 		this._setUpUrls();
 	}
 
