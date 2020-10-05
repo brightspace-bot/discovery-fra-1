@@ -6,6 +6,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
 import './components/discover-settings-breadcrumbs-lit.js';
 import './components/discover-settings-toast.js';
+import './components/loading-skeleton.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { heading1Styles, heading2Styles, heading4Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
@@ -54,6 +55,11 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 						<h4 class="discovery-settings-h4">${this.localize('courseTileSettings')}</h4>
 					` : html``}
 
+					<div ?hidden="${this._settingsLoaded}">
+						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton>
+						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton>
+					</div>
+
 					<div class="discover-customization-settings" ?hidden="${!this._settingsLoaded}">
 						<d2l-input-checkbox
 							id="showCourseCodeCheckbox"
@@ -74,6 +80,10 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		return html`
 			${this.discoverToggleSectionsEnabled ? html`
 					<h4 class="discovery-settings-h4">${this.localize('sectionsSettings')}</h4>
+					<div ?hidden="${this._settingsLoaded}">
+						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton><br>
+						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton>
+					</div>
 					<div class="discover-customization-settings" ?hidden="${!this._settingsLoaded}">
 						<d2l-input-checkbox
 							id="showUpdatedSectionCheckbox"
@@ -158,6 +168,10 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 					.discovery-settings-content {
 						min-height: 20rem;
 					}
+				}
+				.discovery-settings-customize-checkbox-placeholder {
+					height: 0.75rem;
+					width: 50%;
 				}
 			`
 		];

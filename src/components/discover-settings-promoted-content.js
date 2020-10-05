@@ -8,6 +8,7 @@ import '@brightspace-ui/core/components/list/list-item.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import 'd2l-organizations/components/d2l-organization-name/d2l-organization-name.js';
 import 'd2l-organizations/components/d2l-organization-image/d2l-organization-image.js';
+import './d2l-discover-list/d2l-discover-list.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { Rels } from 'd2l-hypermedia-constants';
 import { heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
@@ -38,6 +39,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		this._promotedActivities = [];
 		this._candidateActivities = [];
 		this._savedPromotedActivities = [];
+		this._featuredPlaceholder = '[null]';
 
 		this._loadPromotedCourses();
 		this._getSortUrl().then((url) => {
@@ -67,6 +69,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			_selectionCount: { type: Number}, //Count of currently checked candidate entities
 			_lastLoadedListItem: {type: Object}, //Tracks the last loaded activity, to focus its new sibling after loading more.
 			_savedPromotedActivities: { type: Array}, //initial load of promoted courses
+			_featuredPlaceholder: {type: String},
 		};
 	}
 
@@ -128,6 +131,9 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 				margin-top: .5rem;
 				margin-bottom: .5rem;
 			}
+			.featured-placeholder-container{
+				margin-right: 2px;
+			}
 		`];
 	}
 
@@ -158,6 +164,10 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 				<d2l-button primary @click="${this._openPromotedDialogClicked}">${this.localize('featureContent')}</d2l-button>
 			</div>
 
+			<div class="featured-placeholder-container" ?hidden="${!this._promotedItemsLoading}">
+				<d2l-discover-list imagePlaceholder textPlaceholder entities="${this._featuredPlaceholder}"></d2l-discover-list>
+			</div>
+
 			${featuredSection}
 
 			<d2l-dialog class="discover-featured-dialog" title-text="${this.localize('browseDiscoverLibrary')}" ?opened="${this._promotedDialogOpen}" @d2l-dialog-close="${this._closePromotedDialogClicked}">
@@ -186,6 +196,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			${this._promotedActivities.length > 0 ? html`
 				<d2l-list class="discover-featured-list">
 					${this._promotedActivities.map((activity) => html`
+						<d2l-discover-list imagePlaceholder textPlaceholder entities="${this._featuredPlaceholder}" ?hidden="${activity.loaded}"></d2l-discover-list>
 						<d2l-list-item ?hidden="${!activity.loaded}">
 							<d2l-organization-image href="${activity.organizationUrl}" slot="illustration" token="${this.token}"></d2l-organization-image>
 							<d2l-organization-name href="${activity.organizationUrl}" token="${this.token}" @d2l-organization-accessible="${(e) => this._handleSavedOrgAccessible(e, activity)}"></d2l-organization-name>
