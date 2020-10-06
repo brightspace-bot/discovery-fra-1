@@ -2,7 +2,6 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { Rels } from 'd2l-hypermedia-constants';
 import createDOMPurify from 'dompurify/dist/purify.es.js';
 const DOMPurify = createDOMPurify(window);
-import '@polymer/paper-dialog/paper-dialog.js';
 import '@brightspace-ui/core/components/alert/alert.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/breadcrumbs/breadcrumb.js';
@@ -13,6 +12,7 @@ import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/menu/menu.js';
 import '@brightspace-ui/core/components/menu/menu-item.js';
 import '@brightspace-ui/core/components/icons/icon.js';
+import '@brightspace-ui/core/components/dialog/dialog.js';
 import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import 'fastdom/fastdom.js';
@@ -125,6 +125,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					display: flex;
 					flex-direction: column;
 					align-items: baseline;
+					margin-bottom: 4px;
 				}
 
 				.discovery-course-summary-dialog-container d2l-button {
@@ -449,19 +450,15 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				</div>
 			</div>
 
-			<paper-dialog
+			<d2l-dialog 
 				class="discovery-course-summary-dialog d2l-typography"
 				id="discovery-course-summary-enroll-dialog"
-				always-on-top
-				with-backdrop
 				role="alertdialog"
 				aria-labelledby="#discovery-course-summary-dialog-label"
 				aria-describedby="#discovery-course-summary-dialog-describe"
-				aria-modal>
+				aria-modal
+				title-text="[[_enrollmentDialogHeader]]">
 				<div class="discovery-course-summary-dialog-container">
-					<div class="discovery-course-summary-dialog-header-container">
-						<h3 class="discovery-course-summary-dialog-heading-text" id="discovery-course-summary-dialog-label">[[_enrollmentDialogHeader]]</h3>
-					</div>
 					<div class="discovery-course-summary-dialog-content-container">
 						<div class="d2l-body-standard" id="discovery-course-summary-dialog-describe">[[_enrollmentDialogMessage]]</div>
 					</div>
@@ -472,20 +469,17 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 						[[localize('OK')]]
 					</d2l-button>
 				</div>
-			</paper-dialog>
-			<paper-dialog
+			</d2l-dialog>
+			
+			<d2l-dialog
 				class="discovery-course-summary-dialog d2l-typography"
 				id="discovery-course-summary-dialog-unenroll-confirm"
-				always-on-top
-				with-backdrop
 				role="alertdialog"
 				aria-labelledby="#discovery-course-summary-dialog-unenroll-confirm-label"
 				aria-describedby="#discovery-course-summary-dialog-unenroll-confirm-describe"
-				aria-modal>
+				aria-modal
+				title-text="[[localize('unenrollConfirmHeader')]]">
 				<div class="discovery-course-summary-dialog-container">
-					<div class="discovery-course-summary-dialog-header-container">
-						<h3 class="discovery-course-summary-dialog-heading-text" id="discovery-course-summary-dialog-unenroll-confirm-label">[[localize('unenrollConfirmHeader')]]</h3>
-					</div>
 					<div class="discovery-course-summary-dialog-content-container">
 						<div class="d2l-body-standard" id="discovery-course-summary-dialog-unenroll-confirm-describe">[[localize('unenrollConfirmBody', 'title', courseTitle)]]</div>
 					</div>
@@ -497,7 +491,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 						[[localize('OK')]]
 					</d2l-button>
 				</div>
-			</paper-dialog>
+			</d2l-dialog>
 		`;
 	}
 
