@@ -12,7 +12,7 @@ import '@brightspace-ui/core/components/dropdown/dropdown-menu.js';
 import '@brightspace-ui/core/components/menu/menu.js';
 import '@brightspace-ui/core/components/menu/menu-item.js';
 import '@brightspace-ui/core/components/icons/icon.js';
-import '@brightspace-ui/core/components/dialog/dialog.js';
+import '@brightspace-ui/core/components/dialog/dialog-confirm.js';
 import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import 'fastdom/fastdom.js';
@@ -121,39 +121,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					overflow: auto;
 					top: 50px;
 				}
-				.discovery-course-summary-dialog-container {
-					display: flex;
-					flex-direction: column;
-					align-items: baseline;
-					margin-bottom: 4px;
-				}
 
-				.discovery-course-summary-dialog-container d2l-button {
-					display: flex;
-					flex-direction: column;
-					align-items: baseline;
-				}
-
-				.discovery-course-summary-dialog-content-container {
-					margin-right: 1rem;
-					margin-bottom: 1.5rem;
-				}
-				:host(:dir(rtl)) .discovery-course-summary-dialog-content-container {
-					margin-left: 1rem;
-					margin-right: 0;
-				}
-
-				.discovery-course-summary-dialog-header-container {
-					align-items: center;
-					display: flex;
-					justify-content: space-between;
-					margin: 0.5rem 0;
-					width: 100%;
-				}
-				.discovery-course-summary-dialog-heading-text {
-					@apply --d2l-heading-3;
-					margin: 0;
-				}
 				.discovery-course-summary-d2l-heading-1 {
 					margin-bottom: 0 !important;
 					margin-top: 0 !important;
@@ -202,6 +170,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					flex-direction: row;
 					flex-wrap: wrap;
 				}
+
 				.discovery-course-summary-button-placeholder {
 					height: 2.1rem;
 					width: 30%;
@@ -450,48 +419,37 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				</div>
 			</div>
 
-			<d2l-dialog 
+			<d2l-dialog-confirm
 				class="discovery-course-summary-dialog d2l-typography"
 				id="discovery-course-summary-enroll-dialog"
-				role="alertdialog"
-				aria-labelledby="#discovery-course-summary-dialog-label"
-				aria-describedby="#discovery-course-summary-dialog-describe"
-				aria-modal
-				title-text="[[_enrollmentDialogHeader]]">
-				<div class="discovery-course-summary-dialog-container">
-					<div class="discovery-course-summary-dialog-content-container">
-						<div class="d2l-body-standard" id="discovery-course-summary-dialog-describe">[[_enrollmentDialogMessage]]</div>
-					</div>
-					<d2l-button
-						on-click="_closeDialog"
-						primary
-						autofocus>
-						[[localize('OK')]]
-					</d2l-button>
-				</div>
-			</d2l-dialog>
+				title-text="[[_enrollmentDialogHeader]]"
+				text="[[_enrollmentDialogMessage]]"
+				opened="[[_enrolledDialogOpen]]"
+				aria-modal="true">
+				<d2l-button
+					slot = "footer"
+					data-dialog-action
+					primary>
+					[[localize('OK')]]
+				</d2l-button>
+			</d2l-dialog-confirm>
 			
-			<d2l-dialog
+			<d2l-dialog-confirm
 				class="discovery-course-summary-dialog d2l-typography"
 				id="discovery-course-summary-dialog-unenroll-confirm"
-				role="alertdialog"
-				aria-labelledby="#discovery-course-summary-dialog-unenroll-confirm-label"
-				aria-describedby="#discovery-course-summary-dialog-unenroll-confirm-describe"
-				aria-modal
-				title-text="[[localize('unenrollConfirmHeader')]]">
-				<div class="discovery-course-summary-dialog-container">
-					<div class="discovery-course-summary-dialog-content-container">
-						<div class="d2l-body-standard" id="discovery-course-summary-dialog-unenroll-confirm-describe">[[localize('unenrollConfirmBody', 'title', courseTitle)]]</div>
-					</div>
-					<d2l-button
-						id="discovery-course-summary-dialog-unenroll-dismiss"
-						on-click="_dismissUnenrollment"
-						primary
-						autofocus>
-						[[localize('OK')]]
-					</d2l-button>
-				</div>
-			</d2l-dialog>
+				title-text="[[localize('unenrollConfirmHeader')]]"
+				text="[[localize('unenrollConfirmBody', 'title', courseTitle)]]"
+				opened="[[_unenrolledDialogOpen]]"
+				aria-modal="true">
+				<d2l-button
+					slot = "footer"
+					id="discovery-course-summary-dialog-unenroll-dismiss"
+					data-dialog-action
+					on-click="_dismissUnenrollment"
+					primary>
+					[[localize('OK')]]
+				</d2l-button>
+			</d2l-dialog-confirm>
 		`;
 	}
 
@@ -546,6 +504,14 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			_isPastAndCannotAccess: {
 				type: Boolean,
 				value: false
+			},
+			_enrolledDialogOpen: {
+				type: Boolean,
+				value: false
+			},
+			_unenrolledDialogOpen: {
+				type: Boolean,
+				value: false
 			}
 		};
 	}
@@ -555,11 +521,6 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			'_isFutureAndCannotAccessObserver(_startDateIsFuture, organizationHomepage)',
 			'_isPastAndCannotAccessObserver(_endDateIsPast, organizationHomepage)'
 		];
-	}
-
-	_closeDialog() {
-		var enrollmentDialog = this.shadowRoot.querySelector('#discovery-course-summary-enroll-dialog');
-		enrollmentDialog.opened = false;
 	}
 
 	_navigateToHome(e) {
@@ -575,8 +536,8 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			composed: true
 		}));
 
-		var enrollmentDialog = this.shadowRoot.querySelector('#discovery-course-summary-enroll-dialog');
-		enrollmentDialog.opened = false;
+		this._enrolledDialogOpen = false;
+		this._unenrolledDialogOpen = false;
 	}
 
 	_navigateToSearch(e) {
@@ -618,8 +579,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 							this._enrollmentDialogHeader = this.localize('enrollmentHeaderUnenrolled');
 							this._enrollmentDialogMessage = this.localize('enrollmentMessageUnenrolled');
 						}
-						const enrollmentDialog = this.shadowRoot.querySelector('#discovery-course-summary-enroll-dialog');
-						enrollmentDialog.opened = true;
+						this._enrolledDialogOpen = true;
 					}
 				});
 		} else {
@@ -660,8 +620,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					this._enrollmentDialogMessage = this.localize('enrollmentMessageFail');
 				})
 				.finally(() => {
-					const enrollmentDialog = this.shadowRoot.querySelector('#discovery-course-summary-enroll-dialog');
-					enrollmentDialog.opened = true;
+					this._enrolledDialogOpen = true;
 				});
 		}
 	}
@@ -672,7 +631,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			this.actionUnenroll = null;
 			return this._fetchEntity(actionUnenroll.href, actionUnenroll.method)
 				.then(() => {
-					this.shadowRoot.querySelector('#discovery-course-summary-dialog-unenroll-confirm').opened = true;
+					this._unenrolledDialogOpen = true;
 				})
 				.catch(() => {
 					this.actionUnenroll = actionUnenroll; // give the user a chance to try again...
@@ -681,8 +640,10 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	}
 
 	_dismissUnenrollment() {
-		this.shadowRoot.querySelector('#discovery-course-summary-dialog-unenroll-confirm').opened = false;
-		this._navigateToHome();
+		this._unenrolledDialogOpen = false;
+		setTimeout(() => { //Adds a small delay so that the navigation to the homepage doesn't negate the dialog being set to false
+			this._navigateToHome();
+		}, 250);
 	}
 
 	retryFetchOrganizationHomepage({ maxRetries, intervalInMs }) {
