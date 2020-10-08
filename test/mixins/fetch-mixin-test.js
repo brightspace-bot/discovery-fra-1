@@ -9,7 +9,10 @@ describe('Fetch Mixin Tests', () => {
 		bffRootResponse;
 	function SetupFetchStub(url, entity) {
 		const request = new Request(url, {
-			headers: { Accept: 'application/vnd.siren+json' },
+			headers: {
+				Accept: 'application/vnd.siren+json',
+				Authorization: 'Bearer ' + window.D2L.token
+			},
 		});
 		fetchStub.withArgs(request)
 			.returns(Promise.resolve({

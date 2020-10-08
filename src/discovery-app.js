@@ -49,13 +49,22 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 				selected-attribute="visible"
 				role="main">
 				<discovery-home
-					name="home"
+					name="home" href="[[href]]" token="[[token]]"
 					promoted-courses-enabled="[[_promotedCoursesEnabled]]"
-					can-manage-discover="[[_manageDiscover]]"></discovery-home>
-				<discovery-course name="course" route="[[route]]"></discovery-course>
-				<discovery-search name="search" route="[[route]]"></discovery-search>
+					can-manage-discover="[[_manageDiscover]]">
+				</discovery-home>
+
+				<discovery-course
+					name="course" route="[[route]]"
+					href="[[href]]" token="[[token]]">
+				</discovery-course>
+
+				<discovery-search
+					name="search" route="[[route]]"
+					href="[[href]]" token="[[token]]">
+				</discovery-search>
 				<discovery-settings
-					name="settings"
+					name="settings" href="[[href]]" token="[[token]]"
 					can-manage-discover="[[_manageDiscover]]"
 					discover-customizations-enabled = "[[_discoverCustomizationsEnabled]]"
 					discover-toggle-sections-enabled = "[[_discoverToggleSectionsEnabled]]">
@@ -78,6 +87,12 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 			},
 			routeData: Object,
 			subroute: Object,
+			endpoint: {
+				type: String
+			},
+			token: {
+				type: String
+			},
 			_promotedCoursesEnabled: {
 				type: Boolean,
 				computed: '_isPromotedCoursesEnabled()'
@@ -98,6 +113,12 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 	}
 	constructor() {
 		super();
+		this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImMzZDFlZjdhLWE2MWItNDI4NC04Y2UzLWQ0OWYxZDEwMDcyNiJ9.eyJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNjAyMTgwODY2LCJuYmYiOjE2MDIxNzcyNjYsInRlbmFudGlkIjoiOWFlNzcyNDctMTMzNS00ZjQyLTkzYjMtOGJlODU4NmViMmVlIiwiYXpwIjoiRXhwYW5kb0NsaWVudCIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiI3YjY4NTIwYy0yZDExLTQ5YjMtYTdlMC0xZWJkOWYxMmZlMWIifQ.K2OoYMGZG1r2r6JTlIqGEkH5-PwM8mEk7SSmTudU5LRdjWwszkvTqhP1foxPGnPUTzkM1d1RJdypUDu0aQPX1UztG_TEraMM36KgJejKdRLTjmYEmacroS-AJjc1oinCDqCW3Kkj0rWM07MzavnzCJy157vDq-Qs_NVN0tI9qwh49qoRIV9WivwyWPT6vUt2u7Sv7eDmqlzUF85GLZa8nqaM3dmqlJUbtYn4XqNOKWV3bd4DLYT1z8rAGeO9LI0vjitSWnNLTIdHmi7bOTzzcZ4ElFkcLvilujXNxC-X3IkQOXvb0S88GwpRxZ5bSIqioL6Nk9XgAYdzWmrPqxpIjg"
+		this.endpoint = "https://us-east-1.discovery.bff.dev.brightspace.com/";
+		window.D2L.token = this.token;
+		window.D2L.bffEndpoint = this.endpoint;
+		this.page="home";
+
 		this._routeDataChangedHandled = this._routeDataChanged.bind(this);
 	}
 	ready() {

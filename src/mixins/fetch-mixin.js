@@ -36,7 +36,10 @@ const internalFetchMixin = (superClass) => class extends superClass {
 
 		const request = new Request(url, {
 			method,
-			headers: { Accept: 'application/vnd.siren+json' },
+			headers: {
+				Accept: 'application/vnd.siren+json',
+				Authorization: 'Bearer ' + window.D2L.token
+			},
 		});
 
 		const fetch = this._shouldSkipAuth(sirenLinkOrUrl)
@@ -60,7 +63,10 @@ const internalFetchMixin = (superClass) => class extends superClass {
 
 		const request = new Request(url, {
 			method,
-			headers: { Accept: 'application/vnd.siren+json' },
+			headers: {
+				Accept: 'application/vnd.siren+json',
+				Authorization: 'Bearer ' + window.D2L.token
+			},
 		});
 
 		const fetch = this._shouldSkipAuth(sirenLinkOrUrl)
@@ -76,7 +82,7 @@ const internalFetchMixin = (superClass) => class extends superClass {
 		return Promise.resolve()
 			.then(() => {
 				const fraSetup = window.D2L && window.D2L.frau;
-				const bffEndpoint = fraSetup && fraSetup.options && fraSetup.options.endpoint;
+				const bffEndpoint = window.D2L.bffEndpoint;
 				if (!bffEndpoint) {
 					throw new Error('BFF endpoint does not exist');
 				}
@@ -121,13 +127,8 @@ const internalFetchMixin = (superClass) => class extends superClass {
 		}
 		return Promise.reject(response.status + ' ' + response.statusText);
 	}
-	_getToken(scope = '*:*:*') {
-		const client = window.D2L && window.D2L.frau && window.D2L.frau.client;
-		if (client) {
-			return client.request('frau-jwt-new-jwt', scope);
-		} else {
-			return Promise.resolve(null);
-		}
+	_getToken() {
+		return Promise.resolve(window.D2L.token);
 	}
 	_shouldSkipAuth(sirenLinkOrUrl) {
 		if (!Array.isArray(sirenLinkOrUrl.rel)) {

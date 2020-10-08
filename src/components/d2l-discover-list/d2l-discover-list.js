@@ -261,7 +261,10 @@ class D2lDiscoverList extends LocalizeMixin(DiscoverListItemResponsiveConstants(
 
 		return window.d2lfetch
 			.fetch(new Request(url, {
-				headers: { Accept: 'application/vnd.siren+json' },
+				headers: {
+					Accept: 'application/vnd.siren+json',
+					Authorization: 'Bearer ' + window.D2L.token
+				},
 			}))
 			.then(this._responseToSirenEntity.bind(this));
 	}
