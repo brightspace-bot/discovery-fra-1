@@ -187,7 +187,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 
 			${this._promotedItemsLoading ? html`
 				${loadingPlaceholder}
-			`: html``}
+			` : html``}
 
 			${featuredSection}
 
@@ -220,7 +220,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 					${this._promotedActivities.map((activity) => html`
 						${!activity.loaded ? html`
 							${loadingPlaceholder}
-						`: html``}
+						` : html``}
 						<d2l-list-item ?hidden="${!activity.loaded}">
 							<d2l-organization-image href="${activity.organizationUrl}" slot="illustration" token="${this.token}"></d2l-organization-image>
 							<d2l-organization-name href="${activity.organizationUrl}" token="${this.token}" @d2l-organization-accessible="${(e) => this._handleSavedOrgAccessible(e, activity)}"></d2l-organization-name>
