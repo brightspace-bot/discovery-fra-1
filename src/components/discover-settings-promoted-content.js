@@ -131,8 +131,28 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 				margin-top: .5rem;
 				margin-bottom: .5rem;
 			}
-			.featured-placeholder-container{
-				margin-right: 2px;
+			.d2l-discover-list-item-pulse-placeholder {
+				animation: pulsingAnimation 1.8s linear infinite;
+				height: 100%;
+				width: 100%;
+				border-radius: 4px;
+			}
+			.d2l-discover-list-item-content {
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+			}
+			.d2l-discover-list-item-image {
+				width: 90px;
+				height: 38.33px;
+				border: 1px solid var(--d2l-color-gypsum);
+			}
+			.d2l-discover-list-item-category-placeholder {
+				display: block;
+				height: 0.95rem;
+				margin: 0.3rem 0;
+				width: 50%;
 			}
 		`];
 	}
@@ -157,6 +177,7 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		const candidates = this._renderCandidates();
 		const selectedNav = this._renderSelectedNav();
 		const loadMore = this._renderLoadMore();
+		const loadingPlaceholder = this._renderLoadingPlaceholder();
 
 		return html`
 			<div class="discover-featured-header">
@@ -164,9 +185,9 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 				<d2l-button primary @click="${this._openPromotedDialogClicked}">${this.localize('featureContent')}</d2l-button>
 			</div>
 
-			<div class="featured-placeholder-container" ?hidden="${!this._promotedItemsLoading}">
-				<d2l-discover-list imagePlaceholder textPlaceholder entities="${this._featuredPlaceholder}"></d2l-discover-list>
-			</div>
+			${this._promotedItemsLoading ? html`
+				${loadingPlaceholder}
+			`: html``}
 
 			${featuredSection}
 
@@ -192,11 +213,14 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 	}
 
 	_renderFeaturedSection() {
+		const loadingPlaceholder = this._renderLoadingPlaceholder();
 		return html`
 			${this._promotedActivities.length > 0 ? html`
 				<d2l-list class="discover-featured-list">
 					${this._promotedActivities.map((activity) => html`
-						<d2l-discover-list imagePlaceholder textPlaceholder entities="${this._featuredPlaceholder}" ?hidden="${activity.loaded}"></d2l-discover-list>
+						${!activity.loaded ? html`
+							${loadingPlaceholder}
+						`: html``}
 						<d2l-list-item ?hidden="${!activity.loaded}">
 							<d2l-organization-image href="${activity.organizationUrl}" slot="illustration" token="${this.token}"></d2l-organization-image>
 							<d2l-organization-name href="${activity.organizationUrl}" token="${this.token}" @d2l-organization-accessible="${(e) => this._handleSavedOrgAccessible(e, activity)}"></d2l-organization-name>
@@ -257,6 +281,19 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 					<d2l-button @click=${this._loadMoreCandidates}>${this.localize('loadMore')}</d2l-button>
 				`}
 			`}
+		`;
+	}
+
+	_renderLoadingPlaceholder() {
+		return html`
+			<d2l-list-item>
+				<div slot="illustration" class="d2l-discover-list-item-image">
+					<div class="d2l-discover-list-item-pulse-placeholder"></div>
+				</div>
+				<div class="d2l-discover-list-item-content">
+					<div class="d2l-discover-list-item-pulse-placeholder d2l-discover-list-item-category-placeholder"></div>
+				</div>
+			</d2l-list-item>
 		`;
 	}
 

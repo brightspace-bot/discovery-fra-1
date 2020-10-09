@@ -6,7 +6,6 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
 import './components/discover-settings-breadcrumbs-lit.js';
 import './components/discover-settings-toast.js';
-import './components/loading-skeleton.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { heading1Styles, heading2Styles, heading4Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
@@ -14,8 +13,9 @@ import { FetchMixin } from './mixins/fetch-mixin.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 import { DiscoverSettingsMixin } from './mixins/discover-settings-mixin.js';
 import { getLocalizeResources } from './localization.js';
+import { SkeletonMixin } from '@brightspace-ui/core/components/skeleton/skeleton-mixin.js';
 
-class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(RouteLocationsMixin(LitElement)))) {
+class DiscoverySettings extends SkeletonMixin(DiscoverSettingsMixin(LocalizeMixin(FetchMixin(RouteLocationsMixin(LitElement))))) {
 
 	render() {
 		const customizeDiscoverSection = this._renderCustomizeDiscoverSection();
@@ -55,10 +55,10 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 						<h4 class="discovery-settings-h4">${this.localize('courseTileSettings')}</h4>
 					` : html``}
 
-					<div ?hidden="${this._settingsLoaded}">
-						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton>
-						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton>
-					</div>
+					${!this._settingsLoaded ? html`
+						<d2l-input-checkbox skeleton>${this.localize('showCourseCode')}</d2l-input-checkbox>
+						<d2l-input-checkbox skeleton>${this.localize('showSemester')}</d2l-input-checkbox>
+					`: html``}
 
 					<div class="discover-customization-settings" ?hidden="${!this._settingsLoaded}">
 						<d2l-input-checkbox
@@ -80,10 +80,12 @@ class DiscoverySettings extends DiscoverSettingsMixin(LocalizeMixin(FetchMixin(R
 		return html`
 			${this.discoverToggleSectionsEnabled ? html`
 					<h4 class="discovery-settings-h4">${this.localize('sectionsSettings')}</h4>
-					<div ?hidden="${this._settingsLoaded}">
-						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton><br>
-						<loading-skeleton class="discovery-settings-customize-checkbox-placeholder"></loading-skeleton>
-					</div>
+
+					${!this._settingsLoaded ? html`
+						<d2l-input-checkbox skeleton>${this.localize('showUpdatedSection')}</d2l-input-checkbox>
+						<d2l-input-checkbox skeleton>${this.localize('showNewSection')}</d2l-input-checkbox>
+					`: html``}
+					
 					<div class="discover-customization-settings" ?hidden="${!this._settingsLoaded}">
 						<d2l-input-checkbox
 							id="showUpdatedSectionCheckbox"
