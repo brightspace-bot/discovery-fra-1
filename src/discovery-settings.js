@@ -171,10 +171,6 @@ class DiscoverySettings extends SkeletonMixin(DiscoverSettingsMixin(LocalizeMixi
 						min-height: 20rem;
 					}
 				}
-				.discovery-settings-customize-checkbox-placeholder {
-					height: 0.75rem;
-					width: 50%;
-				}
 			`
 		];
 	}

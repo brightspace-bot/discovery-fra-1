@@ -39,7 +39,6 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 		this._promotedActivities = [];
 		this._candidateActivities = [];
 		this._savedPromotedActivities = [];
-		this._featuredPlaceholder = '[null]';
 
 		this._loadPromotedCourses();
 		this._getSortUrl().then((url) => {
@@ -69,7 +68,6 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 			_selectionCount: { type: Number}, //Count of currently checked candidate entities
 			_lastLoadedListItem: {type: Object}, //Tracks the last loaded activity, to focus its new sibling after loading more.
 			_savedPromotedActivities: { type: Array}, //initial load of promoted courses
-			_featuredPlaceholder: {type: String},
 		};
 	}
 
@@ -137,13 +135,13 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 				width: 100%;
 				border-radius: 4px;
 			}
-			.d2l-discover-list-item-content {
+			.d2l-discover-list-item-content-placeholder {
 				flex-grow: 1;
 				display: flex;
 				flex-direction: column;
 				width: 100%;
 			}
-			.d2l-discover-list-item-image {
+			.d2l-discover-list-item-image-placeholder {
 				width: 90px;
 				height: 38.33px;
 				border: 1px solid var(--d2l-color-gypsum);
@@ -287,10 +285,10 @@ class DiscoverSettingsPromotedContent extends DiscoverSettingsMixin(RouteLocatio
 	_renderLoadingPlaceholder() {
 		return html`
 			<d2l-list-item>
-				<div slot="illustration" class="d2l-discover-list-item-image">
+				<div slot="illustration" class="d2l-discover-list-item-image-placeholder">
 					<div class="d2l-discover-list-item-pulse-placeholder"></div>
 				</div>
-				<div class="d2l-discover-list-item-content">
+				<div class="d2l-discover-list-item-content-placeholder">
 					<div class="d2l-discover-list-item-pulse-placeholder d2l-discover-list-item-category-placeholder"></div>
 				</div>
 			</d2l-list-item>
