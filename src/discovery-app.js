@@ -87,38 +87,31 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 			},
 			routeData: Object,
 			subroute: Object,
-			endpoint: {
-				type: String
+			options: {
+				type: String,
+				observer: '_optionsChanged'
 			},
 			token: {
-				type: String
+				type: String,
+				observer: '_tokenChanged'
 			},
 			_promotedCoursesEnabled: {
-				type: Boolean,
-				computed: '_isPromotedCoursesEnabled()'
+				type: Boolean
 			},
 			_manageDiscover: {
-				type: Boolean,
-				computed: '_canManageDiscover()'
+				type: Boolean
 			},
 			_discoverCustomizationsEnabled: {
-				type: Boolean,
-				computed: '_isDiscoverCustomizationsEnabled()'
+				type: Boolean
 			},
 			_discoverToggleSectionsEnabled: {
-				type: Boolean,
-				computed: '_isDiscoverToggleSectionsEnabled()'
+				type: Boolean
 			}
 		};
 	}
 	constructor() {
 		super();
-		this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImMzZDFlZjdhLWE2MWItNDI4NC04Y2UzLWQ0OWYxZDEwMDcyNiJ9.eyJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNjAyMTgwODY2LCJuYmYiOjE2MDIxNzcyNjYsInRlbmFudGlkIjoiOWFlNzcyNDctMTMzNS00ZjQyLTkzYjMtOGJlODU4NmViMmVlIiwiYXpwIjoiRXhwYW5kb0NsaWVudCIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiI3YjY4NTIwYy0yZDExLTQ5YjMtYTdlMC0xZWJkOWYxMmZlMWIifQ.K2OoYMGZG1r2r6JTlIqGEkH5-PwM8mEk7SSmTudU5LRdjWwszkvTqhP1foxPGnPUTzkM1d1RJdypUDu0aQPX1UztG_TEraMM36KgJejKdRLTjmYEmacroS-AJjc1oinCDqCW3Kkj0rWM07MzavnzCJy157vDq-Qs_NVN0tI9qwh49qoRIV9WivwyWPT6vUt2u7Sv7eDmqlzUF85GLZa8nqaM3dmqlJUbtYn4XqNOKWV3bd4DLYT1z8rAGeO9LI0vjitSWnNLTIdHmi7bOTzzcZ4ElFkcLvilujXNxC-X3IkQOXvb0S88GwpRxZ5bSIqioL6Nk9XgAYdzWmrPqxpIjg"
-		this.endpoint = "https://us-east-1.discovery.bff.dev.brightspace.com/";
-		window.D2L.token = this.token;
-		window.D2L.bffEndpoint = this.endpoint;
 		this.page="home";
-
 		this._routeDataChangedHandled = this._routeDataChanged.bind(this);
 	}
 	ready() {
@@ -151,6 +144,28 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 		if (e && e.detail && e.detail.path) {
 			this._ifrauNavigationGo(e.detail.path);
 		}
+	}
+
+	//Assigns feature/flags/endpoint/other information from LMS.
+	_optionsChanged(optionsJSON) {
+		window.D2L.frau.options = JSON.parse(optionsJSON);
+		window.D2L.bffEndpoint = window.D2L.frau.options.endpoint;
+		this._computeFlagProperties();
+	}
+
+	//Retrieves a token for interacting with the BFF
+	async _tokenChanged(newValue, oldValue) {
+		if(!oldValue) {
+			this.token = await newValue();
+			window.D2L.token = this.token;
+		}
+	}
+
+	_computeFlagProperties() {
+		this._promotedCoursesEnabled = this._isPromotedCoursesEnabled();
+		this._manageDiscover = this._canManageDiscover();
+		this._discoverCustomizationsEnabled = this._isDiscoverCustomizationsEnabled();
+		this._discoverToggleSectionsEnabled = this._isDiscoverToggleSectionsEnabled();
 	}
 
 	_routeChanged(route) {
