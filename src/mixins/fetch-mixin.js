@@ -134,7 +134,7 @@ const internalFetchMixin = (superClass) => class extends superClass {
 	}
 
 	//Any async token requirements will poll for the token until the initialization has been complete.
-	//This should be replaced with an attribute based solution when removing discover-app.
+	//This should be replaced with an attribute based solution when componentizing the project.
 	async _getToken() {
 		while (!window.D2L.token) {
 			await new Promise(resolve => setTimeout(resolve, 50));
