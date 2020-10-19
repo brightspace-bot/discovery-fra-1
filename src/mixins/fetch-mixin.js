@@ -129,14 +129,14 @@ const internalFetchMixin = (superClass) => class extends superClass {
 	}
 
 	//Globally initializes the token using the passed tokenReciever function.
-	async initializeToken (tokenGetter) {
+	async initializeToken(tokenGetter) {
 		window.D2L.token = await tokenGetter();
 	}
 
 	//Any async token requirements will poll for the token until the initialization has been complete.
 	//This should be replaced with an attribute based solution when removing discover-app.
 	async _getToken() {
-		while(!window.D2L.token) {
+		while (!window.D2L.token) {
 			await new Promise(resolve => setTimeout(resolve, 50));
 		}
 		return window.D2L.token;
