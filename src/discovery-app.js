@@ -11,6 +11,7 @@ import './discovery-settings.js';
 
 import { IfrauMixin } from './mixins/ifrau-mixin.js';
 import { FeatureMixin } from './mixins/feature-mixin.js';
+import { FetchMixin } from './mixins/fetch-mixin.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 
 // Gesture events like tap and track generated from touch will not be
@@ -22,7 +23,7 @@ setPassiveTouchGestures(true);
 window.DiscoveryApp = window.DiscoveryApp || {};
 setRootPath(window.DiscoveryApp.rootPath);
 
-class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerElement))) {
+class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerElement)))) {
 	static get template() {
 		return html`
 			<style>
@@ -70,6 +71,10 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 				type: String,
 				observer: '_optionsChanged'
 			},
+			token: {
+				type: String,
+				observer: '_tokenChanged'
+			},
 			page: {
 				type: String,
 				reflectToAttribute: true
@@ -94,8 +99,9 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 			_discoverToggleSectionsEnabled: {
 				type: Boolean
 			}
-		};
-	}
+		}
+	};
+
 	constructor() {
 		super();
 		this._routeDataChangedHandled = this._routeDataChanged.bind(this);
@@ -178,6 +184,12 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 		this._discoverToggleSectionsEnabled = this._isDiscoverToggleSectionsEnabled();
 	}
 
+	//Retrieves a token for interacting with the BFF
+	async _tokenChanged(newValue, oldValue) {
+		if(!oldValue) {
+			this.token = this.initializeToken(newValue);
+		}
+	}
 	_resetPage(pageName) {
 		const pageElement = this.shadowRoot.querySelector(`[name="${pageName}"]`);
 		if (pageElement && typeof pageElement._reset === 'function') {

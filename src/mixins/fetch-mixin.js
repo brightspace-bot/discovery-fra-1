@@ -36,7 +36,10 @@ const internalFetchMixin = (superClass) => class extends superClass {
 
 		const request = new Request(url, {
 			method,
-			headers: { Accept: 'application/vnd.siren+json' },
+			headers: {
+				Accept: 'application/vnd.siren+json',
+				Authorization: 'Bearer ' + window.D2L.token
+			},
 		});
 
 		const fetch = this._shouldSkipAuth(sirenLinkOrUrl)
@@ -60,7 +63,10 @@ const internalFetchMixin = (superClass) => class extends superClass {
 
 		const request = new Request(url, {
 			method,
-			headers: { Accept: 'application/vnd.siren+json' },
+			headers: {
+				Accept: 'application/vnd.siren+json',
+				Authorization: 'Bearer ' + window.D2L.token
+			},
 		});
 
 		const fetch = this._shouldSkipAuth(sirenLinkOrUrl)
@@ -121,14 +127,21 @@ const internalFetchMixin = (superClass) => class extends superClass {
 		}
 		return Promise.reject(response.status + ' ' + response.statusText);
 	}
-	_getToken(scope = '*:*:*') {
-		const client = window.D2L && window.D2L.frau && window.D2L.frau.client;
-		if (client) {
-			return client.request('frau-jwt-new-jwt', scope);
-		} else {
-			return Promise.resolve(null);
-		}
+
+	//Globally initializes the token using the passed tokenReciever function.
+	async initializeToken (tokenGetter) {
+		window.D2L.token = await tokenGetter();
 	}
+
+	//Any async token requirements will poll for the token until the initialization has been complete.
+	//This should be replaced with an attribute based solution when removing discover-app.
+	async _getToken() {
+		while(!window.D2L.token) {
+			await new Promise(resolve => setTimeout(resolve, 50));
+		}
+		return window.D2L.token;
+	}
+
 	_shouldSkipAuth(sirenLinkOrUrl) {
 		if (!Array.isArray(sirenLinkOrUrl.rel)) {
 			return false;
