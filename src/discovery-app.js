@@ -187,7 +187,10 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 	//Retrieves a token for interacting with the BFF
 	async _tokenChanged(newValue, oldValue) {
 		if (!oldValue) {
-			this.token = this.initializeToken(newValue);
+			this._initializeToken(newValue);
+			this._getToken(newValue).then((token) => {
+				this.token = token;
+			});
 		}
 	}
 	_resetPage(pageName) {

@@ -23,7 +23,7 @@ const internalFetchMixin = (superClass) => class extends superClass {
 	constructor() {
 		super();
 	}
-	_fetchEntity(sirenLinkOrUrl, method = 'GET') {
+	async _fetchEntity(sirenLinkOrUrl, method = 'GET') {
 		if (!sirenLinkOrUrl) {
 			return;
 		}
@@ -34,11 +34,12 @@ const internalFetchMixin = (superClass) => class extends superClass {
 			return;
 		}
 
+		const token = await this._getToken();
 		const request = new Request(url, {
 			method,
 			headers: {
 				Accept: 'application/vnd.siren+json',
-				Authorization: 'Bearer ' + window.D2L.token
+				Authorization: 'Bearer ' + token
 			},
 		});
 
@@ -50,7 +51,8 @@ const internalFetchMixin = (superClass) => class extends superClass {
 			.fetch(request)
 			.then(this.__responseToSirenEntity.bind(this));
 	}
-	_fetchEntityWithoutDedupe(sirenLinkOrUrl, method = 'GET') {
+
+	async _fetchEntityWithoutDedupe(sirenLinkOrUrl, method = 'GET') {
 		if (!sirenLinkOrUrl) {
 			return;
 		}
@@ -61,11 +63,12 @@ const internalFetchMixin = (superClass) => class extends superClass {
 			return;
 		}
 
+		const token = await this._getToken();
 		const request = new Request(url, {
 			method,
 			headers: {
 				Accept: 'application/vnd.siren+json',
-				Authorization: 'Bearer ' + window.D2L.token
+				Authorization: 'Bearer ' + token
 			},
 		});
 
@@ -129,7 +132,7 @@ const internalFetchMixin = (superClass) => class extends superClass {
 	}
 
 	//Globally initializes the token using the passed tokenReciever function.
-	async initializeToken(tokenGetter) {
+	async _initializeToken(tokenGetter) {
 		window.D2L.token = await tokenGetter();
 	}
 
