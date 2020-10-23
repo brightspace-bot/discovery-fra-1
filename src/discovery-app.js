@@ -44,25 +44,28 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 				tail="[[subroute]]">
 			</app-route>
 
-			<iron-pages
-				selected="[[page]]"
-				attr-for-selected="name"
-				selected-attribute="visible"
-				role="main">
-				<discovery-home
-					name="home"
-					promoted-courses-enabled="[[_promotedCoursesEnabled]]"
-					can-manage-discover="[[_manageDiscover]]"></discovery-home>
-				<discovery-course name="course" route="[[route]]"></discovery-course>
-				<discovery-search name="search" route="[[route]]"></discovery-search>
-				<discovery-settings
-					name="settings"
-					can-manage-discover="[[_manageDiscover]]"
-					discover-customizations-enabled = "[[_discoverCustomizationsEnabled]]"
-					discover-toggle-sections-enabled = "[[_discoverToggleSectionsEnabled]]">
-				</discovery-settings>
-				<discovery-404 name="404"></discovery-404>
-			</iron-pages>
+
+			<template is="dom-if" if="[[_isDiscoverInitialized(token, options)]]">
+				<iron-pages
+					selected="[[page]]"
+					attr-for-selected="name"
+					selected-attribute="visible"
+					role="main">
+					<discovery-home
+						name="home"
+						promoted-courses-enabled="[[_promotedCoursesEnabled]]"
+						can-manage-discover="[[_manageDiscover]]"></discovery-home>
+					<discovery-course name="course" route="[[route]]"></discovery-course>
+					<discovery-search name="search" route="[[route]]"></discovery-search>
+					<discovery-settings
+						name="settings"
+						can-manage-discover="[[_manageDiscover]]"
+						discover-customizations-enabled = "[[_discoverCustomizationsEnabled]]"
+						discover-toggle-sections-enabled = "[[_discoverToggleSectionsEnabled]]">
+					</discovery-settings>
+					<discovery-404 name="404"></discovery-404>
+				</iron-pages>
+			</template>
 		`;
 	}
 	static get properties() {
@@ -184,6 +187,12 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 		this._discoverToggleSectionsEnabled = this._isDiscoverToggleSectionsEnabled();
 	}
 
+	_isDiscoverInitialized(token, options) {
+		if(token && options) {
+			return true;
+		}
+		return false;
+	}
 	//Retrieves a token for interacting with the BFF
 	async _tokenChanged(newValue, oldValue) {
 		if (!oldValue) {

@@ -34,14 +34,7 @@ const internalFetchMixin = (superClass) => class extends superClass {
 			return;
 		}
 
-		const token = await this._getToken();
-		const request = new Request(url, {
-			method,
-			headers: {
-				Accept: 'application/vnd.siren+json',
-				Authorization: 'Bearer ' + token
-			},
-		});
+		const request = await this._createRequest(url, method);
 
 		const fetch = this._shouldSkipAuth(sirenLinkOrUrl)
 			? window.d2lfetch.removeTemp('auth')
@@ -63,14 +56,7 @@ const internalFetchMixin = (superClass) => class extends superClass {
 			return;
 		}
 
-		const token = await this._getToken();
-		const request = new Request(url, {
-			method,
-			headers: {
-				Accept: 'application/vnd.siren+json',
-				Authorization: 'Bearer ' + token
-			},
-		});
+		const request = await this._createRequest(url, method);
 
 		const fetch = this._shouldSkipAuth(sirenLinkOrUrl)
 			? window.d2lfetch.removeTemp('auth')
@@ -131,18 +117,31 @@ const internalFetchMixin = (superClass) => class extends superClass {
 		return Promise.reject(response.status + ' ' + response.statusText);
 	}
 
-	//Globally initializes the token using the passed tokenReciever function.
-	async _initializeToken(tokenGetter) {
-		window.D2L.token = await tokenGetter();
+
+	async _createRequest(url, method) {
+		const token = await this._getToken();
+		const request = new Request(url, {
+			method,
+			headers: {
+				Accept: 'application/vnd.siren+json',
+				Authorization: 'Bearer ' + token
+			},
+		});
+
+		return request;
 	}
 
-	//Any async token requirements will poll for the token until the initialization has been complete.
-	//This should be replaced with an attribute based solution when componentizing the project.
+	//Globally initializes the token using the passed tokenReciever function.
+	async _initializeToken(tokenPromise) {
+		window.D2L.tokenPromise = tokenPromise;
+	}
+
 	async _getToken() {
-		while (!window.D2L.token) {
-			await new Promise(resolve => setTimeout(resolve, 50));
+		if(window.D2L.tokenPromise) {
+			const token = await window.D2L.tokenPromise();
+			console.log(token);
+			return token;
 		}
-		return window.D2L.token;
 	}
 
 	_shouldSkipAuth(sirenLinkOrUrl) {
