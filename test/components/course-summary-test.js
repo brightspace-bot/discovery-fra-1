@@ -708,7 +708,7 @@ describe('course-summary', () => {
 		});
 	});
 
-	describe('enrolled by user but then removed by Admin / timed out', () => {
+	describe('enrolled by user but then removed by Admin / pending enrollmentt', () => {
 		before(done => {
 			component = fixture('course-summary-basic-fixture');
 			setComponentForEnrollment({ component, enrolled: false });
