@@ -117,7 +117,6 @@ const internalFetchMixin = (superClass) => class extends superClass {
 		return Promise.reject(response.status + ' ' + response.statusText);
 	}
 
-
 	async _createRequest(url, method) {
 		const token = await this._getToken();
 		const request = new Request(url, {
@@ -137,9 +136,8 @@ const internalFetchMixin = (superClass) => class extends superClass {
 	}
 
 	async _getToken() {
-		if(window.D2L.tokenPromise) {
+		if (window.D2L.tokenPromise) {
 			const token = await window.D2L.tokenPromise();
-			console.log(token);
 			return token;
 		}
 	}

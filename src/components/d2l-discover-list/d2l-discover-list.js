@@ -253,7 +253,6 @@ class D2lDiscoverList extends FetchMixin(LocalizeMixin(DiscoverListItemResponsiv
 		return accessibilityText;
 	}
 
-
 	_shouldRenderTextSkeletons() {
 		return !this._loadedText || this.textPlaceholder;
 	}
