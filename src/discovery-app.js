@@ -102,8 +102,8 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 			_discoverToggleSectionsEnabled: {
 				type: Boolean
 			}
-		}
-	};
+		};
+	}
 
 	constructor() {
 		super();
@@ -188,7 +188,7 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 	}
 
 	_isDiscoverInitialized(token, options) {
-		if(token && options) {
+		if (token && options) {
 			return true;
 		}
 		return false;
