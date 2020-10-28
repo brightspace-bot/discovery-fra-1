@@ -1,16 +1,6 @@
 'use strict';
 import 'whatwg-fetch'; // Required for d2l-fetch + IE11
 import { d2lfetch } from 'd2l-fetch/src/index.js';
-import fetchAuthFramed from 'd2l-fetch-auth/es6/d2lfetch-auth-framed.js';
-d2lfetch.use({
-	name: 'auth',
-	fn: fetchAuthFramed,
-	options: {
-		enableTokenCache: true
-	}
-});
-import { fetchDedupe } from 'd2l-fetch-dedupe';
-d2lfetch.use({name: 'dedupe', fn: fetchDedupe});
 window.d2lfetch = d2lfetch;
 
 import { dedupingMixin } from '@polymer/polymer/lib/utils/mixin.js';
