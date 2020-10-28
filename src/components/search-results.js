@@ -349,7 +349,6 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	}
 
 	_paginationPageChanged(e) {
-
 		this._navigateToPage(e.detail.page);
 	}
 
@@ -513,7 +512,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		}
 	}
 
-	_getBrowseAllHref(){
+	_getBrowseAllHref() {
 		return this.routeLocations().search('', { sort: this.sortParameter });
 	}
 }

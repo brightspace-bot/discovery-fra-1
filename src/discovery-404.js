@@ -31,7 +31,7 @@ class Discovery404 extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			}
 		};
 	}
-	
+
 	_getHomeHref() {
 		return this.routeLocations().home();
 	}

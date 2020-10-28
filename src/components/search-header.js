@@ -147,7 +147,7 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 	focusOnInput() {
 		this.searchInput.focus();
 	}
-	
+
 	_getHomeHref() {
 		return this.routeLocations().home();
 	}

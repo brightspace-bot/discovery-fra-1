@@ -68,7 +68,7 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 			</div>
 		`;
 	}
-	
+
 	static get properties() {
 		return {
 			_pageSize: {
