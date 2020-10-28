@@ -11,6 +11,7 @@ import './discovery-settings.js';
 
 import { IfrauMixin } from './mixins/ifrau-mixin.js';
 import { FeatureMixin } from './mixins/feature-mixin.js';
+import { FetchMixin } from './mixins/fetch-mixin.js';
 import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
 
 // Gesture events like tap and track generated from touch will not be
@@ -22,7 +23,7 @@ setPassiveTouchGestures(true);
 window.DiscoveryApp = window.DiscoveryApp || {};
 setRootPath(window.DiscoveryApp.rootPath);
 
-class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerElement))) {
+class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerElement)))) {
 	static get template() {
 		return html`
 			<style>
@@ -43,25 +44,28 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 				tail="[[subroute]]">
 			</app-route>
 
-			<iron-pages
-				selected="[[page]]"
-				attr-for-selected="name"
-				selected-attribute="visible"
-				role="main">
-				<discovery-home
-					name="home"
-					promoted-courses-enabled="[[_promotedCoursesEnabled]]"
-					can-manage-discover="[[_manageDiscover]]"></discovery-home>
-				<discovery-course name="course" route="[[route]]"></discovery-course>
-				<discovery-search name="search" route="[[route]]"></discovery-search>
-				<discovery-settings
-					name="settings"
-					can-manage-discover="[[_manageDiscover]]"
-					discover-customizations-enabled = "[[_discoverCustomizationsEnabled]]"
-					discover-toggle-sections-enabled = "[[_discoverToggleSectionsEnabled]]">
-				</discovery-settings>
-				<discovery-404 name="404"></discovery-404>
-			</iron-pages>
+
+			<template is="dom-if" if="[[_isDiscoverInitialized(token, options)]]">
+				<iron-pages
+					selected="[[page]]"
+					attr-for-selected="name"
+					selected-attribute="visible"
+					role="main">
+					<discovery-home
+						name="home"
+						promoted-courses-enabled="[[_promotedCoursesEnabled]]"
+						can-manage-discover="[[_manageDiscover]]"></discovery-home>
+					<discovery-course name="course" route="[[route]]"></discovery-course>
+					<discovery-search name="search" route="[[route]]"></discovery-search>
+					<discovery-settings
+						name="settings"
+						can-manage-discover="[[_manageDiscover]]"
+						discover-customizations-enabled = "[[_discoverCustomizationsEnabled]]"
+						discover-toggle-sections-enabled = "[[_discoverToggleSectionsEnabled]]">
+					</discovery-settings>
+					<discovery-404 name="404"></discovery-404>
+				</iron-pages>
+			</template>
 		`;
 	}
 	static get properties() {
@@ -69,6 +73,10 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 			options: {
 				type: String,
 				observer: '_optionsChanged'
+			},
+			token: {
+				type: String,
+				observer: '_tokenChanged'
 			},
 			page: {
 				type: String,
@@ -96,6 +104,7 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 			}
 		};
 	}
+
 	constructor() {
 		super();
 		this._routeDataChangedHandled = this._routeDataChanged.bind(this);
@@ -178,6 +187,21 @@ class DiscoveryApp extends FeatureMixin(RouteLocationsMixin(IfrauMixin(PolymerEl
 		this._discoverToggleSectionsEnabled = this._isDiscoverToggleSectionsEnabled();
 	}
 
+	_isDiscoverInitialized(token, options) {
+		if (token && options) {
+			return true;
+		}
+		return false;
+	}
+	//Retrieves a token for interacting with the BFF
+	async _tokenChanged(newValue, oldValue) {
+		if (!oldValue) {
+			this._initializeToken(newValue);
+			this._getToken(newValue).then((token) => {
+				this.token = token;
+			});
+		}
+	}
 	_resetPage(pageName) {
 		const pageElement = this.shadowRoot.querySelector(`[name="${pageName}"]`);
 		if (pageElement && typeof pageElement._reset === 'function') {
