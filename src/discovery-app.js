@@ -107,6 +107,19 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 
 	constructor() {
 		super();
+
+		if (window.location.pathname && window.location.pathname.includes('search')) {
+			this.page = 'search';
+		} else if (window.location.pathname && window.location.pathname.includes('settings')) {
+			this.page = 'settings';
+		} else if (window.location.pathname && window.location.pathname.includes('course')) {
+			this.page = 'course';
+		} else if (window.location.pathname && window.location.pathname.includes('404')) {
+			this.page = '404';
+		} else {
+			this.page = 'home';
+		}
+
 		this._routeDataChangedHandled = this._routeDataChanged.bind(this);
 	}
 	ready() {
@@ -131,7 +144,7 @@ class DiscoveryApp extends FetchMixin(FeatureMixin(RouteLocationsMixin(IfrauMixi
 				});
 			}
 			if (e.detail.path) {
-				this.set('route.path', e.detail.path);
+				window.location.href = e.detail.path;
 			}
 		}
 	}
