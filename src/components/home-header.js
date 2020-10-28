@@ -3,7 +3,6 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@brightspace-ui/core/components/inputs/input-search.js';
 import '@brightspace-ui/core/components/link/link.js';
 import 'd2l-typography/d2l-typography.js';
-
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 
@@ -29,6 +28,8 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 
 				.discovery-home-header-clickable {
 					cursor: pointer;
+					text-decoration: none;
+					color: var(--d2l-color-ferrite);
 				}
 
 				.discovery-home-header-search-container {
@@ -109,8 +110,8 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			<div class="d2l-typography">
 				<div class="discovery-home-header-container">
 					<div>
-						<h1 class="d2l-heading-1 discovery-home-header-d2l-heading-1" on-click="_navigateToHome">
-							<span class="discovery-home-header-clickable">[[localize('discover')]]</span>
+						<h1 class="d2l-heading-1 discovery-home-header-d2l-heading-1">
+							<a class="discovery-home-header-clickable" href="[[_homeHref]]">[[localize('discover')]]</a>
 						</h1>
 					</div>
 					<div class="discovery-home-header-search-container">
@@ -123,8 +124,7 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 						</d2l-input-search>
 						<d2l-link
 							class="discovery-home-header-browse-all-link"
-							href="javascript:void(0)"
-							on-click="_navigateToBrowseAll">
+							href="[[_browseAllHref]]">
 							[[localize('browseAllContent')]]
 						</d2l-link>
 					</div>
@@ -139,30 +139,39 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			</div>
 		`;
 	}
+
 	constructor() {
 		super();
 		this.query = '';
 	}
+
 	static get properties() {
 		return {
 			query: String,
 			searchInput: Object,
 			showSettingsButton: Boolean,
-			resetPage: String //The app name of a page to reset upon navigation
+			resetPage: String, //The app name of a page to reset upon navigation
+			_homeHref: {
+				type: String,
+				computed: '_getHomeHref()'
+			},
+			_browseAllHref: {
+				type: String,
+				computed: '_getBrowseAllHref()'
+			}
 		};
 	}
+
 	ready() {
 		super.ready();
 		this.searchInput = this.shadowRoot.querySelector('#discovery-home-header-search-input');
 		if (this.searchInput) {
 			this.searchInput.addEventListener('d2l-input-search-searched', (e) => {
 				if (e && e.detail) {
-					const query = e.detail.value;
+					const query = e.detail.value.trim();
 					this.dispatchEvent(new CustomEvent('navigate', {
 						detail: {
-							path: this.routeLocations().search(query ? query.trim() : '', {
-								sort: 'relevant'
-							})
+							path: this.routeLocations().search(query, { sort: 'relevant' })
 						},
 						bubbles: true,
 						composed: true,
@@ -171,34 +180,17 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			});
 		}
 	}
+
 	clear() {
 		this.query = '';
 		this.searchInput.value = '';
 		this.searchInput._setLastSearchValue('');
 	}
+
 	focusOnInput() {
 		this.searchInput.focus();
 	}
-	_navigateToHome() {
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().navLink(),
-				resetPages: [this.resetPage]
-			},
-			bubbles: true,
-			composed: true,
-		}));
-	}
-	_navigateToBrowseAll() {
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().search('', { sort: 'relevant' }),
-				resetPages: [this.resetPage]
-			},
-			bubbles: true,
-			composed: true
-		}));
-	}
+
 	_navigateToSettings() {
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
@@ -208,6 +200,14 @@ class HomeHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			bubbles: true,
 			composed: true
 		}));
+	}
+
+	_getHomeHref() {
+		return this.routeLocations().home();
+	}
+
+	_getBrowseAllHref() {
+		return this.routeLocations().search('', { sort: 'relevant' });
 	}
 }
 

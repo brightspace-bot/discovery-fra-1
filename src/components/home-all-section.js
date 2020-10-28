@@ -4,24 +4,24 @@ import '@brightspace-ui/core/components/button/button.js';
 import 'd2l-typography/d2l-typography.js';
 import '../components/activity-card-list.js';
 import '../styles/discovery-styles.js';
-
 import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 
 class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(PolymerElement))) {
 	static get template() {
-
 		return html`
 			<style include="discovery-styles">
 				.discovery-home-recently-updated-container {
 					display: flex;
 					flex-direction: column;
 				}
+
 				.discovery-home-load-more-button {
 					margin-top: 0.5rem;
 					width: 100%;
 				}
+
 				.activity-card-list-header {
 					display: flex;
 					justify-content: space-between;
@@ -38,6 +38,7 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 					}
 				}
 			</style>
+			
 			<div class="d2l-typography">
 				<div class="discovery-home-recently-updated-container" hidden$="[[!_hasCourses(_recentlyUpdatedItems)]]">
 					<div class="activity-card-list-header">
@@ -45,8 +46,7 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 						<d2l-link
 							aria-label$="[[localize('viewAllLabel')]]"
 							class="activity-card-list-header-view-all-link"
-							href="javascript:void(0)"
-							on-click="_navigateToViewAll">
+							href="[[_viewAllHref]]">
 							[[localize('viewAll')]]
 						</d2l-link>
 					</div>
@@ -68,6 +68,7 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 			</div>
 		`;
 	}
+	
 	static get properties() {
 		return {
 			_pageSize: {
@@ -96,7 +97,11 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 			showSemesterName: {
 				type: Boolean,
 			},
-			token: String
+			token: String,
+			_viewAllHref: {
+				type: String,
+				computed: '_getViewAllHref()'
+			}
 		};
 	}
 
@@ -118,16 +123,6 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 
 	_hasCourses(_recentlyUpdatedItems) {
 		return Array.isArray(_recentlyUpdatedItems) && _recentlyUpdatedItems.length > 0;
-	}
-
-	_navigateToViewAll() {
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().search('', { sort: 'relevant' })
-			},
-			bubbles: true,
-			composed: true
-		}));
 	}
 
 	_getRecentlyUpdatedCourses() {
@@ -228,6 +223,10 @@ class HomeAllSection extends RouteLocationsMixin(FetchMixin(LocalizeMixin(Polyme
 	_recentlyUpdatedItemsPageTotalObserver(recentlyUpdatedItemsPage, recentlyUpdatedItemsTotal) {
 		this._recentlyUpdatedItemsHasMore =
 			((recentlyUpdatedItemsPage + 1) * this._pageSize) < recentlyUpdatedItemsTotal;
+	}
+
+	_getViewAllHref() {
+		return this.routeLocations().search('', { sort: 'relevant' });
 	}
 }
 

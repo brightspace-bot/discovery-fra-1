@@ -1,8 +1,10 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { LocalizeMixin } from './mixins/localize-mixin.js';
+import { RouteLocationsMixin } from './mixins/route-locations-mixin.js';
+import '@brightspace-ui/core/components/link/link.js';
 
-class Discovery404 extends LocalizeMixin(PolymerElement) {
+class Discovery404 extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 	static get template() {
 		return html`
 	  		<style>
@@ -13,17 +15,25 @@ class Discovery404 extends LocalizeMixin(PolymerElement) {
 					padding: 10px;
 				}
 	  		</style>
-			<p>[[localize('message404')]] <a href="javascript:void(0)" on-click="_goToHome">[[localize('navigateHome')]]</a></p>
+			
+			<div>
+				<span>[[localize('message404')]]</span>
+				<d2l-link href="[[_homeHref]]">[[localize('navigateHome')]]</d2l-link>
+			</div>
 		`;
 	}
-	_goToHome() {
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: '/d2l/le/discovery/view/'
-			},
-			bubbles: true,
-			composed: true,
-		}));
+
+	static get properties() {
+		return {
+			_homeHref: {
+				type: String,
+				computed: '_getHomeHref()'
+			}
+		};
+	}
+	
+	_getHomeHref() {
+		return this.routeLocations().home();
 	}
 }
 

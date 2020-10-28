@@ -4,7 +4,6 @@ import '@brightspace-ui/core/components/breadcrumbs/breadcrumb.js';
 import '@brightspace-ui/core/components/breadcrumbs/breadcrumbs.js';
 import '@brightspace-ui/core/components/inputs/input-search.js';
 import 'd2l-typography/d2l-typography.js';
-
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 
@@ -72,7 +71,7 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 				<div class="discovery-search-header-container">
 					<div class="discovery-search-header-nav-container">
 						<d2l-breadcrumbs class="discovery-search-header-breadcrumb" compact>
-							<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('backToDiscover')]]"></d2l-breadcrumb>
+							<d2l-breadcrumb href="[[_homeHref]]" text="[[localize('backToDiscover')]]"></d2l-breadcrumb>
 						</d2l-breadcrumbs>
 					</div>
 
@@ -92,6 +91,7 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 		super();
 		this.query = '';
 	}
+
 	static get properties() {
 		return {
 			query: String,
@@ -104,11 +104,13 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			page: Number
 		};
 	}
+
 	static get observers() {
 		return [
 			'queryObserver(query)'
 		];
 	}
+
 	ready() {
 		super.ready();
 		this.searchInput = this.shadowRoot.querySelector('#discovery-search-header-search-input');
@@ -119,9 +121,7 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 					if (query !== this.query || this.page !== 0) {
 						this.dispatchEvent(new CustomEvent('navigate', {
 							detail: {
-								path: this.routeLocations().search(query, {
-									sort: this.sortParameter
-								}),
+								path: this.routeLocations().search(query, { sort: this.sortParameter }),
 								resetPages: ['search']
 							},
 							bubbles: true,
@@ -132,37 +132,30 @@ class SearchHeader extends RouteLocationsMixin(LocalizeMixin(PolymerElement)) {
 			});
 		}
 	}
+
 	clear() {
 		this.query = '';
 		this.searchInput.value = '';
 		this.searchInput._setLastSearchValue('');
 	}
+
 	showClear(query) {
 		this.searchInput.value = query;
 		this.searchInput._setLastSearchValue(query);
 	}
+
 	focusOnInput() {
 		this.searchInput.focus();
 	}
-	_navigateToHome(e) {
-		if (e) {
-			e.preventDefault();
-		}
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().navLink(),
-			},
-			bubbles: true,
-			composed: true,
-		}));
-		this.clear();
-	}
+	
 	_getHomeHref() {
-		return this.valenceHomeHref();
+		return this.routeLocations().home();
 	}
+
 	queryObserver(query) {
 		this.query = query || '';
 	}
+
 	reset() {
 		this.searchInput.value = this.query;
 	}

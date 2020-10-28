@@ -1,6 +1,5 @@
 import '@brightspace-ui/core/components/breadcrumbs/breadcrumb.js';
 import '@brightspace-ui/core/components/breadcrumbs/breadcrumbs.js';
-
 import { html, LitElement } from 'lit-element/lit-element.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
@@ -15,27 +14,8 @@ class DiscoverSettingsBreadcrumbsLit extends LocalizeMixin(RouteLocationsMixin(L
 	render() {
 		return html `
 		<d2l-breadcrumbs compact>
-			<d2l-breadcrumb @click="${this._navigateToHome}" href="${this._getHomeHref()}" text="${this.localize('backToDiscover')}"></d2l-breadcrumb>
+			<d2l-breadcrumb href="${this.routeLocations().home()}" text="${this.localize('backToDiscover')}"></d2l-breadcrumb>
 		</d2l-breadcrumbs>`;
-	}
-
-	_navigateToHome(e) {
-		if (e) {
-			e.preventDefault();
-		}
-
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().home(),
-				resetPages: ['settings']
-			},
-			bubbles: true,
-			composed: true
-		}));
-	}
-
-	_getHomeHref() {
-		return this.valenceHomeHref();
 	}
 }
 

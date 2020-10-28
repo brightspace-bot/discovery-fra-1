@@ -16,7 +16,6 @@ import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
 import 'd2l-typography/d2l-typography.js';
 import 'fastdom/fastdom.js';
-
 import { FetchMixin } from '../mixins/fetch-mixin.js';
 import { LocalizeMixin } from '../mixins/localize-mixin.js';
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
@@ -349,7 +348,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 					<div id="discovery-course-summary-card" class="discovery-course-summary-card">
 						<div class="discovery-course-summary-breadcrumbs">
 							<d2l-breadcrumbs>
-								<d2l-breadcrumb on-click="_navigateToHome" href="[[_homeHref]]" text="[[localize('discover')]]" aria-label="[[localize('backToDiscover')]]"></d2l-breadcrumb>
+								<d2l-breadcrumb href="[[_homeHref]]" text="[[localize('discover')]]" aria-label="[[localize('backToDiscover')]]"></d2l-breadcrumb>
 							</d2l-breadcrumbs>
 						</div>
 
@@ -734,7 +733,7 @@ class CourseSummary extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	}
 
 	_getHomeHref() {
-		return this.valenceHomeHref();
+		return this.routeLocations().home();
 	}
 
 	_startDateIsFutureComputed(startDateIsoFormat) {

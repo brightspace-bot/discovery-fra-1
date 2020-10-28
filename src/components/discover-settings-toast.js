@@ -1,11 +1,10 @@
 'use strict';
 import '@brightspace-ui/core/components/alert/alert-toast.js';
 import { html, LitElement } from 'lit-element/lit-element.js';
-import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 import { getLocalizeResources } from '../localization.js';
 
-class DiscoverSettingsToast extends LocalizeMixin(RouteLocationsMixin(LitElement)) {
+class DiscoverSettingsToast extends LocalizeMixin(LitElement) {
 
 	render() {
 		return html`

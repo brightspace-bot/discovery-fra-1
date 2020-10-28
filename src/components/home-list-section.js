@@ -3,7 +3,6 @@ import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { heading2Styles, bodyCompactStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import './activity-card-list.js';
 import '../styles/discovery-styles.js';
-
 import { RouteLocationsMixin } from '../mixins/route-locations-mixin.js';
 import { OrganizationCollectionEntity } from 'siren-sdk/src/organizations/OrganizationCollectionEntity.js';
 import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit.js';
@@ -20,8 +19,7 @@ class HomeListSection extends EntityMixinLit(RouteLocationsMixin(LitElement)) {
 						<d2l-link
 							aria-label="${this.linkLabel}"
 							class="activity-card-list-header-view-all-link"
-							href="javascript:void(0)"
-							@click="${this._navigateToViewAll}">
+							href="${this.routeLocations().search('', { sort: this.sort })}">
 							${this.linkName}
 						</d2l-link>
 					</div>
@@ -146,16 +144,6 @@ class HomeListSection extends EntityMixinLit(RouteLocationsMixin(LitElement)) {
 				composed: true
 			}));
 		}
-	}
-
-	_navigateToViewAll() {
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().search('', { sort: this.sort })
-			},
-			bubbles: true,
-			composed: true
-		}));
 	}
 }
 

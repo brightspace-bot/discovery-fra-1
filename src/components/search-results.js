@@ -1,6 +1,5 @@
 'use strict';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import '@brightspace-ui-labs/pagination/pagination.js';
 import '@brightspace-ui/core/components/link/link.js';
 import 'd2l-offscreen/d2l-offscreen-shared-styles.js';
@@ -217,7 +216,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				type: Boolean,
 				value: false
 			},
-			token: String
+			token: String,
+			_browseAllHref: {
+				type: String,
+				computed: '_getBrowseAllHref()'
+			}
 		};
 	}
 
@@ -247,6 +250,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 	_isSelected(item) {
 		return item === this.sortParameter;
 	}
+
 	_onSortChanged(sortEvent) {
 		// If same sort is selected, nothing is changed
 		if (this.sortParameter === sortEvent.detail.value) {
@@ -259,9 +263,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this.sortParameter = sortEvent.detail.value;
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
-				path: this.routeLocations().search(this.searchQuery, {
-					sort: this.sortParameter
-				}),
+				path: this.routeLocations().search(this.searchQuery, { sort: this.sortParameter }),
 				resetPages: ['search']
 			},
 			bubbles: true,
@@ -361,10 +363,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this._resetNonSearchResultProperties();
 		this.dispatchEvent(new CustomEvent('navigate', {
 			detail: {
-				path: this.routeLocations().search(this.searchQuery, {
-					sort: this.sortParameter,
-					page: pageNumber
-				}),
+				path: this.routeLocations().search(this.searchQuery, { sort: this.sortParameter, page: pageNumber }),
 				resetPages: ['search']
 			},
 			bubbles: true,
@@ -387,6 +386,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this._allImageLoaded = false;
 		this.loadingMessage = '';
 	}
+
 	_reset() {
 		this._searchResult = [];
 		this._searchResultsExists = false;
@@ -395,6 +395,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		this._searchResultsTotalReady = false;
 		this._resetNonSearchResultProperties();
 	}
+
 	_searchResultsTotalReadyObserver(searchResultsTotalReady) {
 		if (searchResultsTotalReady) {
 			this.dispatchEvent(new CustomEvent('search-loading', {
@@ -410,6 +411,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			}
 		}
 	}
+
 	_processBeforeLoading() {
 		this.dispatchEvent(new CustomEvent('search-loading', {
 			detail: {
@@ -420,6 +422,7 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 		}));
 		this._reset();
 	}
+
 	_onSearchQueryChange() {
 		this._searchQueryLoading = true;
 		this._processBeforeLoading();
@@ -427,9 +430,11 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 
 		this.emptySearchQuery = !this.searchQuery;
 	}
+
 	_removeImagePlaceholders() {
 		this._allImageLoaded = true;
 	}
+
 	_removeTextPlaceholders() {
 		this._allTextLoaded = true;
 		if (this.emptySearchQuery) {
@@ -451,12 +456,14 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 			this._showLoadingOverlay  = false;
 		}
 	}
+
 	// Rare case where changing pages will get no results (so we can't wait for text/images to load if there are none)
 	_totalReadyAndResultExists(_searchResultsTotalReady, _searchResultsExists) {
 		if (_searchResultsTotalReady && !_searchResultsExists) {
 			this._showLoadingOverlay  = false;
 		}
 	}
+
 	setUpNoResultsMessage() {
 		const noResultsHeaderElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-heading');
 		const noResultsMessageElement = this.shadowRoot.querySelector('#discovery-search-results-no-results-message');
@@ -482,45 +489,32 @@ class SearchResults extends FetchMixin(LocalizeMixin(RouteLocationsMixin(Polymer
 				noResultsMessage = this.localize(
 					'noResultsMessage',
 					'linkStart',
-					'<d2l-link href=javascript:void(0) id="discovery-search-results-browse-all">',
+					'<d2l-link href="[[_browseAllHref]]" id="discovery-search-results-browse-all">',
 					'linkEnd',
 					'</d2l-link>');
 			}
 
 			fastdom.mutate(() => {
 				noResultsMessageElement.innerHTML = noResultsMessage;
-
-				afterNextRender(this, () => {
-					const browseAllLinkElement = this.shadowRoot.querySelector('#discovery-search-results-browse-all');
-					if (browseAllLinkElement) {
-						browseAllLinkElement.addEventListener('click', this._navigateToBrowseAll.bind(this));
-					}
-				});
 			});
 		}
 	}
-	_navigateToBrowseAll() {
-		this.dispatchEvent(new CustomEvent('navigate', {
-			detail: {
-				path: this.routeLocations().search('', {
-					sort: this.sortParameter
-				}),
-				resetPages: ['search']
-			},
-			bubbles: true,
-			composed: true
-		}));
-	}
+
 	_updateToken() {
 		return this._getToken()
 			.then((token) => {
 				this.token = token;
 			});
 	}
+
 	_searchResultObserver(searchResult) {
 		if (searchResult && searchResult.length) {
 			this._updateToken();
 		}
+	}
+
+	_getBrowseAllHref(){
+		return this.routeLocations().search('', { sort: this.sortParameter });
 	}
 }
 
